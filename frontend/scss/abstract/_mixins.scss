@@ -1,0 +1,117 @@
+// mobile first
+@mixin respondMf($breakpoint) {
+  @each $breakpointName, $breakpointPx in $grid-breakpoints-mf {
+    @if $breakpoint == $breakpointName {
+      @media only screen and (min-width:$breakpointPx) {
+        @content;
+      }
+    }
+  }
+}
+
+// setting link's colors
+@mixin setLinkColors($inactive,$active) {
+  &:link,
+  &:visited {
+    color: $inactive;
+  }
+
+  &:hover,
+  &:active {
+    color: $active;
+  }
+}
+
+// setting transition
+@mixin setTransition($duration, $properties...) {
+  transition-duration: #{$duration}s;
+  transition-property: $properties;
+  will-change: $properties;
+}
+
+// setting flex
+@mixin setFlexWidth($width) {
+  flex: 0 0 $width;
+  width: $width;
+
+  @if $width == auto {
+    max-width: unset;
+  } @else {
+    max-width: $width;
+  }
+}
+
+// IE 11 selector
+@mixin IESelector() {
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
+  }
+}
+
+// Edge selector
+@mixin EdgeSelector() {
+  @supports (-ms-ime-align:auto) {
+    @content;
+  }
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+// aspect ratio
+@mixin aspectRatio($width: '', $height: '') {
+  &::after {
+    content: '';
+    display: block;
+
+    @if $width == '' {
+      padding-bottom: 100%;
+    } @else {
+      padding-bottom: $height / $width * 100%;
+    }
+  }
+}
+
+// set object fit
+@mixin setObjectFit($fit, $position: center center) {
+  object-fit: $fit;
+  object-position: $position;
+  font-family: 'object-fit:#{$fit};object-position: #{$position};';
+}
+
+// set element as absolute
+@mixin setElementAbsolute() {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// css reset list
+@mixin resetList() {
+  padding: 0;
+  margin: 0;
+
+  > li {
+    list-style: none;
+  }
+}
+
+// css reset btn
+@mixin resetBtn() {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
+}

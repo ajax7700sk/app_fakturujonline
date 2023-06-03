@@ -1,0 +1,69 @@
+
+// cookies
+$cookies-color: $color-1;
+
+/**
+2 states: we-have-cookies, we-have-cookies--inverse
+if we-have-cookies--inverse: remove button's class btn--stroke-inverse
+ */
+
+.we-have-cookies {
+  position: fixed;
+  z-index: 1000;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  width: 60rem;
+  max-width: calc(100% - 3rem);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1.4rem 3.3rem .7rem rgba(4, 17, 33, 0.24);
+  background-color: $cookies-color;
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .btn {
+    white-space: nowrap;
+    margin: 1.5rem 0 0;
+
+    @include respondMf(md) {
+      margin: 0;
+    }
+  }
+}
+
+.we-have-cookies--inverse {
+  background-color: #fff;
+}
+
+.we-have-cookies__inner {
+
+  @include respondMf(md) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.we-have-cookies--approve {
+  display: none;
+}
+
+.we-have-cookies .content {
+  margin-right: 1.5rem;
+}
+
+.we-have-cookies .content * {
+  color: #fff;
+}
+
+.we-have-cookies--inverse .content * {
+  color: $cookies-color;
+}
+
+

@@ -1,0 +1,72 @@
+$logo-width: 21.3rem;
+$logo-height: 3.5rem;
+
+.menu-container {
+  @include setTransition(0.25, background-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba($color-6, 0.0);
+
+  .container {
+    @include respondMf(xsDesktop) {
+      padding: 3rem 4rem;
+    }
+  }
+}
+
+.menu-container--is-scrolled, .menu-active {
+  position: fixed;
+  background-color: rgba($color-6, 1);
+  box-shadow: 1.2rem 1.2rem 2.4rem rgba(#000, 0.1);
+
+  .container {
+    @include respondMf(xsDesktop) {
+      padding: .5rem 4rem;
+    }
+  }
+}
+
+.menu-container--is-open {
+  position: fixed;
+
+  @include respondMf(md) {
+    padding-top: 1rem;
+  }
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 1.5rem 0;
+
+  @include respondMf(xsDesktop) {
+    justify-content: space-between;
+  }
+}
+
+.menu__logo-link {
+  position: relative;
+  z-index: 1001;
+  display: block;
+  width: 14.1rem;
+
+  svg {
+    width: 100%;
+  }
+
+  .menu-container--is-scrolled & svg g,
+  .menu-active & svg g,
+  .menu-container--is-open & svg g {
+    fill: #fff;
+  }
+}
+
+.menu-links {
+  @include respondMf(xsDesktop) {
+
+  }
+}

@@ -1,0 +1,16 @@
+.form-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-container--error input {
+  box-shadow: 0 0 0 .1rem #ff0f0f;
+}
+
+.js-toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-40%);
+  cursor: pointer;
+}

@@ -1,0 +1,83 @@
+.header {
+  position: relative;
+  z-index: 15;
+  padding: 12rem 0 6rem;
+
+  @include respondMf(md) {
+    padding: 18rem 0 12.5rem;
+  }
+
+  .btn {
+    @include respondMf(lg) {
+      min-width: 18.7rem;
+    }
+  }
+}
+
+.header--xs {
+  padding-bottom: 3rem;
+
+  @include respondMf(md) {
+    padding-bottom: 6rem;
+  }
+}
+
+.header__bg {
+
+  &,
+  img,
+  video,
+  &::after {
+    @include setElementAbsolute();
+  }
+
+  img,
+  video {
+    @include setObjectFit(cover, center center);
+  }
+
+  &::after {
+    content: '';
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.39) 23%, #000000 82%);
+  }
+}
+
+.header--01 {
+
+  .col:last-of-type {
+    position: static;
+  }
+
+  .header__img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    opacity: 0.3;
+
+    @include respondMf(md) {
+      max-width: 32rem;
+      width: 32rem;
+      margin: 0;
+      bottom: -10rem;
+      opacity: 1;
+    }
+
+    @include respondMf(lg) {
+      right: 7rem;
+    }
+
+    @include respondMf(xsDesktop) {
+      right: auto;
+      left: calc(50vw + 20rem);
+    }
+  }
+}
+
+.header--02 {
+  .header__img {
+    @include respondMf(xsDesktop) {
+      padding-left: 8rem;
+    }
+  }
+}

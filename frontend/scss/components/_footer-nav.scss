@@ -1,0 +1,55 @@
+.footer-nav {
+  margin: 0 0 2rem;
+
+  @include respondMf(lg) {
+    margin: 0;
+  }
+}
+
+.footer-nav__list {
+  @include resetList();
+  text-align: center;
+
+  @include respondMf(lg) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+  }
+}
+
+.footer-nav__item {
+  display: block;
+  margin: 0 0 1rem;
+
+  @include respondMf(lg) {
+    margin: 0 0.5rem;
+  }
+
+  @include respondMf(xsDesktop) {
+    position: relative;
+    margin: 0 1.1rem;
+  }
+
+  &:not(:last-of-type)::after {
+    @include respondMf(xsDesktop) {
+      content: '';
+      position: absolute;
+      top: -.3rem;
+      right: -1.2rem;
+      width: .1rem;
+      height: 2.3rem;
+      background-color: $color-3;
+    }
+  }
+}
+
+.footer-nav__link {
+  @include setLinkColors($color-2, $color-1);
+  font-weight: 700;
+  font-size: 1.3rem;
+
+  @include respondMf(xsDesktop) {
+    font-size: 1.4rem;
+  }
+}

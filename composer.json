@@ -24,7 +24,8 @@
 		"nettrine/annotations": "^0.7.0",
 		"nettrine/migrations": "^0.8.0",
 		"nettrine/extensions-atlantic18": "^0.6.0",
-		"contributte/event-dispatcher": "^0.8.1"
+		"contributte/event-dispatcher": "^0.8.1",
+		"contributte/webpack": "^2.2"
 	},
 	"require-dev": {
 		"nette/tester": "^2.4",

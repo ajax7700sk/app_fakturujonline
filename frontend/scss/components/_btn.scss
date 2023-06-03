@@ -1,0 +1,44 @@
+.btn {
+  @include setLinkColors(#fff, #fff);
+  @include setTransition(0.25, background-color);
+  display: inline-block;
+  padding: 0 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 4.4rem;
+  border-radius: 2.8rem;
+  background-color: $color-7;
+
+  @include respondMf(md) {
+    padding: 0 3rem;
+    font-size: 1.6rem;
+    line-height: 5.6rem;
+  }
+
+  &:hover {
+    background-color: darken($color-7, 10%);
+  }
+
+  a {
+    &:active,
+    &:focus {
+      color: $color-3 !important;
+    }
+  }
+}
+
+.btn--green {
+  background-color: $color-6;
+
+  &:hover {
+    background-color: darken($color-6, 10%);
+  }
+}
+
+.content--light a:link,
+.content--light a:visited {
+  color: #fff;
+}

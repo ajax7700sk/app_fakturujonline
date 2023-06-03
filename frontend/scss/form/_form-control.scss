@@ -1,0 +1,25 @@
+.form-control {
+  @include setTransition(0.25, border-color);
+  display: block;
+  width: 100%;
+  padding: 0 1.5rem;
+  border: none;
+  border-radius: 0.3rem;
+  font-family: $font-family-1;
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 4.3rem;
+  color: $color-2;
+  background-color: rgba($color-3, 0.5);
+
+  &::placeholder {
+    font-family: $font-family-1;
+    color: $color-5;
+  }
+}
+
+textarea.form-control {
+  height: auto;
+  line-height: 1.75;
+  resize: none;
+}

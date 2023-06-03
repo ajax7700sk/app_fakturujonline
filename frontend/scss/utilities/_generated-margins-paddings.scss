@@ -1,0 +1,108 @@
+$space-amounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100); // Don't touch! Your specific value make outside of this mixin
+$sides: (top, bottom, left, right); // Don't touch!
+
+// generate global margins and padding without breakpoints (mobile first)
+@each $space in $space-amounts {
+
+  // margins: equal sides
+  .m-auto {
+    margin: auto;
+  }
+  
+  .m-#{$space} {
+    margin: #{$space/10}rem !important;
+  }
+
+  .m-n#{$space} {
+    margin: -#{$space/10}rem !important;
+  }
+
+  // paddings: equal sides
+  .p-#{$space} {
+    padding: #{$space/10}rem !important;
+  }
+
+  @each $side in $sides {
+
+    // margin sides
+    .m-#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space/10}rem !important;
+    }
+
+    .m-#{str-slice($side, 0, 1)}-n#{$space} {
+      margin-#{$side}: -#{$space/10}rem !important;
+    }
+
+    // padding sides
+    .p-#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space/10}rem !important;
+    }
+  }
+}
+
+@each $side in $sides {
+
+  // generate global margins with auto size
+  .m-#{str-slice($side, 0, 1)}-auto {
+    margin-#{$side}: auto !important;
+  }
+}
+
+// generate margins and padding with breakpoints
+@each $break, $break-value in $grid-breakpoints-mf {
+
+  @each $space in $space-amounts {
+
+    @include respondMf($break) {
+      // margin sides
+      .#{$break}-m-#{$space} {
+        margin: #{$space/10}rem !important;
+      }
+
+      .#{$break}-m-n#{$space} {
+        margin: -#{$space/10}rem !important;
+      }
+
+      // padding sides
+      .#{$break}-p-#{$space} {
+        padding: #{$space/10}rem !important;
+      }
+    }
+  }
+
+  @each $side in $sides {
+
+    // margins with auto size
+    .#{$break}-m-#{str-slice($side, 0, 1)}-auto {
+      @include respondMf($break) {
+        margin-#{$side}: auto !important;
+      }
+    }
+  }
+
+  @each $space in $space-amounts {
+
+    @each $side in $sides {
+
+      // margins sides
+      .#{$break}-m-#{str-slice($side, 0, 1)}-#{$space} {
+        @include respondMf($break) {
+          margin-#{$side}: #{$space/10}rem !important;
+        }
+      }
+
+      .#{$break}-m-#{str-slice($side, 0, 1)}-n#{$space} {
+        @include respondMf($break) {
+          margin-#{$side}: -#{$space/10}rem !important;
+        }
+      }
+
+      // paddings sides
+      .#{$break}-p-#{str-slice($side, 0, 1)}-#{$space} {
+        @include respondMf($break) {
+          padding-#{$side}: #{$space/10}rem !important;
+        }
+      }
+    }
+  }
+}

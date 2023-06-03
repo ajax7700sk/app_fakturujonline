@@ -1,0 +1,88 @@
+.box-wrapper {
+  box-shadow: 0 .2rem 3.4rem 0 rgba(0,0,0,0.06);
+  background-color: #fff;
+}
+
+.box {
+  @include setTransition(0.25, box-shadow);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 7rem 2rem;
+  box-shadow: 0 1rem 4rem 0 rgba(0,0,0,0.20);
+
+  @include respondMf(md) {
+    padding: 15.2rem 2rem;
+  }
+
+  .box-wrapper & {
+    padding: 4rem 2rem 2rem;
+    box-shadow: none;
+
+    @include respondMf(md) {
+      padding: 8rem 2rem 6rem;
+    }
+    @include respondMf(lg) {
+      min-height: 41.5rem;
+    }
+    @include respondMf(xsDesktop) {
+      min-height: 38rem;
+    }
+  }
+
+  &:hover {
+    box-shadow: none;
+
+    .btn--blue {
+      background-color: darken($color-7, 10%);
+    }
+    .btn--green {
+      background-color: darken($color-6, 10%);
+    }
+  }
+}
+
+.box__bg {
+
+  &,
+  img,
+  &::after {
+    @include setElementAbsolute();
+  }
+
+  img {
+    @include setObjectFit(cover, center center);
+  }
+
+  &::after {
+    content: '';
+    background-color: rgba(black, 0.40%);
+  }
+}
+
+.box__inner {
+  position: relative;
+  max-width: 53.8rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.box .content h2::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.box__link {
+  @include setElementAbsolute();
+}
+
+.box-body {
+  padding: 2rem;
+
+  @include respondMf(md) {
+    padding: 4rem 3.5rem;
+  }
+}

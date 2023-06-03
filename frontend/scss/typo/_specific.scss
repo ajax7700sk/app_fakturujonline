@@ -1,0 +1,78 @@
+.content--light {
+  h1,
+  h2,
+  h3,
+  p,
+  ul,
+  li {
+    color: #fff;
+  }
+
+  a:not(.btn) {
+    @include setLinkColors(#fff, $color-6);
+  }
+
+  a:link {
+    color: #fff;
+  }
+
+  a.btn:active {
+    color: $color-3 !important;
+  }
+}
+
+.content--h2-deco h2,
+.content--h3-deco h3 {
+  &::after {
+    content: '';
+    display: block;
+    margin: 2rem 0 0;
+    width: 5rem;
+    height: .2rem;
+    background-color: $color-6;
+  }
+}
+.content--h3-deco h3 {
+  margin-bottom: 2.5rem;
+}
+.content--h2-deco-blue h2 {
+  &::after {
+    background-color: $color-7;
+  }
+}
+
+.content--text-md p,
+.content--text-md ul,
+.content--text-md ol {
+  font-size: 1.4rem;
+
+  @include respondMf(md) {
+    font-size: 1.6rem;
+  }
+}
+
+.content--text-md ul li {
+  &::after {
+    top: .3rem;
+  }
+}
+
+.content--text-lg p,
+.content--text-lg ul,
+.content--text-lg ol {
+  font-size: 1.6rem;
+
+  @include respondMf(md) {
+    font-size: 2rem;
+  }
+}
+
+.content--text-sm p,
+.content--text-sm ul,
+.content--text-sm ol {
+  font-size: 1.3rem;
+
+  @include respondMf(md) {
+    font-size: 1.4rem;
+  }
+}

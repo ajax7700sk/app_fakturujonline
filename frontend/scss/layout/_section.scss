@@ -1,0 +1,68 @@
+.section {
+  position: relative;
+  padding: 4rem 0;
+
+  @include respondMf(md) {
+    padding: 8rem 0;
+  }
+}
+
+.section--scroll-down {
+  padding-top: 8rem;
+
+  @include respondMf(md) {
+    padding-top: 12.5rem;
+  }
+}
+
+.section__bg {
+  &,
+  img,
+  &::after {
+    @include setElementAbsolute();
+  }
+
+  img {
+    @include setObjectFit(cover, center center);
+  }
+
+  &--filter::after {
+    content: '';
+    background-color: rgba(black, 0.57);
+  }
+}
+
+.section__bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem 0;
+  border-top: .1rem solid rgba(white, .2);
+
+  @include respondMf(md) {
+    padding: 2rem 0;
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    color: #fff;
+
+    @include respondMf(md) {
+      font-size: 1.4rem;
+    }
+  }
+
+  p a {
+    @include setLinkColors(#fff, $color-1);
+    display: inline-block;
+    margin-left: 1rem;
+  }
+  p a[href*=tel] {
+    text-decoration: none;
+  }
+}

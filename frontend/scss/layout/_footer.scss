@@ -1,0 +1,47 @@
+.footer {
+  padding: 3rem 0;
+  border-top: .1rem solid $color-3;
+
+  @include respondMf(md) {
+    padding: 5rem 0;
+  }
+}
+
+.footer__copyright {
+  margin: 0 0 2rem;
+  text-align: center;
+  font-size: 1.3rem;
+  color: $color-4;
+
+  @include respondMf(md) {
+    font-size: 1.4rem;
+  }
+
+  @include respondMf(lg) {
+    margin: 0;
+    text-align: left;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.footer__logo {
+  @include setTransition(0.25, opacity);
+  display: block;
+  max-width: 14.1rem;
+  margin: auto;
+
+  @include respondMf(lg) {
+    margin: 0;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  img {
+    width: 100%;
+  }
+}

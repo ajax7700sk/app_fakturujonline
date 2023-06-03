@@ -1,4 +1,6 @@
 parameters:
+    debugMode: false
+    consoleMode: false
 
 
 application:
@@ -15,3 +17,21 @@ di:
 	export:
 		parameters: no
 		tags: no
+
+extensions:
+	webpack: Contributte\Webpack\DI\WebpackExtension(%debugMode%, %consoleMode%)
+
+webpack:
+    build:
+        directory: %wwwDir%/dist
+        publicPath: dist/
+    devServer:
+        enabled: %debugMode% # default
+        url: http://localhost:8000
+        timeout: 0.1 # (seconds) default
+    entries:
+        entry: true
+        example: false
+    manifest:
+        name: manifest.json
+    dist: dist

@@ -1,0 +1,41 @@
+.max-w-340 {
+  max-width: 34rem;
+}
+
+.max-w-360 {
+  max-width: 36rem;
+}
+
+.max-w-400 {
+  max-width: 40rem;
+}
+
+.max-w-450 {
+  max-width: 40rem;
+}
+
+.max-w-480 {
+  max-width: 40rem;
+}
+
+.max-w-500 {
+  max-width: 50rem;
+}
+
+.flex-50p-n10 {
+  @include setFlexWidth(calc(50% - 1rem));
+}
+
+.min-h-400 {
+  min-height: 40rem;
+}
+
+.min-h-460 {
+  min-height: 46rem;
+}
+
+.lg-min-h-740 {
+  @include respondMf(lg) {
+    min-height: 74rem;
+  }
+}

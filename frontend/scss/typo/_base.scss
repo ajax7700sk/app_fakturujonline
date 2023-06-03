@@ -1,0 +1,195 @@
+// headings
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  
+}
+
+.content--without-bottom-margin {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul,
+  li {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// H1
+.content h1 {
+  margin: 0 0 2rem;
+  text-transform: uppercase;
+  font-family: $font-family-2;
+  font-size: 3.4rem;
+  line-height: 1.2;
+  color: $color-2;
+
+  @include respondMf(md) {
+    font-size: 6.6rem;
+  }
+}
+
+// H2
+.content h2 {
+  margin: 0 0 2rem;
+  text-transform: uppercase;
+  font-family: $font-family-2;
+  font-size: 2.8rem;
+  line-height: 1.3;
+  color: $color-2;
+
+  @include respondMf(md) {
+    font-size: 3.6rem;
+  }
+}
+
+// H3
+.content h3 {
+  margin: 0 0 1.5rem;
+  text-transform: uppercase;
+  font-family: $font-family-2;
+  font-size: 2rem;
+  line-height: 1.3;
+  color: $color-2;
+
+  @include respondMf(md) {
+    font-size: 2.4rem;
+  }
+}
+
+// H4
+.content h4 {
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+  font-family: $font-family-2;
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  color: $color-2;
+}
+
+// H5
+.content h5 {
+
+}
+
+// H6
+.content h6 {
+
+}
+
+// paragraph, lists
+.content ul,
+.content ol {
+  @include resetList();
+}
+
+.content p,
+.content ul {
+  margin: 0 0 2rem;
+  font-size: 1.8rem;
+  font-weight: 200;
+  line-height: 1.4;
+  color: $color-5;
+
+  @include respondMf(md) {
+    font-size: 2.4rem;
+  }
+
+  strong {
+    font-weight: 600;
+    color: $color-2;
+  }
+}
+
+.content img {
+  margin-bottom: 2rem;
+}
+
+.content p,
+.content img,
+.content ul,
+.content ol,
+.content h1,
+.content h2,
+.content h3,
+.content h4 {
+  + h1, + h2, + h3 {
+    margin-top: 4rem;
+  }
+}
+
+.content a {
+  @include setLinkColors($color-2, $color-6);
+}
+
+.content a[href*=tel] {
+  @include setLinkColors($color-5, $color-6);
+  text-decoration: none;
+
+  strong {
+    color: $color-5;
+  }
+
+  &:hover strong {
+    color: $color-6;
+  }
+}
+
+.content a[href*=mailto],
+.content--a-highlighted a {
+  @include setLinkColors($color-6, $color-2);
+}
+
+.content ul li {
+  position: relative;
+  margin: 0 0 .5rem;
+  padding: 0 0 0 1.8rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: .7rem;
+    left: 0;
+    width: .9rem;
+    height: 1.4rem;
+    background-image: url("#{$path-image}/icon/arrow-right.svg");
+    background-size: .9rem 1.4rem;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}
+
+.content--ul-blue ul li {
+  &::after {
+    background-image: url("#{$path-image}/icon/arrow-right-blue.svg");
+  }
+}
+
+.content ol li {
+
+}
+
+.content ul li::before {
+
+}
+
+.content ol li::before {
+
+}
+
+// others
+.content blockquote {
+  
+}
+
+// tables

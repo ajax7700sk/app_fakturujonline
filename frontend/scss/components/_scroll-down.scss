@@ -1,0 +1,71 @@
+.scroll-down {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 50%;
+  width: 13rem;
+  transform: translateX(-50%);
+  overflow: hidden;
+
+  @include respondMf(md) {
+    width: 16.2rem;
+  }
+}
+
+.scroll-down__bg {
+  width: 100%;
+
+  &--white {
+    fill: white;
+  }
+
+  &--green {
+    fill: $color-6;
+  }
+
+  &--gray {
+    fill: $color-8;
+  }
+}
+
+@keyframes slideKeyframe {
+  0% {
+    top: -2rem;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0;
+  }
+
+  50% {
+    top: 1rem;
+    opacity: 1;
+  }
+
+  100% {
+    top: 3rem;
+    opacity: 0;
+  }
+}
+
+.scroll-down__arrow {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5rem;
+  animation: 2s slideKeyframe infinite;
+
+  .scroll-down:hover & {
+    animation: none;
+  }
+
+  &--green {
+    fill: $color-6;
+  }
+
+  &--white {
+    fill: white;
+  }
+}

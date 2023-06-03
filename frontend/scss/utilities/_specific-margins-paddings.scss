@@ -1,0 +1,5 @@
+.md-p-b-160 {
+  @include respondMf(md) {
+    padding-bottom: 16rem !important;
+  }
+}

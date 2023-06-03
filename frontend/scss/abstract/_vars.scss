@@ -1,0 +1,31 @@
+
+// paths
+$path-image: '/microsite/dist/img';
+
+// mf - mobile first
+// don't change
+$grid-breakpoints-mf: (
+        xs: 411px, // iPhone 6/7/8 Plus, iPhone 11,...
+        md: 48em, // iPads 768px
+        lg: 64em, // iPads Pro 1024px
+        xlg: 74.625em, // iPad Pro Retina 2388x1668px
+        xsDesktop: 80em, // 1280px
+        smDesktop: 85.375em, // good old laptop devices 1336px
+        mdDesktop: 90em, // 1440px
+        lgDesktop: 120em // 1920px
+);
+
+// fonts
+$font-family-1: 'Poppins', sans-serif;
+$font-family-2: 'Rubik', sans-serif;
+
+// colors
+$color-1: #55B948;
+$color-2: #1D1D1D;
+$color-3: #E8E7E7;
+$color-4: #494949;
+$color-5: #909090;
+$color-6: #4AC102;
+$color-7: #32B3F0;
+$color-8: #F9F9F9;
+$color-9: #F3F3F3;

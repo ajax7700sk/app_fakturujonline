@@ -1,0 +1,48 @@
+.user-menu-form {
+  position: fixed;
+  display: none;
+  z-index: 1000;
+  top: 5rem;
+  left: 50%;
+  width: 30.6rem;
+  transform: translateX(-50%);
+  border-top: .3rem solid $color-6;
+  background-color: #fff;
+  overflow: auto;
+
+  @media only screen and (min-width: 375px) {
+    top: 10rem;
+    width: 35.6rem;
+  }
+
+  @include respondMf(xsDesktop) {
+    position: absolute;
+    right: -2.5rem;
+    left: auto;
+    top: calc(100% + 12px);
+    transform: none;
+  }
+
+  input:checked ~ & {
+    display: block;
+  }
+}
+.user-menu-form__body {
+  padding: 2.5rem 2rem;
+}
+.user-menu-form__footer {
+  padding: 2rem 2rem 3rem;
+  text-align: center;
+  background-color: $color-9;
+
+  span[id*=not_signed] {
+    float: left;
+    margin-left: 1rem;
+  }
+
+  #my-signin2 > div {
+    width: 100% !important;
+    max-width: 27.2rem;
+    margin: auto;
+  }
+}

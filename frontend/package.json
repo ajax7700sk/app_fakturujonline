@@ -1,0 +1,47 @@
+{
+  "name": "webpack-starter",
+  "version": "1.0.0",
+  "description": "Webpack Frontend Stack",
+  "scripts": {
+    "build": "webpack --config webpack/webpack.config.prod.js  --colors --env.NODE_ENV=production",
+    "start": "webpack-dev-server --config webpack/webpack.config.dev.js --env.NODE_ENV=development"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^7.0.2",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.7.0",
+    "eslint-loader": "^2.1.1",
+    "file-loader": "^6.0.0",
+    "fslightbox": "^3.2.1",
+    "html-loader": "^0.5.5",
+    "mini-css-extract-plugin": "^0.4.4",
+    "node-sass": "^4.9.4",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3",
+    "aos": "^2.3.4",
+    "body-scroll-lock": "^3.0.2",
+    "core-js": "^3.6.4",
+    "es6-promise": "^4.2.6",
+    "glob-all": "^3.2.1",
+    "image-webpack-loader": "^6.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "micromodal": "^0.4.6",
+    "moment": "^2.29.0",
+    "object-fit-images": "^3.2.4",
+    "purgecss-webpack-plugin": "^2.1.0"
+  }
+}

@@ -1,0 +1,142 @@
+
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+.flex-ai-c {
+  align-items: center !important;
+}
+
+.flex-ai-fs {
+  align-items: flex-start !important;
+}
+
+.flex-ai-fe {
+  align-items: flex-end !important;
+}
+
+.flex-ai-s {
+  align-items: stretch !important;
+}
+
+.flex-ac-sb {
+  align-content: space-between !important;
+}
+
+.flex-ac-fe {
+  align-content: flex-end !important;
+}
+
+.flex-ac-c {
+  align-content: center !important;
+}
+
+.flex-as-c {
+  align-self: center !important;
+}
+
+.flex-jc-c {
+  justify-content: center !important;
+}
+
+.flex-jc-fs {
+  justify-content: flex-start !important;
+}
+
+.flex-jc-fe {
+  justify-content: flex-end !important;
+}
+
+.flex-jc-sb {
+  justify-content: space-between !important;
+}
+
+.flex-jc-sa {
+  justify-content: space-around !important;
+}
+
+.flex-fd-c {
+  flex-direction: column !important;
+}
+
+.flex-fd-r {
+  flex-direction: row !important;
+}
+
+.flex-fd-rr {
+  flex-direction: row-reverse !important;
+}
+
+.flex-o-1 {
+  order: 1 !important;
+}
+
+@each $break, $break-value in $grid-breakpoints-mf {
+
+  @include respondMf($break) {
+    .#{$break}-flex-wrap {
+      flex-wrap: wrap !important;
+    }
+    .#{$break}-flex-nowrap {
+      flex-wrap: nowrap !important;
+    }
+    .#{$break}-flex-ai-c {
+      align-items: center !important;
+    }
+    .#{$break}-flex-ai-fs {
+      align-items: flex-start !important;
+    }
+    .#{$break}-flex-ai-fe {
+      align-items: flex-end !important;;
+    }
+    .#{$break}-flex-ai-s {
+      align-items: stretch !important;;
+    }
+    .#{$break}-flex-ac-sb {
+      align-content: space-between !important;
+    }
+    .#{$break}-flex-ac-fe {
+      align-content: flex-end !important;
+    }
+    .#{$break}-flex-ac-c {
+      align-content: center !important;
+    }
+    .#{$break}-flex-as-c {
+      align-self: center !important;
+    }
+    .#{$break}-flex-jc-c {
+      justify-content: center !important;
+    }
+    .#{$break}-flex-jc-fs {
+      justify-content: flex-start !important;
+    }
+    .#{$break}-flex-jc-fe {
+      justify-content: flex-end !important;
+    }
+    .#{$break}-flex-jc-sb {
+      justify-content: space-between !important;
+    }
+    .#{$break}-flex-jc-sa {
+      justify-content: space-around !important;
+    }
+    .#{$break}-flex-fd-c {
+      flex-direction: column !important;
+    }
+    .#{$break}-flex-fd-r {
+      flex-direction: row !important;
+    }
+    .#{$break}-flex-fd-rr {
+      flex-direction: row-reverse !important;
+    }
+    .#{$break}-flex-o-1 {
+      order: 1 !important;
+    }
+    .#{$break}-flex-o-unset {
+      order: unset !important;
+    }
+  }
+}
