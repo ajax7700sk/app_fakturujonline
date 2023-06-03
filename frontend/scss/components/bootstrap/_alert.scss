@@ -4,6 +4,7 @@
 
 @use 'sass:math';
 @use 'sass:color';
+@import "bootstrap/scss/mixins/alert";
 
 // Bootstrap Extension
 @mixin alert-variations(

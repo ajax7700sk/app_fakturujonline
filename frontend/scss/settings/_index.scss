@@ -7,7 +7,7 @@
 @use 'sass:map';
 
 //	stylelint-disable no-invalid-position-at-import-rule
-@import 'node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/functions';
 //	stylelint-enable no-invalid-position-at-import-rule
 
 // stylelint-disable annotation-no-unknown
@@ -585,11 +585,6 @@ $timeline-line-color: rgba($gray-500, 0.3);
 $todo-item-height: 3rem;
 $todo-bar-width: $spacer * 0.25;
 
-// Configuration
-//	stylelint-disable no-invalid-position-at-import-rule
-@import 'node_modules/bootstrap/scss/variables';
-//	stylelint-enable no-invalid-position-at-import-rule
-
 // Create your own map
 $brand: #ffcd02 !default;
 $brand-two: #323232 !default;
@@ -605,12 +600,3 @@ $custom-colors: (
 
 // Merge the maps
 $theme-colors: map.merge($theme-colors, $custom-colors);
-
-//	stylelint-disable no-invalid-position-at-import-rule
-@import 'node_modules/bootstrap/scss/maps';
-@import 'node_modules/bootstrap/scss/mixins';
-@import 'node_modules/bootstrap/scss/root';
-@import 'node_modules/bootstrap/scss/utilities';
-//	stylelint-enable no-invalid-position-at-import-rule
-
-// stylelint-enable annotation-no-unknown
