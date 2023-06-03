@@ -24,14 +24,10 @@ extensions:
 webpack:
     build:
         directory: %wwwDir%/dist
-        publicPath: dist/
+        publicPath: ''
     devServer:
         enabled: %debugMode% # default
         url: http://localhost:8000
         timeout: 0.1 # (seconds) default
-    entries:
-        entry: true
-        example: false
     manifest:
         name: manifest.json
-    dist: dist

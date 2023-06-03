@@ -1,88 +1,17 @@
-
-/*
-** One file to rule them all,
-** One file to find Them,
-** One file to bring them all,
-** And in the Sass way merge them.
-**
+/**
+ *	Styles
  */
 
-/*! purgecss start ignore */
-@import "~aos/src/sass/aos";
-/*! purgecss end ignore */
+@import 'settings/index';
+@import 'tools/index';
+@import 'generic/index';
+@import 'elements/index';
+@import 'objects/index';
+@import 'components/index';
+@import 'vendors/index';
+@import 'utilities/index';
 
-// abstract
-/*! purgecss start ignore */
-@import 'abstract/vars';
-@import 'abstract/mixins';
-@import 'abstract/animations';
-/*! purgecss end ignore */
+// Utilities
+@import 'node_modules/bootstrap/scss/utilities/api';
 
-// vendors
-/*! purgecss start ignore */
-@import 'vendors/normalize';
-@import 'vendors/reboot';
-/*! purgecss end ignore */
-
-// base
-/*! purgecss start ignore */
-@import 'base/init';
-@import 'base/a11y';
-/*! purgecss end ignore */
-@import 'base/grid';
-/*! purgecss start ignore */
-@import 'base/grid-customization';
-/*! purgecss end ignore */
-
-// typo
-/*! purgecss start ignore */
-@import 'typo/base';
-@import 'typo/specific';
-/*! purgecss end ignore */
-
-// layout
-/*! purgecss start ignore */
-@import 'layout/header';
-@import 'layout/menu';
-@import 'layout/user-menu';
-@import 'layout/nav';
-@import 'layout/footer';
-@import 'layout/section';
-@import 'layout/we-have-cookies';
-@import 'layout/top-bar';
-@import 'layout/modal';
-/*! purgecss end ignore */
-
-// form
-/*! purgecss start ignore */
-@import 'form/form-container';
-@import 'form/form-control';
-@import 'form/form-submit';
-/*! purgecss end ignore */
-
-// components
-/*! purgecss start ignore */
-@import 'components/basic-fns';
-@import 'components/btn';
-@import 'components/box';
-@import 'components/plans-pics';
-@import 'components/scroll-down';
-@import 'components/footer-nav';
-@import 'components/footer-socials';
-@import 'components/divider';
-@import 'components/user-menu-form';
-@import 'components/social-button';
-@import 'components/flash-messages';
-@import 'components/price-table';
-/*! purgecss end ignore */
-
-// utilities
-@import 'utilities/display';
-@import 'utilities/flexbox';
-@import 'utilities/generated-margins-paddings';
-@import 'utilities/specific-margins-paddings';
-@import 'utilities/alignment';
-@import 'utilities/sizes';
-@import 'utilities/colors';
-@import 'utilities/helpers';
-@import 'utilities/fonts';
+@import 'custom/index';
