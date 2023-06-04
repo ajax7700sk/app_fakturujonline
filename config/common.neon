@@ -18,9 +18,28 @@ di:
 		parameters: no
 		tags: no
 
+# Extensions
 extensions:
 	webpack: Contributte\Webpack\DI\WebpackExtension(%debugMode%, %consoleMode%)
+	recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
+	# Nettrine Common
+	nettrine.annotations: Nettrine\Annotations\DI\AnnotationsExtension
+	nettrine.cache: Nettrine\Cache\DI\CacheExtension
+	nettrine.extensions.atlantic18: Nettrine\Extensions\Atlantic18\DI\Atlantic18BehaviorExtension
+	nettrine.extensions.knplabs: Nettrine\Extensions\KnpLabs\DI\KnpLabsBehaviorExtension
+	nettrine.migrations: Nettrine\Migrations\DI\MigrationsExtension
+	# DBAL
+	nettrine.dbal: Nettrine\DBAL\DI\DbalExtension
+	nettrine.dbal.console: Nettrine\DBAL\DI\DbalConsoleExtension
+	# ORM
+	nettrine.orm: Nettrine\ORM\DI\OrmExtension
+	nettrine.orm.cache: Nettrine\ORM\DI\OrmCacheExtension
+	nettrine.orm.console: Nettrine\ORM\DI\OrmConsoleExtension(%consoleMode%)
+	nettrine.orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
 
+# Extension configs
 webpack:
     build:
         directory: %wwwDir%/dist
@@ -31,3 +50,51 @@ webpack:
         timeout: 0.1 # (seconds) default
     manifest:
         name: manifest.json
+
+nettrine.orm:
+    configuration:
+        autoGenerateProxyClasses: true
+        customNumericFunctions:
+            floor: DoctrineExtensions\Query\Mysql\Floor
+        customDatetimeFunctions:
+            date_format: DoctrineExtensions\Query\Mysql\DateFormat
+            floor: DoctrineExtensions\Query\Mysql\Floor
+            round: DoctrineExtensions\Query\Mysql\Round
+            date: DoctrineExtensions\Query\Mysql\Date
+            year: DoctrineExtensions\Query\Mysql\Year
+            month: DoctrineExtensions\Query\Mysql\Month
+            day: DoctrineExtensions\Query\Mysql\Day
+        customStringFunctions:
+            collate: DoctrineExtensions\Query\Mysql\Collate
+
+nettrine.orm.annotations:
+	mapping:
+		# App entities
+		App\Entity: %appDir%/Entity
+
+nettrine.migrations:
+  directory: %appDir%/../migrations
+
+nettrine.extensions.knplabs:
+    translatable:
+        localeProvider: App\Translatable\LocaleProvider
+
+nettrine.extensions.atlantic18:
+    loggable: false
+    sluggable: false
+    softDeleteable: false
+    treeable: false
+    blameable: false
+    timestampable: true
+    translatable: false
+    uploadable: false
+    sortable: true
+    ipTraceable: false
+
+console:
+	name: Fakturujonline.sk
+	version: '1.0'
+	catchExceptions: true
+	autoExit: true
+	url: https://app.fakturujonline.sk/
+	lazy: false
