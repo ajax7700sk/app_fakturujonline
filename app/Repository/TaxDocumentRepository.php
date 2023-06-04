@@ -18,11 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TaxDocumentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, TaxDocument::class);
-    }
-
     /**
      * @throws ORMException
      * @throws OptimisticLockException

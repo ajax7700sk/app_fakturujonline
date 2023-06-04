@@ -18,11 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PaymentDataRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, PaymentData::class);
-    }
-
     /**
      * @throws ORMException
      * @throws OptimisticLockException

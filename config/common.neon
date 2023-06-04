@@ -33,41 +33,41 @@ di:
 
 services:
 	AddressRepository:
-		class: App\Repository\AddressRepository
+		type: App\Repository\AddressRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Address')
 	BankAccountRepository:
-		class: App\Repository\BankAccountRepository
+		type: App\Repository\BankAccountRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\BankAccount')
 	ContactRepository:
-		class: App\Repository\ContactRepository
+		type: App\Repository\ContactRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Contact')
 	LineItemRepository:
-		class: App\Repository\LineItemRepository
+		type: App\Repository\LineItemRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\LineItem')
 	PaymentDataRepository:
-		class: App\Repository\PaymentDataRepository
+		type: App\Repository\PaymentDataRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\PaymentData')
 	TaxDocumentRepository:
-		class: App\Repository\TaxDocumentRepository
+		type: App\Repository\TaxDocumentRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\TaxDocument')
 	UserRepository:
-		class: App\Repository\UserRepository
+		type: App\Repository\UserRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\User')
 	UserCompanyRepository:
-		class: App\Repository\UserCompanyRepository
+		type: App\Repository\UserCompanyRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\UserCompany')
 	# Ecommerce
 	EcommerceOrderRepository:
-		class: App\Repository\Ecommerce\OrderRepository
+		type: App\Repository\Ecommerce\OrderRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Ecommerce\Order')
 	EcommerceOrderItemRepository:
-		class: App\Repository\Ecommerce\OrderItemRepository
+		type: App\Repository\Ecommerce\OrderItemRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Ecommerce\OrderItem')
 	EcommercePaymentRepository:
-		class: App\Repository\Ecommerce\PaymentRepository
+		type: App\Repository\Ecommerce\PaymentRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Ecommerce\Payment')
 	EcommerceSubscriptionRepository:
-		class: App\Repository\Ecommerce\SubscriptionRepository
+		type: App\Repository\Ecommerce\SubscriptionRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Ecommerce\Subscription')
 
 # Extensions

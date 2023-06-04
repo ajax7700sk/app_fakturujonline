@@ -18,11 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserCompanyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, UserCompany::class);
-    }
-
     /**
      * @throws ORMException
      * @throws OptimisticLockException
