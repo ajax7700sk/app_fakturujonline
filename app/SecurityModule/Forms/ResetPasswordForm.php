@@ -11,12 +11,7 @@ use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User as SecurityUser;
 
-/**
- * Class RegisterForm
- *
- * @package App\Forms
- */
-final class RegisterForm extends AbstractForm
+final class ResetPasswordForm extends AbstractForm
 {
     private EntityManagerInterface $entityManager;
 
@@ -24,6 +19,7 @@ final class RegisterForm extends AbstractForm
     private $securityUser;
 
     private SecurityService $securityService;
+
     private Translator $translator;
 
     public function __construct(
@@ -44,7 +40,7 @@ final class RegisterForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/register.latte');
+        $this->template->render(__DIR__.'./../templates/forms/reset.latte');
     }
 
     /*********************************************************************
@@ -61,16 +57,8 @@ final class RegisterForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        $form->addText('firstName', 'Meno')
+        $form->addEmail('email', 'E-mail')
              ->setRequired("form.general.validation.required");
-        $form->addText('lastName', 'Priezvisko')
-             ->setRequired("form.general.validation.required");
-        $form->addText('email', 'E-mail')
-             ->setRequired("form.general.validation.required");
-        $form->addPassword('password', 'Heslo')
-             ->setRequired("form.validation.required");
-        $form->addPassword('passwordRepeat', 'Heslo znova')
-             ->setRequired("form.validation.required");
 
         $form->addSubmit("submit", 'form.general.submit.label');
 
@@ -92,8 +80,8 @@ final class RegisterForm extends AbstractForm
             'email' => $values->email,
         ]);
 
-        if ($user) {
-            $form->addError('Užívateľ s týmto e-mailom už existuje');
+        if ( ! $user) {
+            $form->addError('Užívateľ s týmto e-mailom neexistuje');
         }
     }
 
@@ -103,31 +91,17 @@ final class RegisterForm extends AbstractForm
         $values = $form->getValues();
 
         try {
-            $user = $this->createUserFromForm($form);
-            $user = $this->securityService->registerUser($user);
             // Redirect to dashboard
-            $this->presenter->flashMessage('Boli ste úspešne zaregistrovaný', 'success');
+            $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
             $this->presenter->redirect(':Security:Auth:login');
-        } catch (\Nette\Security\AuthenticationException $e) {
-            $this->presenter->flashMessage("form.login.validation.authentication");
+        } catch (\Exception $e) {
+            // TODO: odchytit transport email exception
+            dd($e->getMessage());
+            $this->presenter->flashMessage("Pri odoslaní e-mailu nastala neočakávana chyba");
             $this->presenter->redirect("this");
         }
     }
 
-    // ------------------------------ Helpers
-
-    private function createUserFromForm(Form $form): User
-    {
-        $values = $form->getValues();
-
-        $user = new User();
-        $user->setEmail($values->email);
-        $user->setFirstName($values->firstName);
-        $user->setLastName($values->lastName);
-        $user->setPassword($values->password);
-
-        return $user;
-    }
 }
 
 /**
@@ -135,7 +109,7 @@ final class RegisterForm extends AbstractForm
  *
  * @package App\Forms
  */
-interface IRegisterForm
+interface IResetPasswordForm
 {
-    public function create(): RegisterForm;
+    public function create(): ResetPasswordForm;
 }

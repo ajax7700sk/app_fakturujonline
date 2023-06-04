@@ -13,7 +13,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
         // --- Check if user is logged in
         if ($this->canRedirectToLogin()) {
-            $this->redirect(":Security:Login:default");
+            $this->redirect(":Security:Auth:login");
         }
 
     }
@@ -27,7 +27,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         }
 
         // Login or register
-        if (in_array($this->name, ['Security:Login', 'Security:Register'])) {
+        if (in_array($this->name, ['Security:Auth'])) {
             return false;
         }
 

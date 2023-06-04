@@ -81,6 +81,8 @@ services:
 	# Form controls
 	- App\SecurityModule\Forms\ILoginForm
 	- App\SecurityModule\Forms\IRegisterForm
+	- App\SecurityModule\Forms\IResetPasswordForm
+
 # Extensions
 extensions:
 	webpack: Contributte\Webpack\DI\WebpackExtension(%debugMode%, %consoleMode%)
