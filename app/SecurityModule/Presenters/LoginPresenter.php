@@ -26,7 +26,9 @@ class LoginPresenter extends BasePresenter
 
     public function createComponentLoginForm(): LoginForm
     {
+        /** @var LoginForm $control */
         $control = $this->loginForm->create();
+        $control->securityUser = $this->getUser();
 
         return $control;
     }

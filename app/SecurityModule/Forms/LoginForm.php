@@ -16,8 +16,11 @@ final class LoginForm extends AbstractForm
 {
     private EntityManagerInterface $entityManager;
 
+    /** @var \Nette\Security\User */
+    public $securityUser;
+
     public function __construct(
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
     ) {
         $this->entityManager = $entityManager;
     }
@@ -55,7 +58,7 @@ final class LoginForm extends AbstractForm
         $form->addSubmit("submit", 'form.general.submit.label');
 
         // Events
-        $form->onValidate[] = [$this, 'validateForm'];
+        $form->onValidate[] = [$this, 'onValidate'];
         $form->onSuccess[]  = [$this, 'onSuccess'];
 
         return $form;
@@ -63,12 +66,22 @@ final class LoginForm extends AbstractForm
 
     public function onValidate(Form $form): void
     {
-
+        //
     }
 
     public function onSuccess(Form $form): void
     {
-        dd("OK");
+        /** @var \Nette\Utils\ArrayHash $values */
+        $values = $form->getValues();
+
+        try {
+            $this->securityUser->login($values->email, $values->password);
+            // Redirect to dashboard
+            dd("Dashboard");
+        } catch (\Nette\Security\AuthenticationException $e) {
+            $this->presenter->flashMessage("form.login.validation.authentication");
+            $this->presenter->redirect("this");
+        }
     }
 }
 

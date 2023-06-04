@@ -22,7 +22,7 @@ class Authenticator implements Nette\Security\IAuthenticator
         $repository = $this->entityManager->getRepository(User::class);
 
         /** @var User|null $row */
-        $row = $repository->findOneBy(["name" => $name]);
+        $row = $repository->findOneBy(["email" => $name]);
         $passwords = new Passwords();
 
         if ( ! $row) {
