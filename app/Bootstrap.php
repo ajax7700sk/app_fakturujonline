@@ -7,6 +7,8 @@ namespace App;
 use Nette\Bootstrap\Configurator;
 
 
+require_once 'functions.php';
+
 class Bootstrap
 {
 	public static function boot(): Configurator
