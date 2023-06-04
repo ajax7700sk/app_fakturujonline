@@ -11,7 +11,8 @@
 <body
 		class="{if isset($body_classes)}{$body_classes}{else}{/if}"
 		style="{if isset($body_styles)}{$body_styles}{else}{/if}">
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+	<!-- Flashes -->
+	<div n:foreach="$flashes as $flash" n:class="alertflash, $flash->type, alert">{$flash->message}</div>
 
 	{include content}
 

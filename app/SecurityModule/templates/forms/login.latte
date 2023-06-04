@@ -1,4 +1,7 @@
 {form form}
+{*    {foreach $form->errors as $error}*}
+{*        <div class="alert alert-danger">{$error}</div>*}
+{*    {/foreach}*}
     <div class="col-12 mb-3">
         <div class="form-floating">
             <input
@@ -10,6 +13,7 @@
                     n:name="email"
                     class="form-label">Váš e-mail</label>
         </div>
+        <div class=invalid-feedback n:ifcontent>{inputError email}</div>
     </div>
     <div class="col-12 mb-3">
         <div class="form-floating">
@@ -22,6 +26,7 @@
                     n:name="password"
                     class="form-label"
             >Vaše heslo</label>
+            <div class=invalid-feedback n:ifcontent>{inputError password}</div>
         </div>
     </div>
     <div class="col-12">
