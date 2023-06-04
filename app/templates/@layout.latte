@@ -11,26 +11,40 @@
 <body
 		class="{if isset($body_classes)}{$body_classes}{else}{/if}"
 		style="{if isset($body_styles)}{$body_styles}{else}{/if}">
-	<!-- Flashes -->
-	<div n:foreach="$flashes as $flash" n:class="alertflash, $flash->type, alert">{$flash->message}</div>
+	<div class="d-flex flex-column flex-grow-1 flex-shrink-1">
+		<!-- Flashes -->
+		<div n:foreach="$flashes as $flash" n:class="alertflash, $flash->type, alert">{$flash->message}</div>
 
-	{include content}
+		<!-- Aside nav -->
+		{include 'partials/aside-nav.latte'}
+		<!-- Wrapper -->
+		<div class="wrapper">
+			{include 'partials/header.latte'}
+			<!-- Content -->
+			{include content}
 
-	<!-- footer -->
-	<footer class="footer">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col"><span class="fw-light">Copyright © 2023</span></div>
-				<div class="col-auto"><a href="https://fakturujonline.sk/"
-										 class="text-decoration-none link-dark"><small class="fw-bold">Fakturujonline.sk</small></a>
+			<!-- footer -->
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col"><span class="fw-light">Copyright © 2023</span></div>
+						<div class="col-auto">
+							<a href="https://fakturujonline.sk/"
+							   class="text-decoration-none link-dark">
+								<small class="fw-bold">Fakturujonline.sk</small>
+							</a>
+						</div>
+					</div>
 				</div>
-			</div>
+			</footer>
 		</div>
-	</footer>
+
+	</div>
 
 	<!-- Scripts -->
 	{block scripts}
-{*	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>*}
+		<script href='{webpack "dist/js/main.js"}'></script>
+		{*	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>*}
 	{/block}
 </body>
 </html>
