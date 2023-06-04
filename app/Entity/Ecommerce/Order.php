@@ -3,6 +3,7 @@
 namespace App\Entity\Ecommerce;
 
 use App\Entity\Address;
+use App\Entity\Traits\ChangesLoggableTrait;
 use App\Entity\User;
 use App\Repository\Ecommerce\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Order
 {
+    use ChangesLoggableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

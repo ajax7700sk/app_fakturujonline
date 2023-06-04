@@ -2,6 +2,7 @@
 
 namespace App\Entity\Ecommerce;
 
+use App\Entity\Traits\ChangesLoggableTrait;
 use App\Entity\User;
 use App\Repository\Ecommerce\SubscriptionRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Subscription
 {
+    use ChangesLoggableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

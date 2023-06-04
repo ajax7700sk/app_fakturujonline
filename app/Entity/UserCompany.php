@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\ChangesLoggableTrait;
 use App\Repository\UserCompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UserCompany
 {
+    use ChangesLoggableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

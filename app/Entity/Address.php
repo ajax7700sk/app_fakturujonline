@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\ChangesLoggableTrait;
 use App\Repository\AddressRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Address
 {
+    use ChangesLoggableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

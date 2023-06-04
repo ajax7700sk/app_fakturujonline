@@ -2,6 +2,7 @@
 
 namespace App\Entity\Ecommerce;
 
+use App\Entity\Traits\ChangesLoggableTrait;
 use App\Repository\Ecommerce\PaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Payment
 {
+    use ChangesLoggableTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
