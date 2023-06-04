@@ -25,6 +25,11 @@ class User
     private $id;
 
     /**
+     * @var string[]
+     */
+    private $roles = ['user'];
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
@@ -90,6 +95,14 @@ class User
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
     }
 
     public function getFirstName(): ?string

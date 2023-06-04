@@ -27,12 +27,12 @@ class Authenticator implements Nette\Security\IAuthenticator
 
         if ( ! $row) {
             throw new Nette\Security\AuthenticationException(
-                'Tento email v našem systému neexistuje. Zadejte správný email.',
+                'Tento email v systému neexistuje.',
                 self::IDENTITY_NOT_FOUND
             );
         } elseif ( ! $passwords->verify($password, $row->getPassword())) {
             throw new Nette\Security\AuthenticationException(
-                'Zadali jste nesprávné heslo. Zkuste to znovu.',
+                'Zadali ste nesprávné heslo.',
                 self::INVALID_CREDENTIAL
             );
         } elseif ($passwords->needsRehash($row->getPassword())) {
@@ -40,7 +40,7 @@ class Authenticator implements Nette\Security\IAuthenticator
             $this->entityManager->flush();
         }
 
-        return new Nette\Security\Identity($row->getId(), $row->getRole(), array('user' => $row));
+        return new Nette\Security\Identity($row->getId(), $row->getRoles(), array('user' => $row));
     }
 
 }

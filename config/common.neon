@@ -28,10 +28,10 @@ di:
 		parameters: no
 		tags: no
 
+services:
 
 	# ------------------------------------------------- Repositories --------------------------------------------------- #
 
-services:
 	AddressRepository:
 		type: App\Repository\AddressRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Address')
@@ -69,6 +69,12 @@ services:
 	EcommerceSubscriptionRepository:
 		type: App\Repository\Ecommerce\SubscriptionRepository
 		factory: @Doctrine\ORM\EntityManagerInterface::getRepository('App\Entity\Ecommerce\Subscription')
+
+	# Security
+	authenticator:
+		factory: \App\Security\Authenticator
+		inject: yes
+
 
 # Extensions
 extensions:
