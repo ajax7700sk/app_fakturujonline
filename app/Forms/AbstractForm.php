@@ -9,6 +9,4 @@ use Nette\Security\User;
 
 abstract class AbstractForm extends Control
 {
-    /** @var ITranslator @inject */
-    public $translator;
 }

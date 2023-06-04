@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace App\SecurityModule\Forms;
 
+use App\Entity\User;
 use App\Forms\AbstractForm;
+use App\Service\SecurityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
+use Nette\Localization\Translator;
+use Nette\Security\User as SecurityUser;
 
 /**
  * Class RegisterForm
@@ -17,12 +21,21 @@ final class RegisterForm extends AbstractForm
     private EntityManagerInterface $entityManager;
 
     /** @var \Nette\Security\User */
-    public $securityUser;
+    private $securityUser;
+
+    private SecurityService $securityService;
+    private Translator $translator;
 
     public function __construct(
+        Translator $translator,
         EntityManagerInterface $entityManager,
+        SecurityService $securityService,
+        SecurityUser $securityUser
     ) {
-        $this->entityManager = $entityManager;
+        $this->entityManager   = $entityManager;
+        $this->securityService = $securityService;
+        $this->securityUser    = $securityUser;
+        $this->translator      = $translator;
     }
 
     /**
@@ -70,7 +83,18 @@ final class RegisterForm extends AbstractForm
 
     public function onValidate(Form $form): void
     {
-        //
+        $values = $form->getValues();
+        // Check if email is used
+
+        $repo = $this->entityManager->getRepository(User::class);
+        /** @var User $user */
+        $user = $repo->findOneBy([
+            'email' => $values->email,
+        ]);
+
+        if ($user) {
+            $form->addError('Užívateľ s týmto e-mailom už existuje');
+        }
     }
 
     public function onSuccess(Form $form): void
@@ -79,13 +103,30 @@ final class RegisterForm extends AbstractForm
         $values = $form->getValues();
 
         try {
-            $this->securityUser->login($values->email, $values->password);
+            $user = $this->createUserFromForm($form);
+            $user = $this->securityService->registerUser($user);
             // Redirect to dashboard
-            dd("Dashboard");
+            $this->presenter->flashMessage('Boli ste úspešne zaregistrovaný', 'success');
+            $this->presenter->redirect(':Security:Login:default');
         } catch (\Nette\Security\AuthenticationException $e) {
             $this->presenter->flashMessage("form.login.validation.authentication");
             $this->presenter->redirect("this");
         }
+    }
+
+    // ------------------------------ Helpers
+
+    private function createUserFromForm(Form $form): User
+    {
+        $values = $form->getValues();
+
+        $user = new User();
+        $user->setEmail($values->email);
+        $user->setFirstName($values->firstName);
+        $user->setLastName($values->lastName);
+        $user->setPassword($values->password);
+
+        return $user;
     }
 }
 

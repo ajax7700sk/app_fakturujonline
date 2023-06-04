@@ -74,6 +74,9 @@ services:
 	authenticator:
 		factory: \App\Security\Authenticator
 		inject: yes
+	securityService:
+		factory: \App\Service\SecurityService
+		inject: yes
 
 	# Form controls
 	- App\SecurityModule\Forms\ILoginForm

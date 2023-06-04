@@ -28,7 +28,6 @@ class RegisterPresenter extends BasePresenter
     {
         /** @var RegisterForm $control */
         $control               = $this->registerForm->create();
-        $control->securityUser = $this->getUser();
 
         return $control;
     }

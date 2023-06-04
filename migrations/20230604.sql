@@ -187,7 +187,7 @@ CREATE TABLE user
     last_name            VARCHAR(255) NOT NULL,
     email                VARCHAR(255) NOT NULL,
     password             VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(255) DEFAULT NULL,
     reset_token          VARCHAR(255) DEFAULT NULL,
     reset_token_valid_at DATETIME     DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
     created_at           DATETIME     NOT NULL,
