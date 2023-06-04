@@ -7,6 +7,7 @@ use App\Forms\AbstractForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
+use Nette\Security\User;
 
 /**
  * Class RegisterForm
@@ -23,10 +24,12 @@ final class LoginForm extends AbstractForm
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        Translator $translator
+        Translator $translator,
+        User $securityUser
     ) {
         $this->entityManager = $entityManager;
         $this->translator    = $translator;
+        $this->securityUser  = $securityUser;
     }
 
     /**
@@ -82,7 +85,7 @@ final class LoginForm extends AbstractForm
             $this->securityUser->login($values->email, $values->password);
             // Redirect to dashboard
             $this->presenter->flashMessage('Boli ste úspešne prihlásený', 'success');
-            dd("Dashboard");
+            $this->presenter->redirect(':Dashboard:Default:default');
         } catch (\Nette\Security\AuthenticationException $e) {
             $this->presenter->flashMessage("form.login.validation.authentication");
             $this->presenter->redirect("this");

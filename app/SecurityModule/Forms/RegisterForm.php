@@ -9,6 +9,7 @@ use App\Service\SecurityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
+use Nette\Security\Passwords;
 use Nette\Security\User as SecurityUser;
 
 /**
@@ -118,13 +119,15 @@ final class RegisterForm extends AbstractForm
 
     private function createUserFromForm(Form $form): User
     {
+        $passwords = new Passwords();
+        //
         $values = $form->getValues();
 
         $user = new User();
         $user->setEmail($values->email);
         $user->setFirstName($values->firstName);
         $user->setLastName($values->lastName);
-        $user->setPassword($values->password);
+        $user->setPassword($passwords->hash($values->password));
 
         return $user;
     }
