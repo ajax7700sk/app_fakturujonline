@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\SecurityModule\Forms;
 
+use App\Forms\AbstractForm;
 use Doctrine\ORM\EntityManagerInterface;
-use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 
 /**
@@ -12,7 +12,7 @@ use Nette\Application\UI\Form;
  *
  * @package App\Forms
  */
-final class LoginForm extends Control
+final class LoginForm extends AbstractForm
 {
     private EntityManagerInterface $entityManager;
 
@@ -28,7 +28,7 @@ final class LoginForm extends Control
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'/templates/forms/login.latte');
+        $this->template->render(__DIR__.'./../templates/forms/login.latte');
     }
 
     /*********************************************************************
@@ -79,6 +79,5 @@ final class LoginForm extends Control
  */
 interface ILoginForm
 {
-    /** @return \App\SecurityModule\Forms\LoginForm */
-    public function create();
+    public function create(): LoginForm;
 }

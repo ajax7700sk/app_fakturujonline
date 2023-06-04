@@ -75,6 +75,8 @@ services:
 		factory: \App\Security\Authenticator
 		inject: yes
 
+	# Form controls
+	- App\SecurityModule\Forms\ILoginForm
 
 # Extensions
 extensions:
@@ -82,6 +84,7 @@ extensions:
 	recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
 	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	events: Contributte\EventDispatcher\DI\EventDispatcherExtension
+	translation: Contributte\Translation\DI\TranslationExtension
 	# Nettrine Common
 	nettrine.annotations: Nettrine\Annotations\DI\AnnotationsExtension
 	nettrine.cache: Nettrine\Cache\DI\CacheExtension
@@ -168,3 +171,12 @@ nettrine.dbal:
             App\Entity: %appDir%
     debug:
         panel: true
+
+translation:
+	locales:
+		whitelist: [sk]
+		default: sk
+		fallback: [sk]
+	dirs:
+		- %appDir%/lang
+	returnOriginalMessage: true # to not translate undefined messages, default is true

@@ -35,8 +35,9 @@
                                         <path d="M128 307L238.851 367.197V487.59L128 547.787L17.1488 487.59V367.197L128 307Z"
                                               fill="#F35421"></path>
                                     </svg>
-                                </a></div>
-                            <!-- Form -->
+                                </a>
+                            </div>
+                            <!-- Navigation-->
                             <div class="rounded-3 bg-l10-dark">
                                 <div class="row row-cols-2 g-3 pb-3 px-3 mt-0">
                                     <div class="col">
@@ -54,37 +55,17 @@
                             </div>
                             <div class="text-center h1 fw-bold mt-5">Vítajte,</div>
                             <div class="text-center h4 text-muted mb-5">Prihláste sa pre pokračovanie!</div>
-                            <form>
-                                <div class="col-12 mb-3">
-                                    <div class="form-floating"><input id="email" type="text"
-                                                                      class="form-control"
-                                                                      placeholder="Váš e-mail" value=""
-                                                                      style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><label
-                                                for="email" class="form-label">Váš e-mail</label></div>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <div class="form-floating"><input id="password" type="password"
-                                                                      class="form-control"
-                                                                      placeholder="Heslo" value=""
-                                                                      style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><label
-                                                for="password" class="form-label">Heslo</label></div>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-warning w-100 py-3">Prihlásiť sa
-                                    </button>
-                                </div>
-                                <div class="col-12 mt-3 text-center text-muted">Alebo</div>
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-primary w-100 py-3 mt-3">Obnoviť
-                                        heslo
-                                    </button>
-                                </div>
-                            </form>
+                            <!-- Login form-->
+                            {control loginForm}
                         </div>
                     </div>
-                    <div class="text-center"><a class="text-decoration-none me-3 link-dark" href="/">Privacy
-                            policy</a><a class="link-light text-decoration-none link-dark" href="/">Terms of
-                            use</a></div>
+                    <div class="text-center">
+                        <a class="text-decoration-none me-3 link-dark"
+                           href="/">Privacy policy</a>
+                        <a class="link-light text-decoration-none link-dark"
+                           href="/"
+                        >Terms of use</a>
+                    </div>
                 </div>
             </div>
         </div>
