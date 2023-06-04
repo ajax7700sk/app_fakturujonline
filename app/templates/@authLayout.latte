@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+    <link rel="stylesheet" href='{webpack "dist/css/main.css"}'>
+</head>
+
+<body
+        class="{if isset($body_classes)}{$body_classes}{else}{/if}"
+        style="{if isset($body_styles)}{$body_styles}{else}{/if}">
+<!-- Flashes -->
+<div n:foreach="$flashes as $flash" n:class="alertflash, $flash->type, alert">{$flash->message}</div>
+
+{include content}
+
+<!-- Scripts -->
+{block scripts}
+    <script rel="stylesheet" href='{webpack "dist/js/main.js"}'>
+    {*	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>*}
+{/block}
+</body>
+</html>
