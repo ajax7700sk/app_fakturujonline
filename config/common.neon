@@ -1,6 +1,16 @@
 parameters:
     debugMode: false
     consoleMode: false
+    recaptcha:
+        secretKey: 6Ldj4EEdAAAAAKiOlkbhlbgyYRQGtyr5euYcDDUz
+        siteKey: 6Ldj4EEdAAAAANQbRkGsAvVTPYVtcDzElYdCXTv5
+    doctrine:
+        host: localhost:3309
+        user: root
+        password:
+        dbname: ekopelety
+        driver: pdo_mysql
+        charset: 'utf8'
 
 
 application:
@@ -93,3 +103,20 @@ console:
 	autoExit: true
 	url: https://app.fakturujonline.sk/
 	lazy: false
+
+recaptcha:
+    secretKey: %recaptcha.secretKey%
+    siteKey: %recaptcha.siteKey%
+
+nettrine.dbal:
+    connection:
+        host: %doctrine.host%
+        user: %doctrine.user%
+        password: %doctrine.password%
+        dbname: %doctrine.dbname%
+        driver: %doctrine.driver%
+        charset: %doctrine.charset%
+        metadata:
+            App\Entity: %appDir%
+    debug:
+        panel: true

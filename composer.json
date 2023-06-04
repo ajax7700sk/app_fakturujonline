@@ -4,6 +4,12 @@
 	"keywords": ["nette"],
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:SKLINET/doctrine-dbal.git"
+		}
+	],
 	"require": {
 		"php": ">= 8.0",
 		"nette/application": "^3.1",
@@ -27,7 +33,10 @@
 		"contributte/event-dispatcher": "^0.8.1",
 		"contributte/webpack": "^2.2",
 		"contributte/recaptcha": "^3.5",
-		"beberlei/doctrineextensions": "^1.3"
+		"beberlei/doctrineextensions": "^1.3",
+		"nettrine/dbal": "^0.8.1",
+		"nettrine/orm": "^0.8.3",
+		"nettrine/cache": "^0.3.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.4",

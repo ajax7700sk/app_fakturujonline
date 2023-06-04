@@ -3,7 +3,7 @@
 namespace App\Repository\Ecommerce;
 
 use App\Entity\Ecommerce\OrderItem;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
