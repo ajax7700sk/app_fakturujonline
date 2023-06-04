@@ -12,7 +12,7 @@ use Nette\Application\UI\Form;
  *
  * @package App\Forms
  */
-final class LoginForm extends AbstractForm
+final class RegisterForm extends AbstractForm
 {
     private EntityManagerInterface $entityManager;
 
@@ -31,7 +31,7 @@ final class LoginForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/login.latte');
+        $this->template->render(__DIR__.'./../templates/forms/register.latte');
     }
 
     /*********************************************************************
@@ -48,12 +48,16 @@ final class LoginForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        $form->addText('email', 'Váš e-mail')
-             ->setRequired("form.general.validation.required")
-             ->setAttribute("placeholder", 'Váš e-mail');
-        $form->addPassword('password', 'Vaše heslo')
-             ->setRequired("form.validation.required")
-             ->setAttribute("placeholder", 'Vaše heslo');
+        $form->addText('firstName', 'Meno')
+             ->setRequired("form.general.validation.required");
+        $form->addText('lastName', 'Priezvisko')
+             ->setRequired("form.general.validation.required");
+        $form->addText('email', 'E-mail')
+             ->setRequired("form.general.validation.required");
+        $form->addPassword('password', 'Heslo')
+             ->setRequired("form.validation.required");
+        $form->addPassword('passwordRepeat', 'Heslo znova')
+             ->setRequired("form.validation.required");
 
         $form->addSubmit("submit", 'form.general.submit.label');
 
@@ -90,7 +94,7 @@ final class LoginForm extends AbstractForm
  *
  * @package App\Forms
  */
-interface ILoginForm
+interface IRegisterForm
 {
-    public function create(): LoginForm;
+    public function create(): RegisterForm;
 }
