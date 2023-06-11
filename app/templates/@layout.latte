@@ -57,7 +57,26 @@
 			integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
 			crossorigin="anonymous"></script>
 	<script src="{$basePath}/assets/js/nette.ajax.js"></script>
+	<script>
+		// Init nette ajax js
+		$(function () {
+			$.nette.init();
+		});
+	</script>
 	<script src="{$basePath}/assets/vendors/ublaboo/datagrid/assets/datagrid.js"></script>
 	<script src="{$basePath}/assets/vendors/ublaboo/datagrid/assets/datagrid-spinners.js"></script>
+    <!-- Datagrid bootstrap fix -->
+	<script>
+		$(document.body).on('click', "[data-toggle='collapse']", function() {
+			var target = $(this).attr('data-target');
+			var $target = $(target);
+
+			if($target.hasClass('show')) {
+				$target.removeClass('show');
+			} else {
+				$target.addClass('show');
+			}
+		});
+	</script>
 </body>
 </html>

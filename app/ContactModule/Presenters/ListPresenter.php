@@ -34,10 +34,10 @@ class ListPresenter extends BasePresenter
         $repository = $this->em->getRepository(Contact::class);
 
         $data = $repository
-            ->createQueryBuilder('c')
-//            ->leftJoin('\App\Entity\Address', 'ba', Join::WITH, 'c.billingAddress = ba.id')
-//            ->leftJoin('\App\Entity\Address', 'sa', Join::WITH, 'c.shippingAddress = sa.id')
-            ->innerJoin('\App\Entity\User', 'u', Join::WITH, 'c.user = u.id')
+            ->createQueryBuilder('contact')
+            ->leftJoin('\App\Entity\Address', 'billingAddress', Join::WITH, 'contact.billingAddress = billingAddress.id')
+            ->leftJoin('\App\Entity\Address', 'shippingAddress', Join::WITH, 'contact.shippingAddress = shippingAddress.id')
+            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'contact.user = user.id')
         ;
 
         $grid = new DataGrid($this, $name);
@@ -55,7 +55,9 @@ class ListPresenter extends BasePresenter
              ->setExactSearch(true);
         $grid->addColumnText('name', 'Názov', 'name')
              ->setFilterText();
-        $grid->addColumnText('firstName', 'Meno', 'u.firstName')
+        $grid->addColumnText('firstName', 'Meno', 'user.firstName')
+             ->setFilterText();
+        $grid->addColumnText('businessId', 'IČO', 'billingAddress.businessId')
              ->setFilterText();
 
         $grid->setOuterFilterRendering(true);
