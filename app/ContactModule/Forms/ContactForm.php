@@ -57,7 +57,10 @@ class ContactForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        $form->addHidden('id', 'ID');
+        if($this->contact) {
+            $form->addHidden('id', 'ID');
+        }
+        //
         $form->addText('name', 'Názov kontaktu')
              ->setRequired("form.general.validation.required")
              ->setAttribute("placeholder", 'Váš e-mail');
@@ -222,13 +225,6 @@ class ContactForm extends AbstractForm
     public function setContact(Contact $contact): void
     {
         $this->contact = $contact;
-    }
-
-    private function addAddressFields($prefix, Form $form): Form
-    {
-        $form->addText(sprintf('%s[name]', $prefix), 'Názov kontaktu')
-             ->setRequired("form.general.validation.required")
-             ->setAttribute("placeholder", 'Váš e-mail');
     }
 }
 

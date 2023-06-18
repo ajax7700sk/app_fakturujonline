@@ -3,10 +3,15 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Nette;
 
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
+    /** @var EntityManagerInterface @inject */
+    public $em;
+
     public function startup()
     {
         parent::startup();
@@ -32,5 +37,13 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         }
 
         return true;
+    }
+
+    protected function getLoggedUser(): ?User
+    {
+        /** @var User|null $user */
+        $user = $this->em->getRepository(User::class)->find((int)$this->getUser()->id);
+
+        return $user;
     }
 }
