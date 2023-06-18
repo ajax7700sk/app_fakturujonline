@@ -12,12 +12,6 @@ use Nette\Localization\Translator;
 
 class BasePresenter extends \App\Presenters\BasePresenter
 {
-    /** @var EntityManagerInterface @inject */
-    public $em;
-
-    /** @var Translator @inject */
-    public $translator;
-
     /** @var IContactForm @inject */
     public $contactForm;
 

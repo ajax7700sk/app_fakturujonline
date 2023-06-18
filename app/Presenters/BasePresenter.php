@@ -6,11 +6,15 @@ namespace App\Presenters;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette;
+use Nette\Localization\Translator;
 
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
     /** @var EntityManagerInterface @inject */
     public $em;
+
+    /** @var Translator @inject */
+    public $translator;
 
     public function startup()
     {
