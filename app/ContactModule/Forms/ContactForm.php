@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\ContactModule\Forms;
 
+use App\Entity\Address;
+use App\Entity\BankAccount;
+use App\Entity\Contact;
 use App\Forms\AbstractForm;
 use App\SecurityModule\Forms\LoginForm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +21,8 @@ class ContactForm extends AbstractForm
     /** @var \Nette\Security\User */
     public $securityUser;
     private Translator $translator;
+    /** @var Contact */
+    private $contact;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -52,6 +57,7 @@ class ContactForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
+        $form->addHidden('id', 'ID');
         $form->addText('name', 'Názov kontaktu')
              ->setRequired("form.general.validation.required")
              ->setAttribute("placeholder", 'Váš e-mail');
@@ -65,8 +71,7 @@ class ContactForm extends AbstractForm
              ->setRequired("form.general.validation.required");
         $form->addText('billingAddress_taxId', 'DIČ')
              ->setRequired("form.general.validation.required");
-        $form->addText('billingAddress_vatNumber', 'IČ DPH')
-             ->setRequired("form.general.validation.required");
+        $form->addText('billingAddress_vatNumber', 'IČ DPH');
         $form->addText('billingAddress_phone', 'Telefon')
              ->setRequired("form.general.validation.required");
         $form->addText('billingAddress_email', 'E-mail')
@@ -125,16 +130,99 @@ class ContactForm extends AbstractForm
     public function onSuccess(Form $form): void
     {
         /** @var \Nette\Utils\ArrayHash $values */
-        $values = $form->getValues();
+        $values = $form->getValues(true);
 
-        // TODO: process
-        dd("Test");
+
+        // ------------------------------------- Contact ---------------------------------------- \\
+
+        if(!$this->contact) {
+            $contact = new Contact();
+        } else {
+            $contact = $this->contact;
+        }
+
+        //
+        $contact->setName($values['name']);
+        // TODO
+        $contact->setBillingSameAsShipping($values['billingSameAsShipping']);
+
+        // ------------------------------------- Bank account ---------------------------------------- \\
+
+        if(!$this->contact && !$contact->getBankAccount()) {
+            $bankAccount = new BankAccount();
+        } else {
+            $bankAccount = $contact->getBankAccount();
+        }
+
+        $bankAccount->setAccountNumber($values['bankAccount_accountNumber']);
+        $bankAccount->setIban($values['bankAccount_iban']);
+        $bankAccount->setSwift($values['bankAccount_swift']);
+        //
+        $contact->setBankAccount($bankAccount);
+
+        // ------------------------------------- Billing address ---------------------------------------- \\
+
+        if(!$this->contact && !$contact->getBillingAddress()) {
+            $billingAddress = new Address();
+        } else {
+            $billingAddress = $contact->getBillingAddress();
+        }
+
+        $billingAddress->setName($values['billingAddress_name']);
+        $billingAddress->setBusinessId($values['billingAddress_businessId']);
+        $billingAddress->setTaxId($values['billingAddress_taxId']);
+        $billingAddress->setVatNumber($values['billingAddress_vatNumber']);
+        $billingAddress->setPhone($values['billingAddress_phone']);
+        $billingAddress->setEmail($values['billingAddress_email']);
+        $billingAddress->setStreet($values['billingAddress_street']);
+        $billingAddress->setCity($values['billingAddress_city']);
+        $billingAddress->setZipCode($values['billingAddress_zipCode']);
+        $billingAddress->setCountryCode($values['billingAddress_countryCode']);
+
+
+        // ------------------------------------- Shipping address ---------------------------------------- \\
+
+        if(!$this->contact && !$contact->getShippingAddress()) {
+            $shippingAddress = new Address();
+        } else {
+            $shippingAddress = $contact->getShippingAddress();
+        }
+
+        // Fill address
+        if($contact->getBillingSameAsShipping()) {
+            $shippingAddress = $billingAddress;
+        } else {
+            $shippingAddress->setName($values['billingAddress_name']);
+            $shippingAddress->setBusinessId($values['billingAddress_businessId']);
+            $shippingAddress->setTaxId($values['billingAddress_taxId']);
+            $shippingAddress->setVatNumber($values['billingAddress_vatNumber']);
+            $shippingAddress->setPhone($values['billingAddress_phone']);
+            $shippingAddress->setEmail($values['billingAddress_email']);
+            $shippingAddress->setStreet($values['billingAddress_street']);
+            $shippingAddress->setCity($values['billingAddress_city']);
+            $shippingAddress->setZipCode($values['billingAddress_zipCode']);
+            $shippingAddress->setCountryCode($values['billingAddress_countryCode']);
+        }
+
+        // Persist & flush
+        $this->entityManager->persist($billingAddress);
+        $this->entityManager->persist($shippingAddress);
+        $this->entityManager->persist($bankAccount);
+        $this->entityManager->persist($contact);
+        //
+        $this->entityManager->flush();
+
         // Redirect to dashboard
         $this->presenter->flashMessage('Kontakt bol úspešne vytvorený', 'success');
         $this->presenter->redirect(':Contact:List:default');
     }
 
     // ------------------------------------ Helpers ---------------------------------- \\
+
+    public function setContact(Contact $contact): void
+    {
+        $this->contact = $contact;
+    }
 
     private function addAddressFields($prefix, Form $form): Form
     {
