@@ -152,7 +152,7 @@ class ContactForm extends AbstractForm
 
         // ------------------------------------- Bank account ---------------------------------------- \\
 
-        if ( ! $this->contact && ! $contact->getBankAccount()) {
+        if ( ! $contact->getBankAccount()) {
             $bankAccount = new BankAccount();
         } else {
             $bankAccount = $contact->getBankAccount();
@@ -249,51 +249,51 @@ class ContactForm extends AbstractForm
 
             // Billing address
             if ($entity->getBillingAddress()) {
-                $entity = $entity->getBillingAddress();
+                $billingAddress = $entity->getBillingAddress();
 
                 $defaults = array_merge($defaults, array(
                     // Company
-                    'billingAddress_name'        => $entity->getName(),
-                    'billingAddress_businessId'  => $entity->getBusinessId(),
-                    'billingAddress_taxId'       => $entity->getTaxId(),
-                    'billingAddress_vatNumber'   => $entity->getVatNumber(),
-                    'billingAddress_phone'       => $entity->getPhone(),
-                    'billingAddress_email'       => $entity->getEmail(),
-                    'billingAddress_street'      => $entity->getStreet(),
-                    'billingAddress_city'        => $entity->getCity(),
-                    'billingAddress_zipCode'     => $entity->getZipCode(),
-                    'billingAddress_countryCode' => $entity->getCountryCode(),
+                    'billingAddress_name'        => $billingAddress->getName(),
+                    'billingAddress_businessId'  => $billingAddress->getBusinessId(),
+                    'billingAddress_taxId'       => $billingAddress->getTaxId(),
+                    'billingAddress_vatNumber'   => $billingAddress->getVatNumber(),
+                    'billingAddress_phone'       => $billingAddress->getPhone(),
+                    'billingAddress_email'       => $billingAddress->getEmail(),
+                    'billingAddress_street'      => $billingAddress->getStreet(),
+                    'billingAddress_city'        => $billingAddress->getCity(),
+                    'billingAddress_zipCode'     => $billingAddress->getZipCode(),
+                    'billingAddress_countryCode' => $billingAddress->getCountryCode(),
                 ));
             }
 
             // Shipping address
             if ($entity->getShippingAddress()) {
-                $entity = $entity->getShippingAddress();
+                $shippingAddress = $entity->getShippingAddress();
 
                 $defaults = array_merge($defaults, array(
                     // Company
-                    'shippingAddress_name'        => $entity->getName(),
-                    'shippingAddress_businessId'  => $entity->getBusinessId(),
-                    'shippingAddress_taxId'       => $entity->getTaxId(),
-                    'shippingAddress_vatNumber'   => $entity->getVatNumber(),
-                    'shippingAddress_phone'       => $entity->getPhone(),
-                    'shippingAddress_email'       => $entity->getEmail(),
-                    'shippingAddress_street'      => $entity->getStreet(),
-                    'shippingAddress_city'        => $entity->getCity(),
-                    'shippingAddress_zipCode'     => $entity->getZipCode(),
-                    'shippingAddress_countryCode' => $entity->getCountryCode(),
+                    'shippingAddress_name'        => $shippingAddress->getName(),
+                    'shippingAddress_businessId'  => $shippingAddress->getBusinessId(),
+                    'shippingAddress_taxId'       => $shippingAddress->getTaxId(),
+                    'shippingAddress_vatNumber'   => $shippingAddress->getVatNumber(),
+                    'shippingAddress_phone'       => $shippingAddress->getPhone(),
+                    'shippingAddress_email'       => $shippingAddress->getEmail(),
+                    'shippingAddress_street'      => $shippingAddress->getStreet(),
+                    'shippingAddress_city'        => $shippingAddress->getCity(),
+                    'shippingAddress_zipCode'     => $shippingAddress->getZipCode(),
+                    'shippingAddress_countryCode' => $shippingAddress->getCountryCode(),
                 ));
             }
 
             // Bank account
             if ($entity->getBankAccount()) {
-                $entity = $entity->getBankAccount();
+                $bankAccount = $entity->getBankAccount();
 
                 $defaults = array_merge($defaults, array(
                     // Company
-                    'bankAccount_accountNumber' => $entity->getAccountNumber(),
-                    'bankAccount_iban'          => $entity->getIban(),
-                    'bankAccount_swift'         => $entity->getSwift(),
+                    'bankAccount_accountNumber' => $bankAccount->getAccountNumber(),
+                    'bankAccount_iban'          => $bankAccount->getIban(),
+                    'bankAccount_swift'         => $bankAccount->getSwift(),
                 ));
             }
         }

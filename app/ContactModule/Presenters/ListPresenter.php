@@ -18,6 +18,12 @@ class ListPresenter extends BasePresenter
         //
     }
 
+    public function actionDelete($id)
+    {
+        dd($id);
+        //
+    }
+
     /********************************************************************************
      * //                               Components
      ********************************************************************************/
@@ -41,12 +47,12 @@ class ListPresenter extends BasePresenter
         ;
 
         $grid = new DataGrid($this, $name);
-//        $grid->setStrictSessionFilterValues();
-        //$grid->setRememberState(false);
-//        $grid->setColumnsHideable();
+        $grid->setStrictSessionFilterValues();
+        $grid->setRememberState(false);
+        $grid->setColumnsHideable();
         //set grid data source
         $grid->setDataSource($data);
-//        $grid->setDefaultSort(['created' => 'DESC']);
+        $grid->setDefaultSort(['created' => 'DESC']);
 
         //grid columns
 //        $grid->addColumnNumber('id', 'ID', 'id')
@@ -65,6 +71,14 @@ class ListPresenter extends BasePresenter
             ->setFilterDateRange();
         $grid->addColumnDateTime('updatedAt', 'Upravené', 'updatedAt')
             ->setFilterDateRange();
+
+        // Actions
+        $grid->addAction('edit', 'Upraviť', ':Contact:Edit:', ['id' => 'id'])
+             ->setIcon('pencil')
+             ->setClass('btn btn-warning btn-sm');
+        $grid->addAction('delete', 'Zmazať', ':Contact:List:delete', ['id' => 'id'])
+             ->setIcon('trash')
+             ->setClass('btn btn-danger btn-sm');
 
         $grid->setOuterFilterRendering(true);
         //set translator

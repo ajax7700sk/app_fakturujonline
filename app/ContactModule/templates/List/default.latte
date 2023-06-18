@@ -3,76 +3,41 @@
 {var $body_style = "overflow: auto;"}
 
 {block content}
-<main class="content">
-    <div class="page-wrapper container-fluid">
-        <div class="subheader row">
-            <div class="subheader-left col-sm">
-                <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: none;">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item" aria-label="Home"><a aria-label="Home" href="/">
-                                <svg viewBox="0 0 24 24" fill="currentColor"
-                                     class="svg-icon--material svg-icon"
-                                     data-name="Material--HolidayVillage">
-                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                    <path d="M8 6.83l-4 4V18h3v-3h2v3h3v-7.17l-4-4zM9 13H7v-2h2v2z"
-                                          opacity="0.3"></path>
-                                    <path d="M8 4l-6 6v10h12V10L8 4zm4 14H9v-3H7v3H4v-7.17l4-4 4 4V18zm-3-5H7v-2h2v2zm9 7V8.35L13.65 4h-2.83L16 9.18V20h2zm4 0V6.69L19.31 4h-2.83L20 7.52V20h2z"></path>
-                                </svg>
-                            </a></li>
-                        <li class="breadcrumb-item active" aria-current="page" aria-label="Kontakty">
-                            <svg viewBox="0 0 24 24" fill="currentColor"
-                                 class="svg-icon--material svg-icon breadcrumb-icon"
-                                 data-name="Material--ChevronRight">
-                                <path d="M0 0h24v24H0V0z" fill="none"></path>
-                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"></path>
-                            </svg>
-                            Kontakty
-                        </li>
-                    </ol>
-                </nav>
-                <div class="subheader-separator"></div>
-                <span class="text-muted">Zoznam kontaktov</span></div>
-            <div class="subheader-right col-sm-auto"></div>
-        </div>
-        <div class="page container-xxl">
-            <div class="row h-100">
-                <div class="col-12">
-                    <div class="card card-stretch-full">
-                        <div class="card-header d-flex w-100">
-                            <div class="card-label">
-                                <svg viewBox="0 0 24 24" fill="currentColor"
-                                     class="svg-icon--material svg-icon card-icon text-info"
-                                     data-name="Material--Contacts">
-                                    <path d="M0 0h24v24H0V0z" fill="none"></path>
-                                    <path d="M20 6H4v12h16V6zm-8 1a2.5 2.5 0 010 5 2.5 2.5 0 010-5zm5 10H7v-1.01C7 13.9 10.31 13 12 13s5 .9 5 2.99V17z"
-                                          opacity="0.3"></path>
-                                    <path d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM4 6h16v12H4V6zm0-6h16v2H4zm0 22h16v2H4zm8-10a2.5 2.5 0 000-5 2.5 2.5 0 000 5zm0-3.5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4.5c-1.69 0-5 .9-5 2.99V17h10v-1.01C17 13.9 13.69 13 12 13zm-3.19 2.5c.61-.52 2.03-1 3.19-1 1.17 0 2.59.48 3.2 1H8.81z"></path>
-                                </svg>
-                                <div class="card-title-wrapper">
-                                    <h5 class="card-title">Kontakty</h5>
-                                </div>
-                            </div>
-                            <!-- Create -->
-                            <div>
-                                <a class="btn btn-light-success"
-                                   rel="noopener"
-                                   href="{link :Contact:Create:default}">
-                                    <svg viewBox="0 0 24 24" fill="currentColor"
-                                         class="svg-icon--material svg-icon btn-icon"
-                                         data-name="Material--Add">
-                                        <path d="M0 0h24v24H0V0z" fill="none"></path>
-                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
-                                    </svg>
-                                    Vytvoriť
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body card-body-scrollable table-responsive">
-                            {control contactGrid}
-                        </div>
+<div class="row h-100">
+    <div class="col-12">
+        <div class="card card-stretch-full">
+            <div class="card-header d-flex w-100">
+                <div class="card-label">
+                    <svg viewBox="0 0 24 24" fill="currentColor"
+                         class="svg-icon--material svg-icon card-icon text-info"
+                         data-name="Material--Contacts">
+                        <path d="M0 0h24v24H0V0z" fill="none"></path>
+                        <path d="M20 6H4v12h16V6zm-8 1a2.5 2.5 0 010 5 2.5 2.5 0 010-5zm5 10H7v-1.01C7 13.9 10.31 13 12 13s5 .9 5 2.99V17z"
+                              opacity="0.3"></path>
+                        <path d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM4 6h16v12H4V6zm0-6h16v2H4zm0 22h16v2H4zm8-10a2.5 2.5 0 000-5 2.5 2.5 0 000 5zm0-3.5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4.5c-1.69 0-5 .9-5 2.99V17h10v-1.01C17 13.9 13.69 13 12 13zm-3.19 2.5c.61-.52 2.03-1 3.19-1 1.17 0 2.59.48 3.2 1H8.81z"></path>
+                    </svg>
+                    <div class="card-title-wrapper">
+                        <h5 class="card-title">Kontakty</h5>
                     </div>
                 </div>
+                <!-- Create -->
+                <div>
+                    <a class="btn btn-light-success"
+                       rel="noopener"
+                       href="{link :Contact:Create:default}">
+                        <svg viewBox="0 0 24 24" fill="currentColor"
+                             class="svg-icon--material svg-icon btn-icon"
+                             data-name="Material--Add">
+                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+                        </svg>
+                        Vytvoriť
+                    </a>
+                </div>
+            </div>
+            <div class="card-body card-body-scrollable table-responsive">
+                {control contactGrid}
             </div>
         </div>
     </div>
-</main>
+</div>
