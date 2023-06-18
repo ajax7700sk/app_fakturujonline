@@ -36,7 +36,7 @@ class Address
     private $email;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $businessId;
 
@@ -116,12 +116,12 @@ class Address
         return $this;
     }
 
-    public function getBusinessId(): ?int
+    public function getBusinessId(): ?string
     {
         return $this->businessId;
     }
 
-    public function setBusinessId(?int $businessId): self
+    public function setBusinessId(?string $businessId): self
     {
         $this->businessId = $businessId;
 

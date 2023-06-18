@@ -63,7 +63,7 @@ class UserCompanyForm extends AbstractForm
         //
         $form->addText('name', 'Názov')
              ->setRequired("form.general.validation.required");
-        $form->addText('vatPayer', 'Plátca DPH');
+        $form->addCheckbox('vatPayer', 'Plátca DPH');
 
         // Billing address
         $form->addText('billingAddress_name', 'Názov spoločnosti')
@@ -93,6 +93,8 @@ class UserCompanyForm extends AbstractForm
 
         //
         $form->addSubmit("submit", 'form.general.submit.label');
+        //
+        $this->setDefaults($form);
 
         // Events
         $form->onValidate[] = [$this, 'onValidate'];
@@ -111,40 +113,39 @@ class UserCompanyForm extends AbstractForm
         /** @var \Nette\Utils\ArrayHash $values */
         $values = $form->getValues(true);
 
+        // ------------------------------------- User company ---------------------------------------- \\
 
-        // ------------------------------------- Contact ---------------------------------------- \\
-
-        if ( ! $this->contact) {
-            $contact = new Contact();
+        if ( ! $this->userCompany) {
+            $userCompany = new UserCompany();
         } else {
-            $contact = $this->contact;
+            $userCompany = $this->userCompany;
         }
 
         //
-        $contact->setName($values['name']);
-        // TODO
-        $contact->setBillingSameAsShipping($values['billingSameAsShipping']);
+        $userCompany->setUser($this->getLoggedUser());
+        $userCompany->setName($values['name']);
+        $userCompany->setVatPayer($values['vatPayer']);
 
         // ------------------------------------- Bank account ---------------------------------------- \\
 
-        if ( ! $this->contact && ! $contact->getBankAccount()) {
+        if ( ! $this->userCompany && ! $userCompany->getBankAccount()) {
             $bankAccount = new BankAccount();
         } else {
-            $bankAccount = $contact->getBankAccount();
+            $bankAccount = $userCompany->getBankAccount();
         }
 
         $bankAccount->setAccountNumber($values['bankAccount_accountNumber']);
         $bankAccount->setIban($values['bankAccount_iban']);
         $bankAccount->setSwift($values['bankAccount_swift']);
         //
-        $contact->setBankAccount($bankAccount);
+        $userCompany->setBankAccount($bankAccount);
 
         // ------------------------------------- Billing address ---------------------------------------- \\
 
-        if ( ! $this->contact && ! $contact->getBillingAddress()) {
+        if ( ! $this->userCompany && ! $userCompany->getBillingAddress()) {
             $billingAddress = new Address();
         } else {
-            $billingAddress = $contact->getBillingAddress();
+            $billingAddress = $userCompany->getBillingAddress();
         }
 
         $billingAddress->setName($values['billingAddress_name']);
@@ -159,41 +160,25 @@ class UserCompanyForm extends AbstractForm
         $billingAddress->setCountryCode($values['billingAddress_countryCode']);
 
 
-        // ------------------------------------- Shipping address ---------------------------------------- \\
-
-        if ( ! $this->contact && ! $contact->getShippingAddress()) {
-            $shippingAddress = new Address();
-        } else {
-            $shippingAddress = $contact->getShippingAddress();
-        }
-
-        // Fill address
-        if ($contact->getBillingSameAsShipping()) {
-            $shippingAddress = $billingAddress;
-        } else {
-            $shippingAddress->setName($values['billingAddress_name']);
-            $shippingAddress->setBusinessId($values['billingAddress_businessId']);
-            $shippingAddress->setTaxId($values['billingAddress_taxId']);
-            $shippingAddress->setVatNumber($values['billingAddress_vatNumber']);
-            $shippingAddress->setPhone($values['billingAddress_phone']);
-            $shippingAddress->setEmail($values['billingAddress_email']);
-            $shippingAddress->setStreet($values['billingAddress_street']);
-            $shippingAddress->setCity($values['billingAddress_city']);
-            $shippingAddress->setZipCode($values['billingAddress_zipCode']);
-            $shippingAddress->setCountryCode($values['billingAddress_countryCode']);
-        }
+        // Set relations
+        $userCompany->setBillingAddress($billingAddress);
+        $userCompany->setBankAccount($bankAccount);
 
         // Persist & flush
         $this->entityManager->persist($billingAddress);
-        $this->entityManager->persist($shippingAddress);
         $this->entityManager->persist($bankAccount);
-        $this->entityManager->persist($contact);
+        $this->entityManager->persist($userCompany);
         //
         $this->entityManager->flush();
 
         // Redirect to dashboard
-        $this->presenter->flashMessage('Kontakt bol úspešne vytvorený', 'success');
-        $this->presenter->redirect(':Contact:List:default');
+        if ( ! $this->userCompany) {
+            $this->presenter->flashMessage('Firma bola úspešne vytvorená', 'success');
+        } else {
+            $this->presenter->flashMessage('Zmeny boli úspešne uložené', 'success');
+        }
+        //
+        $this->presenter->redirect(':User:Settings:default');
     }
 
     // ------------------------------------ Helpers ---------------------------------- \\
@@ -201,6 +186,65 @@ class UserCompanyForm extends AbstractForm
     public function setUserCompany(UserCompany $userCompany): void
     {
         $this->userCompany = $userCompany;
+    }
+
+    private function setDefaults(Form $form): void
+    {
+        $defaults = array();
+
+        if ($this->userCompany) {
+            $entity = $this->userCompany;
+            //
+            $defaults = array_merge($defaults, array(
+                // Company
+                'name'     => $entity->getName(),
+                'vatPayer' => $entity->getVatPayer(),
+            ));
+
+            // Bank account
+            if ($entity->getBankAccount()) {
+                $bankAccount = $entity->getBankAccount();
+
+                $defaults = array_merge($defaults, array(
+                    // Company
+                    'bankAccount_accountNumber' => $bankAccount->getAccountNumber(),
+                    'bankAccount_iban'          => $bankAccount->getIban(),
+                    'bankAccount_swift'      => $bankAccount->getSwift(),
+                ));
+            }
+
+            // Billing address
+            if ($entity->getBillingAddress()) {
+                $billingAddress = $entity->getBillingAddress();
+
+                $defaults = array_merge($defaults, array(
+                    // Company
+                    'billingAddress_name'        => $billingAddress->getName(),
+                    'billingAddress_businessId'  => $billingAddress->getBusinessId(),
+                    'billingAddress_taxId'       => $billingAddress->getTaxId(),
+                    'billingAddress_vatNumber'   => $billingAddress->getVatNumber(),
+                    'billingAddress_phone'       => $billingAddress->getPhone(),
+                    'billingAddress_email'       => $billingAddress->getEmail(),
+                    'billingAddress_street'      => $billingAddress->getStreet(),
+                    'billingAddress_city'        => $billingAddress->getCity(),
+                    'billingAddress_zipCode'     => $billingAddress->getZipCode(),
+                    'billingAddress_countryCode' => $billingAddress->getCountryCode(),
+                ));
+            }
+        }
+
+        //
+        $form->setDefaults($defaults);
+    }
+
+    private function getLoggedUser(): ?\App\Entity\User
+    {
+        /** @var \App\Entity\User|null $user */
+        $user = $this->entityManager
+            ->getRepository(\App\Entity\User::class)
+            ->find((int)$this->securityUser->id);
+
+        return $user;
     }
 }
 

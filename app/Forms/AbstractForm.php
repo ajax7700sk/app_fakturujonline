@@ -9,4 +9,5 @@ use Nette\Security\User;
 
 abstract class AbstractForm extends Control
 {
+
 }

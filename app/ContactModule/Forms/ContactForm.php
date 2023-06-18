@@ -57,19 +57,19 @@ class ContactForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        if($this->contact) {
+        if ($this->contact) {
             $form->addHidden('id', 'ID');
         }
         //
         $form->addText('name', 'Názov kontaktu')
              ->setRequired("form.general.validation.required")
              ->setAttribute("placeholder", 'Váš e-mail');
-        $form->addText('billingSameAsShipping', 'Dodacia adresa je rovnaká')
+        $form->addCheckbox('billingSameAsShipping', 'Dodacia adresa je rovnaká')
              ->setAttribute("placeholder", 'Dodacia adresa je rovnaká');
 
         // Billing address
         $form->addText('billingAddress_name', 'Názov spoločnosti')
-            ->setRequired("form.general.validation.required");
+             ->setRequired("form.general.validation.required");
         $form->addText('billingAddress_businessId', 'IČO')
              ->setRequired("form.general.validation.required");
         $form->addText('billingAddress_taxId', 'DIČ')
@@ -86,7 +86,7 @@ class ContactForm extends AbstractForm
         $form->addText('billingAddress_zipCode', 'PŠC')
              ->setRequired("form.general.validation.required");
         $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames())
-            ->setRequired("form.general.validation.required");
+             ->setRequired("form.general.validation.required");
 
         // Shipping address
         $form->addText('shippingAddress_name', 'Názov spoločnosti')
@@ -95,8 +95,7 @@ class ContactForm extends AbstractForm
              ->setRequired("form.general.validation.required");
         $form->addText('shippingAddress_taxId', 'DIČ')
              ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_vatNumber', 'IČ DPH')
-             ->setRequired("form.general.validation.required");
+        $form->addText('shippingAddress_vatNumber', 'IČ DPH');
         $form->addText('shippingAddress_phone', 'Telefon')
              ->setRequired("form.general.validation.required");
         $form->addText('shippingAddress_email', 'E-mail')
@@ -117,6 +116,8 @@ class ContactForm extends AbstractForm
 
         //
         $form->addSubmit("submit", 'form.general.submit.label');
+        //
+        $this->setDefaults($form);
 
         // Events
         $form->onValidate[] = [$this, 'onValidate'];
@@ -138,7 +139,7 @@ class ContactForm extends AbstractForm
 
         // ------------------------------------- Contact ---------------------------------------- \\
 
-        if(!$this->contact) {
+        if ( ! $this->contact) {
             $contact = new Contact();
         } else {
             $contact = $this->contact;
@@ -151,7 +152,7 @@ class ContactForm extends AbstractForm
 
         // ------------------------------------- Bank account ---------------------------------------- \\
 
-        if(!$this->contact && !$contact->getBankAccount()) {
+        if ( ! $this->contact && ! $contact->getBankAccount()) {
             $bankAccount = new BankAccount();
         } else {
             $bankAccount = $contact->getBankAccount();
@@ -165,7 +166,7 @@ class ContactForm extends AbstractForm
 
         // ------------------------------------- Billing address ---------------------------------------- \\
 
-        if(!$this->contact && !$contact->getBillingAddress()) {
+        if ( ! $this->contact && ! $contact->getBillingAddress()) {
             $billingAddress = new Address();
         } else {
             $billingAddress = $contact->getBillingAddress();
@@ -185,14 +186,14 @@ class ContactForm extends AbstractForm
 
         // ------------------------------------- Shipping address ---------------------------------------- \\
 
-        if(!$this->contact && !$contact->getShippingAddress()) {
+        if ( ! $this->contact && ! $contact->getShippingAddress()) {
             $shippingAddress = new Address();
         } else {
             $shippingAddress = $contact->getShippingAddress();
         }
 
         // Fill address
-        if($contact->getBillingSameAsShipping()) {
+        if ($contact->getBillingSameAsShipping()) {
             $shippingAddress = $billingAddress;
         } else {
             $shippingAddress->setName($values['billingAddress_name']);
@@ -206,6 +207,12 @@ class ContactForm extends AbstractForm
             $shippingAddress->setZipCode($values['billingAddress_zipCode']);
             $shippingAddress->setCountryCode($values['billingAddress_countryCode']);
         }
+
+        // Set relations
+        $contact->setUser($this->getLoggedUser());
+        $contact->setBillingAddress($billingAddress);
+        $contact->setShippingAddress($shippingAddress);
+        $contact->setBankAccount($bankAccount);
 
         // Persist & flush
         $this->entityManager->persist($billingAddress);
@@ -225,6 +232,84 @@ class ContactForm extends AbstractForm
     public function setContact(Contact $contact): void
     {
         $this->contact = $contact;
+    }
+
+    private function setDefaults(Form $form): void
+    {
+        $defaults = array();
+
+        if ($this->contact) {
+            $entity = $this->contact;
+            //
+            $defaults = array_merge($defaults, array(
+                // Company
+                'name'                  => $entity->getName(),
+                'billingSameAsShipping' => $entity->getBillingSameAsShipping(),
+            ));
+
+            // Billing address
+            if ($entity->getBillingAddress()) {
+                $entity = $entity->getBillingAddress();
+
+                $defaults = array_merge($defaults, array(
+                    // Company
+                    'billingAddress_name'        => $entity->getName(),
+                    'billingAddress_businessId'  => $entity->getBusinessId(),
+                    'billingAddress_taxId'       => $entity->getTaxId(),
+                    'billingAddress_vatNumber'   => $entity->getVatNumber(),
+                    'billingAddress_phone'       => $entity->getPhone(),
+                    'billingAddress_email'       => $entity->getEmail(),
+                    'billingAddress_street'      => $entity->getStreet(),
+                    'billingAddress_city'        => $entity->getCity(),
+                    'billingAddress_zipCode'     => $entity->getZipCode(),
+                    'billingAddress_countryCode' => $entity->getCountryCode(),
+                ));
+            }
+
+            // Shipping address
+            if ($entity->getShippingAddress()) {
+                $entity = $entity->getShippingAddress();
+
+                $defaults = array_merge($defaults, array(
+                    // Company
+                    'shippingAddress_name'        => $entity->getName(),
+                    'shippingAddress_businessId'  => $entity->getBusinessId(),
+                    'shippingAddress_taxId'       => $entity->getTaxId(),
+                    'shippingAddress_vatNumber'   => $entity->getVatNumber(),
+                    'shippingAddress_phone'       => $entity->getPhone(),
+                    'shippingAddress_email'       => $entity->getEmail(),
+                    'shippingAddress_street'      => $entity->getStreet(),
+                    'shippingAddress_city'        => $entity->getCity(),
+                    'shippingAddress_zipCode'     => $entity->getZipCode(),
+                    'shippingAddress_countryCode' => $entity->getCountryCode(),
+                ));
+            }
+
+            // Bank account
+            if ($entity->getBankAccount()) {
+                $entity = $entity->getBankAccount();
+
+                $defaults = array_merge($defaults, array(
+                    // Company
+                    'bankAccount_accountNumber' => $entity->getAccountNumber(),
+                    'bankAccount_iban'          => $entity->getIban(),
+                    'bankAccount_swift'         => $entity->getSwift(),
+                ));
+            }
+        }
+
+        //
+        $form->setDefaults($defaults);
+    }
+
+    private function getLoggedUser(): ?\App\Entity\User
+    {
+        /** @var \App\Entity\User|null $user */
+        $user = $this->entityManager
+            ->getRepository(\App\Entity\User::class)
+            ->find((int)$this->securityUser->id);
+
+        return $user;
     }
 }
 

@@ -74,9 +74,21 @@ class SettingsPresenter extends BasePresenter
         $grid->addColumnText('name', 'Názov', 'name')
              ->setFilterText();
         $grid->addColumnText('vatPayer', 'Plátca DPH', 'vatPayer')
+             ->setRenderer(function(UserCompany $userCompany) {
+                 return $userCompany->getVatPayer() ? 'Áno' : 'Nie';
+             })
              ->setFilterText();
         $grid->addColumnDateTime('createdAt', 'Vytvorené', 'createdAt')
              ->setFilterDateRange();
+
+        //
+        //actions
+        $grid->addAction('edit', 'Upraviť', ':User:UserCompany:edit', ['id' => 'id'])
+             ->setIcon('pencil')
+             ->setClass('btn btn-warning btn-sm');
+        $grid->addAction('delete', 'Zmazať', ':User:UserCompany:delete', ['id' => 'id'])
+             ->setIcon('trash')
+             ->setClass('btn btn-danger btn-sm');
 
         $grid->setOuterFilterRendering(true);
         //set translator

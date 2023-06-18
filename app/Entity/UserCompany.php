@@ -47,7 +47,7 @@ class UserCompany
     /**
      * @ORM\Column(type="boolean")
      */
-    private $billingSameAsShipping;
+    private $billingSameAsShipping = true;
 
     /**
      * @ORM\ManyToOne(targetEntity=Address::class)
