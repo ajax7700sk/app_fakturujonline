@@ -84,6 +84,7 @@ services:
 	- App\SecurityModule\Forms\IResetPasswordForm
 	- App\ContactModule\Forms\IContactForm
 	- App\UserModule\Forms\IUserSettingsForm
+	- App\UserModule\Forms\IUserCompanyForm
 
 # Extensions
 extensions:
