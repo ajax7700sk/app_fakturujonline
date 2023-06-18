@@ -49,16 +49,22 @@ class ListPresenter extends BasePresenter
 //        $grid->setDefaultSort(['created' => 'DESC']);
 
         //grid columns
-        $grid->addColumnNumber('id', 'ID', 'id')
-             ->setSortable()
-             ->setFilterText()
-             ->setExactSearch(true);
+//        $grid->addColumnNumber('id', 'ID', 'id')
+//             ->setSortable()
+//             ->setFilterText()
+//             ->setExactSearch(true);
         $grid->addColumnText('name', 'Názov', 'name')
              ->setFilterText();
-        $grid->addColumnText('firstName', 'Meno', 'user.firstName')
+        $grid->addColumnText('billingAddressName', 'Názov spoločnosti', 'billingAddress.name')
              ->setFilterText();
-        $grid->addColumnText('businessId', 'IČO', 'billingAddress.businessId')
+        $grid->addColumnText('billingAddressBusinessId', 'IČO', 'billingAddress.businessId')
              ->setFilterText();
+        $grid->addColumnText('billingAddressCity', 'Město', 'billingAddress.city')
+             ->setFilterText();
+        $grid->addColumnDateTime('createdAt', 'Vytvorené', 'createdAt')
+            ->setFilterDateRange();
+        $grid->addColumnDateTime('updatedAt', 'Upravené', 'updatedAt')
+            ->setFilterDateRange();
 
         $grid->setOuterFilterRendering(true);
         //set translator

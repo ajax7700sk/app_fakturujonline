@@ -14,13 +14,13 @@ class Authenticator implements Nette\Security\IAuthenticator
     /** @var  \Doctrine\ORM\EntityManagerInterface @inject */
     public $entityManager;
 
+
     public function authenticate(array $credentials)
     {
         [$name, $password] = $credentials;
 
         /** @var UserRepository $repository */
         $repository = $this->entityManager->getRepository(User::class);
-
         /** @var User|null $row */
         $row = $repository->findOneBy(["email" => $name]);
         $passwords = new Passwords();

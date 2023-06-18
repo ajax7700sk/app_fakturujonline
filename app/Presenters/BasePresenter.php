@@ -12,9 +12,9 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         parent::startup();
 
         // --- Check if user is logged in
-        if ($this->canRedirectToLogin()) {
-            $this->redirect(":Security:Auth:login");
-        }
+//        if ($this->canRedirectToLogin()) {
+//            $this->redirect(":Security:Auth:login");
+//        }
 
     }
 

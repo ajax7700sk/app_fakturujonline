@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
-    use ChangesLoggableTrait;
+    //use ChangesLoggableTrait;
 
     /**
      * @ORM\Id
