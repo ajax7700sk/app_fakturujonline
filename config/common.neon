@@ -82,6 +82,7 @@ services:
 	- App\SecurityModule\Forms\ILoginForm
 	- App\SecurityModule\Forms\IRegisterForm
 	- App\SecurityModule\Forms\IResetPasswordForm
+	- App\ContactModule\Forms\IContactForm
 
 # Extensions
 extensions:

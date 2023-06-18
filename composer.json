@@ -37,7 +37,8 @@
 		"nettrine/dbal": "^0.8.1",
 		"nettrine/orm": "^0.8.3",
 		"nettrine/cache": "^0.3.0",
-		"ublaboo/datagrid": "^6.9"
+		"ublaboo/datagrid": "^6.9",
+		"symfony/intl": "^6.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.4",

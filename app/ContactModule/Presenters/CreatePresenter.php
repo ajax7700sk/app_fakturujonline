@@ -7,6 +7,6 @@ class CreatePresenter extends BasePresenter
 {
     public function actionDefault()
     {
-        dd("Create");
+        //
     }
 }
