@@ -15,6 +15,11 @@ class TaxDocument
 {
     use ChangesLoggableTrait;
 
+    const TYPE_INVOICE = 'invoice';
+    const TYPE_ADVANCE_PAYMENT = 'advance_payment';
+    const TYPE_PROFORMA_INVOCE = 'proforma_invoice';
+    const TYPE_CREDIT_NOTE = 'credit_note';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

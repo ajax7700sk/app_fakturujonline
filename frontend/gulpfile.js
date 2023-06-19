@@ -94,10 +94,8 @@ function _scripts(sourcePath, destinationPath)
 
     let task = gulp.src(sourcePath)
         //init sourcemaps
-        .pipe(sourcemaps.init());
-
-    //include javascript files
-    task
+        .pipe(sourcemaps.init())
+        //include javascript files
         .pipe(include({
             extensions: 'js',
             hardFail: true,
@@ -106,24 +104,19 @@ function _scripts(sourcePath, destinationPath)
                 __dirname + '/node_modules'
             ]
         }))
-
-    if (productionMode) {
         //convert next generation ES2015+ code into ES5 code (ES == JavaScript)
-        task
-            .pipe(gulpBabel({
-                presets: [
-                    ['@babel/preset-env', {modules: false}]
-                ]
-            }))
-            // minify javascript file with uglify
-            .pipe(uglify());
-    }
-
-    //rename file
-    task
-        .pipe(rename({
-            extname: '.min.js'
-        }));
+        .pipe(gulpBabel({
+            presets: [
+                ['@babel/preset-env']
+            ]
+        }))
+        // minify javascript file with uglify
+        // .pipe(uglify())
+        // rename file
+        // .pipe(rename({
+        //     extname: '.min.js'
+        // }))
+    ;
 
     // build versioned file and update manifest.json
     return store(sourcePath, task, 'dist/js');

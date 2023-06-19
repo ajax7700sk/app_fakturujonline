@@ -6,6 +6,7 @@ namespace App\TaxDocumentModule\Forms;
 use App\Entity\Address;
 use App\Entity\BankAccount;
 use App\Entity\Contact;
+use App\Entity\PaymentData;
 use App\Entity\TaxDocument;
 use App\Forms\AbstractForm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +14,7 @@ use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;
 use Symfony\Component\Intl\Countries;
+use Symfony\Component\Intl\Currencies;
 
 class TaxDocumentForm extends AbstractForm
 {
@@ -57,13 +59,55 @@ class TaxDocumentForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
-        if ($this->contact) {
+        if ($this->taxDocument) {
             $form->addHidden('id', 'ID');
         }
-        //
-        $form->addText('name', 'Názov kontaktu')
-             ->setRequired("form.general.validation.required")
-             ->setAttribute("placeholder", 'Váš e-mail');
+        // Invoice
+        $form->addSelect('type', 'Druh dokladu', [
+            TaxDocument::TYPE_INVOICE => 'Faktúra',
+            TaxDocument::TYPE_ADVANCE_PAYMENT => 'Zálohová faktúra',
+            TaxDocument::TYPE_PROFORMA_INVOCE => 'Proforma faktúra',
+            TaxDocument::TYPE_CREDIT_NOTE => 'Dobropis'
+        ])
+            ->setRequired("form.general.validation.required");
+        $form->addText('number', 'Číslo dokladu')
+             ->setRequired("form.general.validation.required");
+        $form->addCheckbox('transferedTaxLiability', 'Preniesť daňovú zodpovednosť');
+        $form->addCheckbox('vatPayer', 'Plátca DPH');
+        $form->addText('issuedBy', 'Vystavil')
+             ->setRequired("form.general.validation.required");
+        $form->addText('issuedAt', 'Dátum vystavenia')
+             ->setRequired("form.general.validation.required");
+        $form->addText('deliveryDateAt', 'Dátum dodania')
+             ->setRequired("form.general.validation.required");
+        $form->addText('dueDateAt', 'Splatnosť')
+             ->setRequired("form.general.validation.required");
+
+        // Notes
+        $form->addTextArea('noteAboutItems', 'Poznámka nad položkami');
+        $form->addTextArea('note', 'Poznámka');
+
+        // Settings
+        $form->addSelect('currencyCode', 'Mena', Currencies::getCurrencyCodes())
+            ->setRequired("form.general.validation.required");
+        $form->addText('constantSymbol', 'Konštantný symbol');
+        $form->addText('specificSymbol', 'Špecifický symbol');
+
+
+        // Payment data
+        $form->addSelect('paymentData_type', 'Typ', [
+            PaymentData::TYPE_BANK_PAYMENT => 'Bankový prevod',
+            PaymentData::TYPE_CASH_ON_DELIVERY => 'Dobierka',
+            PaymentData::TYPE_CASH => 'Hotovosť',
+            PaymentData::TYPE_PAYPAL => 'Paypal',
+            PaymentData::TYPE_PAYMENT_CARD => 'Platobná karta'
+        ])
+             ->setRequired("form.general.validation.required");
+        $form->addText('paymentData_bankAccount', 'Bankový účet');
+        $form->addText('paymentData_iban', 'IBAN');
+        $form->addText('paymentData_swift', 'SWIFT');
+
+
         $form->addCheckbox('billingSameAsShipping', 'Dodacia adresa je rovnaká')
              ->setAttribute("placeholder", 'Dodacia adresa je rovnaká');
 
@@ -238,65 +282,65 @@ class TaxDocumentForm extends AbstractForm
     {
         $defaults = array();
 
-        if ($this->contact) {
-            $entity = $this->contact;
-            //
-            $defaults = array_merge($defaults, array(
-                // Company
-                'name'                  => $entity->getName(),
-                'billingSameAsShipping' => $entity->getBillingSameAsShipping(),
-            ));
-
-            // Billing address
-            if ($entity->getBillingAddress()) {
-                $billingAddress = $entity->getBillingAddress();
-
-                $defaults = array_merge($defaults, array(
-                    // Company
-                    'billingAddress_name'        => $billingAddress->getName(),
-                    'billingAddress_businessId'  => $billingAddress->getBusinessId(),
-                    'billingAddress_taxId'       => $billingAddress->getTaxId(),
-                    'billingAddress_vatNumber'   => $billingAddress->getVatNumber(),
-                    'billingAddress_phone'       => $billingAddress->getPhone(),
-                    'billingAddress_email'       => $billingAddress->getEmail(),
-                    'billingAddress_street'      => $billingAddress->getStreet(),
-                    'billingAddress_city'        => $billingAddress->getCity(),
-                    'billingAddress_zipCode'     => $billingAddress->getZipCode(),
-                    'billingAddress_countryCode' => $billingAddress->getCountryCode(),
-                ));
-            }
-
-            // Shipping address
-            if ($entity->getShippingAddress()) {
-                $shippingAddress = $entity->getShippingAddress();
-
-                $defaults = array_merge($defaults, array(
-                    // Company
-                    'shippingAddress_name'        => $shippingAddress->getName(),
-                    'shippingAddress_businessId'  => $shippingAddress->getBusinessId(),
-                    'shippingAddress_taxId'       => $shippingAddress->getTaxId(),
-                    'shippingAddress_vatNumber'   => $shippingAddress->getVatNumber(),
-                    'shippingAddress_phone'       => $shippingAddress->getPhone(),
-                    'shippingAddress_email'       => $shippingAddress->getEmail(),
-                    'shippingAddress_street'      => $shippingAddress->getStreet(),
-                    'shippingAddress_city'        => $shippingAddress->getCity(),
-                    'shippingAddress_zipCode'     => $shippingAddress->getZipCode(),
-                    'shippingAddress_countryCode' => $shippingAddress->getCountryCode(),
-                ));
-            }
-
-            // Bank account
-            if ($entity->getBankAccount()) {
-                $bankAccount = $entity->getBankAccount();
-
-                $defaults = array_merge($defaults, array(
-                    // Company
-                    'bankAccount_accountNumber' => $bankAccount->getAccountNumber(),
-                    'bankAccount_iban'          => $bankAccount->getIban(),
-                    'bankAccount_swift'         => $bankAccount->getSwift(),
-                ));
-            }
-        }
+//        if ($this->taxDocument) {
+//            $entity = $this->contact;
+//            //
+//            $defaults = array_merge($defaults, array(
+//                // Company
+//                'name'                  => $entity->getName(),
+//                'billingSameAsShipping' => $entity->getBillingSameAsShipping(),
+//            ));
+//
+//            // Billing address
+//            if ($entity->getBillingAddress()) {
+//                $billingAddress = $entity->getBillingAddress();
+//
+//                $defaults = array_merge($defaults, array(
+//                    // Company
+//                    'billingAddress_name'        => $billingAddress->getName(),
+//                    'billingAddress_businessId'  => $billingAddress->getBusinessId(),
+//                    'billingAddress_taxId'       => $billingAddress->getTaxId(),
+//                    'billingAddress_vatNumber'   => $billingAddress->getVatNumber(),
+//                    'billingAddress_phone'       => $billingAddress->getPhone(),
+//                    'billingAddress_email'       => $billingAddress->getEmail(),
+//                    'billingAddress_street'      => $billingAddress->getStreet(),
+//                    'billingAddress_city'        => $billingAddress->getCity(),
+//                    'billingAddress_zipCode'     => $billingAddress->getZipCode(),
+//                    'billingAddress_countryCode' => $billingAddress->getCountryCode(),
+//                ));
+//            }
+//
+//            // Shipping address
+//            if ($entity->getShippingAddress()) {
+//                $shippingAddress = $entity->getShippingAddress();
+//
+//                $defaults = array_merge($defaults, array(
+//                    // Company
+//                    'shippingAddress_name'        => $shippingAddress->getName(),
+//                    'shippingAddress_businessId'  => $shippingAddress->getBusinessId(),
+//                    'shippingAddress_taxId'       => $shippingAddress->getTaxId(),
+//                    'shippingAddress_vatNumber'   => $shippingAddress->getVatNumber(),
+//                    'shippingAddress_phone'       => $shippingAddress->getPhone(),
+//                    'shippingAddress_email'       => $shippingAddress->getEmail(),
+//                    'shippingAddress_street'      => $shippingAddress->getStreet(),
+//                    'shippingAddress_city'        => $shippingAddress->getCity(),
+//                    'shippingAddress_zipCode'     => $shippingAddress->getZipCode(),
+//                    'shippingAddress_countryCode' => $shippingAddress->getCountryCode(),
+//                ));
+//            }
+//
+//            // Bank account
+//            if ($entity->getBankAccount()) {
+//                $bankAccount = $entity->getBankAccount();
+//
+//                $defaults = array_merge($defaults, array(
+//                    // Company
+//                    'bankAccount_accountNumber' => $bankAccount->getAccountNumber(),
+//                    'bankAccount_iban'          => $bankAccount->getIban(),
+//                    'bankAccount_swift'         => $bankAccount->getSwift(),
+//                ));
+//            }
+//        }
 
         //
         $form->setDefaults($defaults);
@@ -314,7 +358,7 @@ class TaxDocumentForm extends AbstractForm
 }
 
 /**
- * Interface IContactForm
+ * Interface ITaxDocumentForm
  *
  * @package App\Forms
  */

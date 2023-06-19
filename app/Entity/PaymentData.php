@@ -13,6 +13,12 @@ class PaymentData
 {
     use ChangesLoggableTrait;
 
+    const TYPE_BANK_PAYMENT = 'bank_payment';
+    const TYPE_CASH_ON_DELIVERY = 'cash_on_delivery';
+    const TYPE_CASH = 'cash';
+    const TYPE_PAYPAL = 'paypal';
+    const TYPE_PAYMENT_CARD = 'payment_card';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

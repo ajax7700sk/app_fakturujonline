@@ -5,54 +5,43 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-import objectFitImages from 'object-fit-images';
-import AOS from 'aos';
-
-import Menu from './components/Menu';
-import ScrollTo from "./components/ScrollTo";
-import Form from "./components/Form";
-import MicroModal from "micromodal";
-import Flashmsgs from "./components/Flashmsgs";
+// import Datagird from "./components/Datagrid";
+// import Toolbar from "./components/Toolbar";
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    Menu.handleTopBar();
-    Menu.setScrolling();
-    Menu.listenOpen();
-    Menu.handleUserMenu();
-    Form.init();
-    ScrollTo.init();
-
-    AOS.init({
-        once: true,
-        duration: 1000,
-    });
-
-    MicroModal.init({
-        disableScroll: false,
-    });
-
-    Flashmsgs.init();
-
-    /**
-     * Handle triggers which open forgotten pass modal
-     * @type {NodeListOf<Element>}
-     */
-    const modalTriggers = document.querySelectorAll('.trigger-forgotten-pass-modal');
-    if (modalTriggers.length > 0) {
-        const menu = document.getElementById('menu-container');
-        modalTriggers.forEach( trigger => {
-            trigger.addEventListener('click', () => {
-                const userMenu = document.getElementById('user-menu-toggle');
-                if (userMenu) {
-                    userMenu.checked = false;
-                }
-                if (menu) {
-                    menu.classList.remove('menu-container--user-menu-open');
-                }
-                MicroModal.show('forgotten-pass-modal');
-            });
-        });
-    }
-
-    objectFitImages();
+    //
+    datagrid();
+    // Toolbar
+    toolbar();
 });
+
+function datagrid() {
+    // Datagrid fix
+    $(document.body).on('click', "[data-toggle='collapse']", function() {
+        const target = $(this).attr('data-target');
+        var $target = $(target);
+
+        if($target.hasClass('show')) {
+            $target.removeClass('show');
+        } else {
+            $target.addClass('show');
+        }
+    });
+}
+
+function toolbar() {
+    $('.nav-link').on('click', function () {
+        $('.nav-link').parent().find('.nav-link').removeClass('active');
+        //
+        $(this).addClass('active');
+        //
+        const target = $(this).attr('data-bs-target');
+        //
+        $('.tab-pane').removeClass('.show').removeClass('active');
+        //
+        $('.tab-content')
+            .find(target)
+            .addClass('show')
+            .addClass('active');
+    });
+}

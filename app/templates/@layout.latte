@@ -55,7 +55,7 @@
 
 	<!-- Scripts -->
 	{block scripts}
-		<script href='{webpack "dist/js/main.js"}'></script>
+		<script src='{webpack "dist/js/main.js"}'></script>
 		{*	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>*}
 	{/block}
 
@@ -73,18 +73,5 @@
 	</script>
 	<script src="{$basePath}/assets/vendors/ublaboo/datagrid/assets/datagrid.js"></script>
 	<script src="{$basePath}/assets/vendors/ublaboo/datagrid/assets/datagrid-spinners.js"></script>
-    <!-- Datagrid bootstrap fix -->
-	<script>
-		$(document.body).on('click', "[data-toggle='collapse']", function() {
-			var target = $(this).attr('data-target');
-			var $target = $(target);
-
-			if($target.hasClass('show')) {
-				$target.removeClass('show');
-			} else {
-				$target.addClass('show');
-			}
-		});
-	</script>
 </body>
 </html>

@@ -1,0 +1,393 @@
+{block content}
+
+{form form}
+    <div class="row h-100 align-content-start">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="MuiTabs-root css-1ujnqem-MuiTabs-root">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="document-tab" data-bs-target="#document" type="button">Faktúra</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="supplier-tab" data-bs-target="#supplier" type="button">Dodávateľ</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="subcriber-tab" data-bs-target="#subscriber" type="button">Odberateľ</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="myTabContent">
+                <!-- Invoice -->
+                <div class="tab-pane fade show active" id="document" role="tabpanel">
+                    <div class="row">
+                        <!-- Left -->
+                        <div class="col-md-9">
+                            <!-- Invoice -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"
+                                             class="svg-icon--material svg-icon card-icon text-success"
+                                             data-name="Material--Info">
+                                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                            <path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm1 13h-2v-6h2v6zm0-8h-2V7h2v2z"
+                                                  opacity="0.3"></path>
+                                            <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                                        </svg>
+                                        <div class="card-title-wrapper"><h5 class="card-title">Faktúra</h5></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4 mb-4">
+                                        <div class="col col-md-6">
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    {input type, class: "form-select"}
+                                                    <div class="valid-feedback">OK!</div>
+                                                    <label n:name="type" class="form-label">Druh dokladu</label>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            n:name="number"
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Číslo dokladu"
+                                                            style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                                    <label n:name="number" class="form-label">Číslo dokladu</label></div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input"
+                                                                n:name="transferedTaxLiability"
+                                                               type="checkbox"
+                                                        ><label class="form-check-label" n:name="transferedTaxLiability">Preniesť daňovú zodpovednosť</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input"
+                                                                n:name="vatPayer"
+                                                               type="checkbox"
+                                                        >
+                                                        <label class="form-check-label" n:name="vatPayer">Plátca DPH</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Vystavil"
+                                                            n:name="issuedBy"
+                                                    >
+                                                    <label n:name="issuedBy" class="form-label">Vystavil</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col col-md-6">
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            n:name="issuedAt"
+                                                            type="date"
+                                                            class="form-control"
+                                                            placeholder="Dátum vydania"
+                                                    >
+                                                    <label n:name="issuedAt" class="form-label">Dátum vydania</label>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            n:name="deliveryDateAt"
+                                                            type="date"
+                                                            class="form-control"
+                                                            placeholder="Dátum dodania"
+                                                    >
+                                                    <label n:name="deliveryDateAt" class="form-label">Dátum dodania</label>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            n:name="dueDateAt"
+                                                            type="date"
+                                                            class="form-control"
+                                                            placeholder="Splatnosť"
+                                                    >
+                                                    <label for="dueDateAt" class="form-label">Splatnosť</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Notes -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"
+                                             class="svg-icon--material svg-icon card-icon text-secondary"
+                                             data-name="Material--Info">
+                                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                            <path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm1 13h-2v-6h2v6zm0-8h-2V7h2v2z"
+                                                  opacity="0.3"></path>
+                                            <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                                        </svg>
+                                        <div class="card-title-wrapper">
+                                            <h5 class="card-title">Poznámky</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4 mb-4">
+                                        <div class="col col-md-12">
+                                            <div class="form-floating">
+                                            <textarea
+                                                    n:name="noteAboutItems"
+                                                    class="form-control form-control-lg"
+                                                    rows="5"
+                                                    placeholder="Poznámka nad položkami">
+                                            </textarea>
+                                                <label n:name="noteAboutItems" class="form-label">Poznámka nad položkami</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col col-md-12">
+                                            <div class="form-floating">
+                                            <textarea
+                                                    n:name="note"
+                                                    class="form-control form-control-lg"
+                                                    rows="5"
+                                                    placeholder="Poznámka"></textarea>
+                                                <label n:name="note" class="form-label">Poznámka</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Items -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"
+                                             class="svg-icon--material svg-icon card-icon text-warning"
+                                             data-name="Material--Info">
+                                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                            <path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm1 13h-2v-6h2v6zm0-8h-2V7h2v2z"
+                                                  opacity="0.3"></path>
+                                            <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                                        </svg>
+                                        <div class="card-title-wrapper"><h5 class="card-title">Položky dokladu</h5></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-modern">
+                                        <thead>
+                                        <tr>
+                                            <th>Názov</th>
+                                            <th>Množstvo</th>
+                                            <th>M.J.</th>
+                                            <th>Cena za MJ</th>
+                                            <th>Celkom</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class=""><input id="lineItems.0.name" type="text" class="form-control"
+                                                                     placeholder="" value=""></div>
+                                            </td>
+                                            <td>
+                                                <div class=""><input id="lineItems.0.quantity" type="number"
+                                                                     class="form-control" placeholder="" value="1"></div>
+                                            </td>
+                                            <td>
+                                                <div class="form-floating"><select id="lineItems.0.unit"
+                                                                                   class="form-select text-muted"
+                                                                                   aria-label="M.J">
+                                                        <option value="" aria-labelledby="M.J" hidden="">M.J</option>
+                                                        <option value="ks" aria-labelledby="ks" label="ks">ks</option>
+                                                        <option value="hod." aria-labelledby="hod" label="hod">hod</option>
+                                                        <option value="deň" aria-labelledby="deň" label="deň">deň</option>
+                                                        <option value="liter" aria-labelledby="liter" label="liter">liter
+                                                        </option>
+                                                        <option value="Kg" aria-labelledby="Kg" label="Kg">Kg</option>
+                                                        <option value="g" aria-labelledby="g" label="g">g</option>
+                                                        <option value="m" aria-labelledby="m" label="m">m</option>
+                                                        <option value="km" aria-labelledby="km" label="km">km</option>
+                                                        <option value="m²" aria-labelledby="m²" label="m²">m²</option>
+                                                        <option value="m³" aria-labelledby="m³" label="m³">m³</option>
+                                                    </select>
+                                                    <div class="valid-feedback">OK!</div>
+                                                    <label for="lineItems.0.unit" class="form-label">M.J</label></div>
+                                            </td>
+                                            <td>
+                                                <div class="form-floating"><input id="lineItems.0.unitPriceTaxExcl"
+                                                                                  type="number" class="form-control"
+                                                                                  placeholder="" value="0"></div>
+                                            </td>
+                                            <td style="display: none;">
+                                                <div class="form-floating"><input id="lineItems.0.taxRate" type="number"
+                                                                                  class="form-control" placeholder="" value="0">
+                                                </div>
+                                            </td>
+                                            <td style="display: none;"><input type="text" class="form-control" disabled=""
+                                                                              value="0"></td>
+                                            <td><input type="text" class="form-control" disabled="" value="0"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-light-danger me-3">-</button>
+                                            </td>
+                                            <div class=""><input id="lineItems.0.type" type="hidden" class="form-control"
+                                                                 placeholder="" value="item"></div>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col col-md-3 ms-auto text-end">
+                                            <button type="button" class="btn btn-light-success me-3">Pridať +</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Right -->
+                        <div class="col-md-3">
+                            <!-- Settings -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"
+                                             class="svg-icon--material svg-icon card-icon text-info"
+                                             data-name="Material--Settings">
+                                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                            <path d="M19.28 8.6l-.7-1.21-1.27.51-1.06.43-.91-.7c-.39-.3-.8-.54-1.23-.71l-1.06-.43-.16-1.13L12.7 4h-1.4l-.19 1.35-.16 1.13-1.06.44c-.41.17-.82.41-1.25.73l-.9.68-1.05-.42-1.27-.52-.7 1.21 1.08.84.89.7-.14 1.13c-.03.3-.05.53-.05.73s.02.43.05.73l.14 1.13-.89.7-1.08.84.7 1.21 1.27-.51 1.06-.43.91.7c.39.3.8.54 1.23.71l1.06.43.16 1.13.19 1.36h1.39l.19-1.35.16-1.13 1.06-.43c.41-.17.82-.41 1.25-.73l.9-.68 1.04.42 1.27.51.7-1.21-1.08-.84-.89-.7.14-1.13c.04-.31.05-.52.05-.73 0-.21-.02-.43-.05-.73l-.14-1.13.89-.7 1.1-.84zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"
+                                                  opacity="0.3"></path>
+                                            <path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0014 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1a.566.566 0 00-.18-.03c-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46a.5.5 0 00.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.06.02.12.03.18.03.17 0 .34-.09.43-.25l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-1.98-1.71c.04.31.05.52.05.73 0 .21-.02.43-.05.73l-.14 1.13.89.7 1.08.84-.7 1.21-1.27-.51-1.04-.42-.9.68c-.43.32-.84.56-1.25.73l-1.06.43-.16 1.13-.2 1.35h-1.4l-.19-1.35-.16-1.13-1.06-.43c-.43-.18-.83-.41-1.23-.71l-.91-.7-1.06.43-1.27.51-.7-1.21 1.08-.84.89-.7-.14-1.13c-.03-.31-.05-.54-.05-.74s.02-.43.05-.73l.14-1.13-.89-.7-1.08-.84.7-1.21 1.27.51 1.04.42.9-.68c.43-.32.84-.56 1.25-.73l1.06-.43.16-1.13.2-1.35h1.39l.19 1.35.16 1.13 1.06.43c.43.18.83.41 1.23.71l.91.7 1.06-.43 1.27-.51.7 1.21-1.07.85-.89.7.14 1.13zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path>
+                                        </svg>
+                                        <div class="card-title-wrapper">
+                                            <h5 class="card-title">Nastavenia</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4 mb-4">
+                                        <div class="col">
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    {input currencyCode, class: "form-select"}
+                                                    <div class="valid-feedback">OK!</div>
+                                                    <label n:name="currencyCode" class="form-label">Mena</label>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            n:name="constantSymbol"
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Konštantný symbol"
+                                                    >
+                                                    <label n:name="constantSymbol" class="form-label">Konštantný symbol</label>
+                                                </div>
+                                            </div>
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    <input
+                                                            n:name="specificSymbol"
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Špecifický symbol"
+                                                    >
+                                                    <label n:name="specificSymbol" class="form-label">Špecifický symbol</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Payment data -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <div class="card-title-wrapper">
+                                            <h5 class="card-title">Forma úhrady</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                {input paymentData_type, class: "form-select text-muted"}
+                                                <div class="valid-feedback">OK!</div>
+                                                <label n:name="paymentData_type" class="form-label">Typ úhrady</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        n:name="paymentData_bankAccount"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Bankový účet"
+                                                >
+                                                <label n:name="paymentData_bankAccount" class="form-label">Bankový účet</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        n:name="paymentData_iban"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="IBAN"
+                                                >
+                                                <label n:name="paymentData_iban" class="form-label">IBAN</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        n:name="paymentData_swift"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="SWIFT"
+                                                >
+                                                <label n:name="paymentData_swift" class="form-label">SWIFT</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="supplier" role="tabpanel">
+                    Supplier
+                </div>
+                <div class="tab-pane" id="subscriber" role="tabpanel">
+                    Subscriber
+                </div>
+            </div>
+        </div>
+    </div>
+{/form}
