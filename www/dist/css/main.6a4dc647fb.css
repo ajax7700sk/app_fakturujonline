@@ -21775,6 +21775,14 @@ thead > tr > th svg.ascending {
   width: 27rem;
 }
 
+.js-tax-document-rows tr:first-of-type .js-remove-item {
+  display: none;
+}
+
+.js-tax-document-rows .form-control {
+  padding: 0.375rem 0.75rem !important;
+}
+
 [class*=shadow-3d-]:not(.shadow-3d-container):not([class*=rccs-shadow-3d-])::after,
 [class*=rccs-shadow-3d-] .rccs::after, [class*=shadow-3d-]:not(.shadow-3d-container):not([class*=rccs-shadow-3d-])::before,
 [class*=rccs-shadow-3d-] .rccs::before {
@@ -21978,4 +21986,4 @@ thead > tr > th svg.ascending {
 .border-transparent {
   --bs-border-opacity: 0;
 }
-/*# sourceMappingURL=main.d948d820f5.css.map */
+/*# sourceMappingURL=main.6a4dc647fb.css.map */

@@ -223,7 +223,12 @@ class ContactForm extends AbstractForm
         $this->entityManager->flush();
 
         // Redirect to dashboard
-        $this->presenter->flashMessage('Kontakt bol úspešne vytvorený', 'success');
+        if($this->contact) {
+            $this->presenter->flashMessage('Kontakt bol úspešne aktualizovaný', 'success');
+        } else {
+            $this->presenter->flashMessage('Kontakt bol úspešne vytvorený', 'success');
+        }
+        //
         $this->presenter->redirect(':Contact:List:default');
     }
 

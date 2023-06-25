@@ -66,7 +66,7 @@ class LineItem
     private $taxRate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TaxDocument::class, inversedBy="lineItems")
+     * @ORM\ManyToOne(targetEntity=TaxDocument::class, inversedBy="lineItems", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $taxDocument;

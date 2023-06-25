@@ -112,7 +112,7 @@ class TaxDocument
     private $totalPriceTaxIncl;
 
     /**
-     * @ORM\OneToMany(targetEntity=LineItem::class, mappedBy="taxDocument")
+     * @ORM\OneToMany(targetEntity=LineItem::class, mappedBy="taxDocument", cascade={"persist", "remove"})
      */
     private $lineItems;
 
@@ -127,12 +127,12 @@ class TaxDocument
     private $note;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $sentAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $paidAt;
 
@@ -142,17 +142,17 @@ class TaxDocument
     private $issuedBy;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $issuedAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $deliveryDateAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dueDateAt;
 
@@ -358,6 +358,13 @@ class TaxDocument
         return $this;
     }
 
+    public function clearLineItems(): void
+    {
+        foreach ($this->getLineItems() as $lineItem) {
+            $this->lineItems->removeElement($lineItem);
+        }
+    }
+
     /**
      * @return Collection<int, LineItem>
      */
@@ -448,36 +455,36 @@ class TaxDocument
         return $this;
     }
 
-    public function getIssuedAt(): ?\DateTimeImmutable
+    public function getIssuedAt(): ?\DateTime
     {
         return $this->issuedAt;
     }
 
-    public function setIssuedAt(?\DateTimeImmutable $issuedAt): self
+    public function setIssuedAt(?\DateTime $issuedAt): self
     {
         $this->issuedAt = $issuedAt;
 
         return $this;
     }
 
-    public function getDeliveryDateAt(): ?\DateTimeImmutable
+    public function getDeliveryDateAt(): ?\DateTime
     {
         return $this->deliveryDateAt;
     }
 
-    public function setDeliveryDateAt(?\DateTimeImmutable $deliveryDateAt): self
+    public function setDeliveryDateAt(?\DateTime $deliveryDateAt): self
     {
         $this->deliveryDateAt = $deliveryDateAt;
 
         return $this;
     }
 
-    public function getDueDateAt(): ?\DateTimeImmutable
+    public function getDueDateAt(): ?\DateTime
     {
         return $this->dueDateAt;
     }
 
-    public function setDueDateAt(?\DateTimeImmutable $dueDateAt): self
+    public function setDueDateAt(?\DateTime $dueDateAt): self
     {
         $this->dueDateAt = $dueDateAt;
 

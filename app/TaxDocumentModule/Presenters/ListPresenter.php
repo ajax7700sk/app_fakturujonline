@@ -66,10 +66,10 @@ class ListPresenter extends BasePresenter
              ->setFilterDateRange();
 
         // Actions
-        $grid->addAction('edit', 'Upraviť', ':Contact:Edit:', ['id' => 'id'])
+        $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:', ['id' => 'id'])
              ->setIcon('pencil')
              ->setClass('btn btn-warning btn-sm');
-        $grid->addAction('delete', 'Zmazať', ':Contact:List:delete', ['id' => 'id'])
+        $grid->addAction('delete', 'Zmazať', ':TaxDocument:List:delete', ['id' => 'id'])
              ->setIcon('trash')
              ->setClass('btn btn-danger btn-sm');
 

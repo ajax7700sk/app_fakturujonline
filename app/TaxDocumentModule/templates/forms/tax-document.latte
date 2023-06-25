@@ -155,12 +155,12 @@
                                         <div class="col col-md-12">
                                             <div class="form-floating">
                                             <textarea
-                                                    n:name="noteAboutItems"
+                                                    n:name="noteAboveItems"
                                                     class="form-control form-control-lg"
                                                     rows="5"
                                                     placeholder="Poznámka nad položkami">
                                             </textarea>
-                                                <label n:name="noteAboutItems" class="form-label">Poznámka nad položkami</label>
+                                                <label n:name="noteAboveItems" class="form-label">Poznámka nad položkami</label>
                                             </div>
                                         </div>
                                     </div>
@@ -196,68 +196,105 @@
                                 <div class="card-body">
                                     <table class="table table-modern">
                                         <thead>
-                                        <tr>
-                                            <th>Názov</th>
-                                            <th>Množstvo</th>
-                                            <th>M.J.</th>
-                                            <th>Cena za MJ</th>
-                                            <th>Celkom</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Názov</th>
+                                                <th>Množstvo</th>
+                                                <th>M.J.</th>
+                                                <th>Cena za MJ</th>
+                                                <th>Celkom</th>
+                                                <th></th>
+                                            </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <div class=""><input id="lineItems.0.name" type="text" class="form-control"
-                                                                     placeholder="" value=""></div>
-                                            </td>
-                                            <td>
-                                                <div class=""><input id="lineItems.0.quantity" type="number"
-                                                                     class="form-control" placeholder="" value="1"></div>
-                                            </td>
-                                            <td>
-                                                <div class="form-floating"><select id="lineItems.0.unit"
-                                                                                   class="form-select text-muted"
-                                                                                   aria-label="M.J">
-                                                        <option value="" aria-labelledby="M.J" hidden="">M.J</option>
-                                                        <option value="ks" aria-labelledby="ks" label="ks">ks</option>
-                                                        <option value="hod." aria-labelledby="hod" label="hod">hod</option>
-                                                        <option value="deň" aria-labelledby="deň" label="deň">deň</option>
-                                                        <option value="liter" aria-labelledby="liter" label="liter">liter
-                                                        </option>
-                                                        <option value="Kg" aria-labelledby="Kg" label="Kg">Kg</option>
-                                                        <option value="g" aria-labelledby="g" label="g">g</option>
-                                                        <option value="m" aria-labelledby="m" label="m">m</option>
-                                                        <option value="km" aria-labelledby="km" label="km">km</option>
-                                                        <option value="m²" aria-labelledby="m²" label="m²">m²</option>
-                                                        <option value="m³" aria-labelledby="m³" label="m³">m³</option>
-                                                    </select>
-                                                    <div class="valid-feedback">OK!</div>
-                                                    <label for="lineItems.0.unit" class="form-label">M.J</label></div>
-                                            </td>
-                                            <td>
-                                                <div class="form-floating"><input id="lineItems.0.unitPriceTaxExcl"
-                                                                                  type="number" class="form-control"
-                                                                                  placeholder="" value="0"></div>
-                                            </td>
-                                            <td style="display: none;">
-                                                <div class="form-floating"><input id="lineItems.0.taxRate" type="number"
-                                                                                  class="form-control" placeholder="" value="0">
-                                                </div>
-                                            </td>
-                                            <td style="display: none;"><input type="text" class="form-control" disabled=""
-                                                                              value="0"></td>
-                                            <td><input type="text" class="form-control" disabled="" value="0"></td>
-                                            <td>
-                                                <button type="button" class="btn btn-light-danger me-3">-</button>
-                                            </td>
-                                            <div class=""><input id="lineItems.0.type" type="hidden" class="form-control"
-                                                                 placeholder="" value="item"></div>
-                                        </tr>
+                                        <tbody class="js-tax-document-rows">
+                                            <!-- Row -->
+                                            {if isset($taxDocument)}
+                                                {foreach $taxDocument->getLineItems() as $key => $lineItem}
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <input
+                                                                        name="lineItems[{$key}][name]"
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        value="{$lineItem->getName()}"
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <input
+                                                                        name="lineItems[{$key}][quantity]"
+                                                                        type="number"
+                                                                        class="form-control"
+                                                                        value="{$lineItem->getQuantity()}"
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-floating">
+                                                                <select name="lineItems[{$key}][unit]"
+                                                                        class="form-select text-muted"
+                                                                        aria-label="M.J">
+                                                                    <option value="" aria-labelledby="M.J" hidden="">M.J</option>
+                                                                    <option value="ks" aria-labelledby="ks" label="ks">ks</option>
+                                                                    <option value="hod." aria-labelledby="hod" label="hod">hod</option>
+                                                                    <option value="deň" aria-labelledby="deň" label="deň">deň</option>
+                                                                    <option value="liter" aria-labelledby="liter" label="liter">liter</option>
+                                                                    <option value="Kg" aria-labelledby="Kg" label="Kg">Kg</option>
+                                                                    <option value="g" aria-labelledby="g" label="g">g</option>
+                                                                    <option value="m" aria-labelledby="m" label="m">m</option>
+                                                                    <option value="km" aria-labelledby="km" label="km">km</option>
+                                                                    <option value="m²" aria-labelledby="m²" label="m²">m²</option>
+                                                                    <option value="m³" aria-labelledby="m³" label="m³">m³</option>
+                                                                </select>
+                                                                <div class="valid-feedback">OK!</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-floating">
+                                                                <input
+                                                                        name="lineItems[{$key}][unitPriceTaxExcl]"
+                                                                        type="number"
+                                                                        class="form-control"
+                                                                        placeholder=""
+                                                                        value="{$lineItem->getUnitPriceTaxExcl()}"
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td style="display: none;">
+                                                            <div class="form-floating">
+                                                                <input name="lineItems[{$key}][taxRate]"
+                                                                       type="number"
+                                                                       class="form-control js-tax-rate"
+                                                                       placeholder=""
+                                                                       value="{$lineItem->getTaxRate()}"
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-floating">
+                                                                <input
+                                                                        type="number"
+                                                                        class="form-control js-item-total"
+                                                                        placeholder=""
+                                                                        disabled
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <button
+                                                                    type="button"
+                                                                    class="btn btn-light-danger me-3 js-remove-item">-</button>
+                                                        </td>
+                                                    </tr>
+                                                {/foreach}
+                                            {/if}
                                         </tbody>
                                     </table>
                                     <div class="row">
                                         <div class="col col-md-3 ms-auto text-end">
-                                            <button type="button" class="btn btn-light-success me-3">Pridať +</button>
+                                            <button
+                                                    type="button"
+                                                    class="btn btn-light-success me-3 js-add-item">Pridať +</button>
                                         </div>
                                     </div>
                                 </div>
@@ -285,6 +322,12 @@
                                 <div class="card-body">
                                     <div class="row g-4 mb-4">
                                         <div class="col">
+                                            <div style="padding-bottom: 20px;">
+                                                <div class="form-floating">
+                                                    {input userCompany, class: "form-select"}
+                                                    <label n:name="userCompany" class="form-label">Spoločnosť</label>
+                                                </div>
+                                            </div>
                                             <div style="padding-bottom: 20px;">
                                                 <div class="form-floating">
                                                     {input currencyCode, class: "form-select"}
@@ -382,12 +425,486 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="supplier" role="tabpanel">
-                    Supplier
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <div class="card-title-wrapper">
+                                            <h5 class="card-title">Dodávateľ</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Názov spoločnosti"
+                                                        n:name="supplier_name"
+                                                >
+                                                <label
+                                                        n:name="supplier_name"
+                                                        class="form-label"
+                                                >Názov spoločnosti</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="IČO"
+                                                        n:name="supplier_businessId"
+                                                >
+                                                <label
+                                                        n:name="supplier_businessId"
+                                                        class="form-label"
+                                                >IČO</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="DIČ"
+                                                        n:name="supplier_taxId"
+                                                >
+                                                <label
+                                                        n:name="supplier_taxId"
+                                                        class="form-label"
+                                                >DIČ</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="IČ DPH"
+                                                        n:name="supplier_vatNumber"
+                                                >
+                                                <label
+                                                        n:name="supplier_vatNumber"
+                                                        class="form-label"
+                                                >IČ DPH</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Telefón"
+                                                        n:name="supplier_phone"
+                                                >
+                                                <label
+                                                        n:name="supplier_phone"
+                                                        class="form-label"
+                                                >Telefón</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="E-mail"
+                                                        n:name="supplier_email"
+                                                >
+                                                <label
+                                                        n:name="supplier_email"
+                                                        class="form-label"
+                                                >E-mail</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Adresa"
+                                                        n:name="supplier_street"
+                                                >
+                                                <label
+                                                        n:name="supplier_street"
+                                                        class="form-label"
+                                                >Adresa</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Město"
+                                                        n:name="supplier_city"
+                                                >
+                                                <label
+                                                        n:name="supplier_city"
+                                                        class="form-label"
+                                                >Město</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="PŠC"
+                                                        n:name="supplier_zipCode"
+                                                >
+                                                <label
+                                                        n:name="supplier_zipCode"
+                                                        class="form-label"
+                                                >PSČ</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                {input supplier_countryCode, class: "form-select"}
+                                                <label n:name="supplier_countryCode" class="form-label">Štát</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-label">
+                                        <div class="card-title-wrapper">
+                                            <h5 class="card-title">Bankové údaje</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        n:name="bankAccount_accountNumber"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Číslo účtu"
+                                                >
+                                                <label n:name="bankAccount_accountNumber" class="form-label">Číslo účtu</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        n:name="bankAccount_iban"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="IBAN"
+                                                >
+                                                <label n:name="bankAccount_accountNumber" class="form-label">IBAN</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-12">
+                                            <div class="form-floating">
+                                                <input
+                                                        n:name="bankAccount_swift"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="SWIFT"
+                                                >
+                                                <label n:name="bankAccount_accountNumber" class="form-label">SWIFT</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane" id="subscriber" role="tabpanel">
-                    Subscriber
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-label">
+                                <div class="card-title-wrapper">
+                                    <h5 class="card-title">Odberateľ</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Názov spoločnosti"
+                                                n:name="subscriber_name"
+                                        >
+                                        <label
+                                                n:name="subscriber_name"
+                                                class="form-label"
+                                        >Názov spoločnosti</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="IČO"
+                                                n:name="subscriber_businessId"
+                                        >
+                                        <label
+                                                n:name="subscriber_businessId"
+                                                class="form-label"
+                                        >IČO</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="DIČ"
+                                                n:name="subscriber_taxId"
+                                        >
+                                        <label
+                                                n:name="subscriber_taxId"
+                                                class="form-label"
+                                        >DIČ</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="IČ DPH"
+                                                n:name="subscriber_vatNumber"
+                                        >
+                                        <label
+                                                n:name="subscriber_vatNumber"
+                                                class="form-label"
+                                        >IČ DPH</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Telefón"
+                                                n:name="subscriber_phone"
+                                        >
+                                        <label
+                                                n:name="subscriber_phone"
+                                                class="form-label"
+                                        >Telefón</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="E-mail"
+                                                n:name="subscriber_email"
+                                        >
+                                        <label
+                                                n:name="subscriber_email"
+                                                class="form-label"
+                                        >E-mail</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Adresa"
+                                                n:name="subscriber_street"
+                                        >
+                                        <label
+                                                n:name="subscriber_street"
+                                                class="form-label"
+                                        >Adresa</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Město"
+                                                n:name="subscriber_city"
+                                        >
+                                        <label
+                                                n:name="subscriber_city"
+                                                class="form-label"
+                                        >Město</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="PŠC"
+                                                n:name="subscriber_zipCode"
+                                        >
+                                        <label
+                                                n:name="subscriber_zipCode"
+                                                class="form-label"
+                                        >PSČ</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        {input subscriber_countryCode, class: "form-select"}
+                                        <label n:name="subscriber_countryCode" class="form-label">Štát</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: -40px;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col"></div>
+                        <div class="col-auto">
+                            <div class="row g-1">
+                                <div class="col-auto">
+                                    <button type="submit" n:name="submit" class="btn btn-light-success me-3">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"
+                                             class="svg-icon--material svg-icon btn-icon" data-name="Material--Save">
+                                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                            <path d="M5 5v14h14V7.83L16.17 5H5zm7 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-8H6V6h9v4z"
+                                                  opacity="0.3"></path>
+                                            <path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"></path>
+                                        </svg>
+                                        Uložiť
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 {/form}
+{*Template*}
+<section id="tax-document-item-template" style="display: none;">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <div>
+                        <input
+                                name="lineItems[_index_][name]"
+                                type="text"
+                                class="form-control">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <input
+                                name="lineItems[_index_][quantity]"
+                                type="number"
+                                class="form-control"
+                                value="1">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-floating">
+                        <select name="lineItems[_index_][unit]"
+                                class="form-select text-muted"
+                                aria-label="M.J">
+                            <option value="" aria-labelledby="M.J" hidden="">M.J</option>
+                            <option value="ks" aria-labelledby="ks" label="ks">ks</option>
+                            <option value="hod." aria-labelledby="hod" label="hod">hod</option>
+                            <option value="deň" aria-labelledby="deň" label="deň">deň</option>
+                            <option value="liter" aria-labelledby="liter" label="liter">liter</option>
+                            <option value="Kg" aria-labelledby="Kg" label="Kg">Kg</option>
+                            <option value="g" aria-labelledby="g" label="g">g</option>
+                            <option value="m" aria-labelledby="m" label="m">m</option>
+                            <option value="km" aria-labelledby="km" label="km">km</option>
+                            <option value="m²" aria-labelledby="m²" label="m²">m²</option>
+                            <option value="m³" aria-labelledby="m³" label="m³">m³</option>
+                        </select>
+                        <div class="valid-feedback">OK!</div>
+                </td>
+                <td>
+                    <div class="form-floating">
+                        <input
+                                name="lineItems[_index_][unitPriceTaxExcl]"
+                                type="number"
+                                class="form-control"
+                                placeholder=""
+                                value="0">
+                    </div>
+                </td>
+                <td style="display: none;">
+                    <div class="form-floating">
+                        <input name="lineItems[_index_][taxRate]"
+                               type="number"
+                               class="form-control js-tax-rate"
+                               placeholder=""
+                               value="0">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-floating">
+                        <input
+                               type="number"
+                               class="form-control js-item-total"
+                               placeholder=""
+                               disabled
+                               value="0">
+                    </div>
+                </td>
+                <td>
+                    <button
+                            type="button"
+                            class="btn btn-light-danger me-3 js-remove-item">-</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>

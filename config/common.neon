@@ -107,6 +107,8 @@ extensions:
 	nettrine.orm.cache: Nettrine\ORM\DI\OrmCacheExtension
 	nettrine.orm.console: Nettrine\ORM\DI\OrmConsoleExtension(%consoleMode%)
 	nettrine.orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
+	#s
+	multiplier: Contributte\FormMultiplier\DI\MultiplierExtension
 
 # Extension configs
 webpack:

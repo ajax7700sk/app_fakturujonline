@@ -10,38 +10,75 @@
 
 document.addEventListener('DOMContentLoaded', (event) => {
     //
-    datagrid();
-    // Toolbar
-    toolbar();
+    bootstrap()
+    //
+    taxDocument();
 });
 
-function datagrid() {
-    // Datagrid fix
-    $(document.body).on('click', "[data-toggle='collapse']", function() {
-        const target = $(this).attr('data-target');
-        var $target = $(target);
+/**
+ * Bootstrap functions
+ */
+function bootstrap() {
+    function datagrid() {
+        // Datagrid fix
+        $(document.body).on('click', "[data-toggle='collapse']", function() {
+            const target = $(this).attr('data-target');
+            var $target = $(target);
 
-        if($target.hasClass('show')) {
-            $target.removeClass('show');
-        } else {
-            $target.addClass('show');
-        }
-    });
+            if($target.hasClass('show')) {
+                $target.removeClass('show');
+            } else {
+                $target.addClass('show');
+            }
+        });
+    }
+
+    function toolbar() {
+        $('.nav-link').on('click', function () {
+            $('.nav-link').parent().find('.nav-link').removeClass('active');
+            //
+            $(this).addClass('active');
+            //
+            const target = $(this).attr('data-bs-target');
+            //
+            $('.tab-pane').removeClass('.show').removeClass('active');
+            //
+            $('.tab-content')
+                .find(target)
+                .addClass('show')
+                .addClass('active');
+        });
+    }
+
+    // Init
+    datagrid();
+    toolbar();
 }
 
-function toolbar() {
-    $('.nav-link').on('click', function () {
-        $('.nav-link').parent().find('.nav-link').removeClass('active');
+// Tax document
+function taxDocument() {
+    function addItem() {
+        // Copy template
+        let template = $('#tax-document-item-template').find('tbody').html();
+        // Replace index
+        let index = $('.js-tax-document-rows').find('tr').length;
+        template = template.replace(/_index_/g, index);
         //
-        $(this).addClass('active');
+        $('.js-tax-document-rows').append(template);
+    }
+
+    // --- Events
+    $(document.body).on('click', '.js-add-item', function() {
+        addItem();
+    })
+
+    $(document.body).on('click', '.js-remove-item', function(e) {
+        var $btn = $(e.target);
+        var $tr = $btn.parents('tr');
         //
-        const target = $(this).attr('data-bs-target');
-        //
-        $('.tab-pane').removeClass('.show').removeClass('active');
-        //
-        $('.tab-content')
-            .find(target)
-            .addClass('show')
-            .addClass('active');
+        // Can delete?
+        if($('.js-tax-document-rows').find('tr').length > 1) {
+            $tr.remove();
+        }
     });
 }
