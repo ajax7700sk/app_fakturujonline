@@ -229,7 +229,7 @@ class ContactForm extends AbstractForm
 
     // ------------------------------------ Helpers ---------------------------------- \\
 
-    public function setContact(Contact $contact): void
+    public function setContact(?Contact $contact): void
     {
         $this->contact = $contact;
     }
