@@ -68,7 +68,7 @@ class TaxDocumentForm extends AbstractForm
         }
 
         // Companies
-        $companiesList = [];
+        $companiesList = ['--- Vybrať ---'];
 
         foreach ($this->getLoggedUser()->getUserCompanies() as $userCompany) {
             $companiesList[$userCompany->getId()] = $userCompany->getName();
@@ -438,6 +438,42 @@ class TaxDocumentForm extends AbstractForm
             ->find((int)$this->securityUser->id);
 
         return $user;
+    }
+
+    /*********************************************************************
+     * Handlers
+     ********************************************************************/
+
+    public function handleLoadCompanyData(): void
+    {
+        $id = $this->presenter->request->getPost('id');
+        //
+        /** @var UserCompany|null $company */
+        $company = $this->entityManager
+            ->getRepository(UserCompany::class)
+            ->find((int) $id);
+
+        if(!$company) {
+            $this->error();
+        }
+
+
+        //
+        $billingAddress = $company->getBillingAddress();
+
+        // Send data
+        $this->presenter->sendJson(array(
+            'supplier_name' => $company->getName(),
+            'supplier_businessId' => $billingAddress ? $billingAddress->getBusinessId() : null,
+            'supplier_taxId' => $billingAddress ? $billingAddress->getTaxId() : null,
+            'supplier_vatNumber' => $billingAddress ? $billingAddress->getVatNumber() : null,
+            'supplier_phone' => $billingAddress ? $billingAddress->getPhone() : null,
+            'supplier_email' => $billingAddress ? $billingAddress->getEmail() : null,
+            'supplier_street' => $billingAddress ? $billingAddress->getStreet() : null,
+            'supplier_city' => $billingAddress ? $billingAddress->getCity() : null,
+            'supplier_zipCode' => $billingAddress ? $billingAddress->getZipCode() : null,
+            'supplier_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null
+        ));
     }
 }
 
