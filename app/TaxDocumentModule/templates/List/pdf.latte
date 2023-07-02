@@ -21,64 +21,72 @@
     <!-- Stylesheet
     ======================= -->
     {*Bootstrap*}
-    <link rel="stylesheet" href="{$basePath}/pdf/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{$basePath}/pdf/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{$basePath}/pdf/css/style.css">
+{*    {include "_partials/pdf/bootstrap.min.latte"}*}
+    {*include "_partials/pdf/font-awesome.latte"*}
+    {include "_partials/pdf/style.latte"}
 </head>
 <body>
 <div style="padding: 15px 40px">
     <!-- Container -->
     <div class="container-fluid invoice-container">
         <!-- Header -->
-        <header>
-            <div class="row align-items-center">
-                <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
-                    <img id="logo" src="https://harnishdesign.net/demo/html/koice/images/logo.png" title="Koice" alt="Koice"/>
-                </div>
-                <div class="col-sm-5 text-center text-sm-end">
-                    <h4 class="mb-0">Doklad</h4>
-                    <p class="mb-0">Číslo - {$taxDocument->getNumber()}</p>
-                </div>
-            </div>
-            <hr>
-        </header>
+        <table class="w-100">
+            <tr>
+                <td class="row align-items-center w-50">
+                    <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
+                        <img id="logo" src="https://harnishdesign.net/demo/html/koice/images/logo.png" title="Koice" alt="Koice"/>
+                    </div>
+                </td>
+                <td class="w-50">
+                    <div class="col-sm-5 text-right text-sm-end test-class">
+                        <h4 class="mb-0">Doklad</h4>
+                        <p class="mb-0">Cislo - {$taxDocument->getNumber()}</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <hr>
         <!-- Main Content -->
         <main>
-            <div class="row">
-                <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Dodávateľ:</strong>
-                    <address>
-                        {$taxDocument->getSupplierBillingAddress()->getName()} <br/>
+            <table class="row w-100">
+                <tr>
+                    <td class="w-50">
+                        <div class="col-sm-6 order-sm-0"> <strong>Odberateľ:</strong>
+                            <address>
+                                {$taxDocument->getSubscriberBillingAddress()->getName()} <br/>
+                        {$taxDocument->getSubscriberBillingAddress()->getEmail()} <br/>
+                        {$taxDocument->getSubscriberBillingAddress()->getStreet()} <br/>
+                        {$taxDocument->getSubscriberBillingAddress()->getZipCode()} {$taxDocument->getSubscriberBillingAddress()->getCity()}
+                                <br/>
+                            </address>
+                        </div>
+                    </td>
+                    <td class="w-50 text-right">
+                        <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Dodávateľ:</strong>
+                            <address>
+                                {$taxDocument->getSupplierBillingAddress()->getName()} <br/>
                         {$taxDocument->getSupplierBillingAddress()->getEmail()} <br/>
                         {$taxDocument->getSupplierBillingAddress()->getStreet()} <br/>
                         {$taxDocument->getSupplierBillingAddress()->getZipCode()} {$taxDocument->getSupplierBillingAddress()->getCity()} <br/>
                         {if $taxDocument->getVatPayer()}
-                            <strong>Platiteľ DPH</strong>
-                        {else}
-                            <strong>Neplatiteľ DPH</strong>
-                        {/if}
-                        <br/>
-                    </address>
-                </div>
-                <div class="col-sm-6 order-sm-0"> <strong>Odberateľ:</strong>
-                    <address>
-                        {$taxDocument->getSubscriberBillingAddress()->getName()} <br/>
-                        {$taxDocument->getSubscriberBillingAddress()->getEmail()} <br/>
-                        {$taxDocument->getSubscriberBillingAddress()->getStreet()} <br/>
-                        {$taxDocument->getSubscriberBillingAddress()->getZipCode()} {$taxDocument->getSubscriberBillingAddress()->getCity()}
-                        <br/>
-                    </address>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-
-                </div>
-                <div class="col-sm-6 text-end">
-                    <strong>Vystavené: </strong><span>{$taxDocument->getIssuedAt()|date("DD.MM.YYYY")}
-                        <br>
-                        <strong>Splatnosť: </strong> <span>{$taxDocument->getDueDateAt()|date("DD.MM.YYYY")}
-                </div>
-            </div>
+                                    <strong>Platiteľ DPH</strong>
+                                {else}
+                                    <strong>Neplatitel DPH</strong>
+                                {/if}
+                                <br/>
+                            </address>
+                        </div>
+                        <div class="col-sm-6 text-end" style="margin-top: 10px;">
+                            <p class="mb-0" style="margin: 0; line-height: 1;">
+                                <strong>Vystavené: </strong>{$taxDocument->getIssuedAt()|date("d.m.Y")}
+                            </p>
+                            <p class="mb-0" style="margin: 0; line-height: 1;">
+                                <strong>Splatnosť:&nbsp;&nbsp;&nbsp;</strong>{$taxDocument->getDueDateAt()|date("d.m.Y")}
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
             <div class="row">
                 <div class="col-sm-12"> <strong>Forma úhrady: </strong><br>
                     <span>{$taxDocument->getPaymentData()->getType()|transPaymentMethod} </span> <br />
@@ -88,7 +96,7 @@
                         </address>
                     {else}
                         <address class="bank-account">
-                            Čislo uctu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
+                            Cislo uctu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
                             IBAN: {$taxDocument->getPaymentData()->getBankAccountIban()}<br>
                             SWIFT: {$taxDocument->getPaymentData()->getBankAccountSwift()}<br>
 {*                            Variabilný symbol: {$taxDocument->getVariableSymbol()}*}
@@ -107,7 +115,7 @@
             <div class="card">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table mb-0">
+                        <table class="table mb-0 w-100">
                             <thead>
                             <tr class="">
                                 <td><strong>Položka</strong></td>
@@ -144,17 +152,17 @@
                                 {php $colspan = 5}
                             {/if}
                             <tr>
-                                    <td colspan="{{ colspan}" class="text-end"><strong>Medzisúčet:</strong></td>
+                                    <td colspan="{$colspan}" class="text-end text-right pr-15"><strong>Medzisucet:</strong></td>
                                     <td class="text-end">{$taxDocument->getTotalPriceTaxExcl()|moneyFormat($currencyCode, $localeCode)}</td>
                             </tr>
                             {if $taxDocument->getVatPayer()}
                                 <tr>
-                                    <td colspan="{{ colspan}" class="text-end"><strong>DPH:</strong></td>
+                                    <td colspan="{$colspan}" class="text-end text-right pr-15"><strong>DPH:</strong></td>
                                     <td class="text-end">{$taxDocument->getTotalTax()|moneyFormat($currencyCode, $localeCode)}</td>
                                 </tr>
                             {/if}
                             <tr>
-                                <td colspan="{{ colspan}" class="text-end border-bottom-0"><strong>Celkovo:</strong></td>
+                                <td colspan="{$colspan}" class="text-end text-right pr-15"><strong>Celkovo:</strong></td>
                                 <td class="text-end">{$taxDocument->getTotalPriceTaxIncl()|moneyFormat($currencyCode, $localeCode)}</td>
                             </tr>
                             </tfoot>
@@ -180,16 +188,22 @@
                 <p class="text-1"><strong>Poznámka:</strong> {$taxDocument->getNote()}</p>
             {/if}
         </footer>
-        <div class="copyright row">
-            <div class="col-6">
-                {if $taxDocument->getIssuedBy()}
-                    <p class="text-left">Vystavil: {$taxDocument->getIssuedBy()}</p>
-                {/if}
-            </div>
-            <div class="col-6">
-                <p class="text-right">Vytvorené v systéme fakturyonline.sk</p>
-            </div>
-        </div>
+        <table class="copyright row w-100" style="margin-top: -15px;">
+            <tr>
+                <td class="w-50">
+                    <div class="col-6">
+                        {if $taxDocument->getIssuedBy()}
+                            <p class="text-left">Vystavil: {$taxDocument->getIssuedBy()}</p>
+                        {/if}
+                    </div>
+                </td>
+                <td class="w-50">
+                    <div class="col-6">
+                        <p class="text-right">Vytvorené v systéme fakturyonline.sk</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 </body>
