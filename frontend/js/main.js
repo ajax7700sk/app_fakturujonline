@@ -57,6 +57,7 @@ function bootstrap() {
 
 // Tax document
 function taxDocument() {
+
     function addItem() {
         // Copy template
         let template = $('#tax-document-item-template').find('tbody').html();
@@ -67,18 +68,57 @@ function taxDocument() {
         $('.js-tax-document-rows').append(template);
     }
 
-    // --- Events
+    function recalculateLineItemsTotals() {
+        $('.js-tax-document-rows tr').each(function(item) {
+            var $tr = $(this);
+            //
+            var quantity = parseFloat($tr.find('.js-quantity').val());
+            var unitPriceTaxExcl = parseFloat($tr.find('.js-unit-price-tax-excl').val());
+            var taxRate = parseFloat($tr.find('.js-tax-rate').val());
+            //
+            quantity = isNaN(quantity) ? 0 : quantity;
+            unitPriceTaxExcl = isNaN(unitPriceTaxExcl) ? 0 : unitPriceTaxExcl;
+            taxRate = isNaN(taxRate) ? 0 : taxRate;
+            //
+            var unitPriceTaxIncl = unitPriceTaxExcl * (1 + (taxRate / 100));
+            var totalPriceTaxExcl = unitPriceTaxExcl * quantity;
+            var totalPriceTaxIncl = unitPriceTaxIncl * quantity;
+            //
+            $tr.find('.js-item-total').val(totalPriceTaxIncl);
+        });
+    }
+
+    function recalculateTotals() {
+        // Line Items
+        recalculateLineItemsTotals();
+        // Recalculate totals
+    }
+
+    // ----------------------------------- Events ------------------------------------- \\
+
+    // Add item
     $(document.body).on('click', '.js-add-item', function() {
         addItem();
+        //
+        recalculateTotals();
     })
 
+    // Remove item
     $(document.body).on('click', '.js-remove-item', function(e) {
         var $btn = $(e.target);
         var $tr = $btn.parents('tr');
         //
         // Can delete?
-        if($('.js-tax-document-rows').find('tr').length > 1) {
-            $tr.remove();
-        }
+        $tr.remove();
     });
+
+    // Change quantity
+    $(document.body).on('change', '.js-quantity', function(e) {
+        recalculateTotals();
+    })
+
+    // Change tax rate
+    $(document.body).on('change', '.js-tax-rate', function(e) {
+        recalculateTotals();
+    })
 }

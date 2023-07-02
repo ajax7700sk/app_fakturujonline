@@ -215,7 +215,7 @@
                                                                 <input
                                                                         name="lineItems[{$key}][name]"
                                                                         type="text"
-                                                                        class="form-control"
+                                                                        class="form-control js-name"
                                                                         value="{$lineItem->getName()}"
                                                                 >
                                                             </div>
@@ -225,7 +225,7 @@
                                                                 <input
                                                                         name="lineItems[{$key}][quantity]"
                                                                         type="number"
-                                                                        class="form-control"
+                                                                        class="form-control js-quantity"
                                                                         value="{$lineItem->getQuantity()}"
                                                                 >
                                                             </div>
@@ -254,7 +254,7 @@
                                                                 <input
                                                                         name="lineItems[{$key}][unitPriceTaxExcl]"
                                                                         type="number"
-                                                                        class="form-control"
+                                                                        class="form-control js-unit-price-tax-excl"
                                                                         placeholder=""
                                                                         value="{$lineItem->getUnitPriceTaxExcl()}"
                                                                 >
@@ -277,6 +277,7 @@
                                                                         class="form-control js-item-total"
                                                                         placeholder=""
                                                                         disabled
+                                                                        value="{$lineItem->getTotalPriceTaxIncl()}"
                                                                 />
                                                             </div>
                                                         </td>
@@ -839,7 +840,7 @@
                         <input
                                 name="lineItems[_index_][name]"
                                 type="text"
-                                class="form-control">
+                                class="form-control js-name">
                     </div>
                 </td>
                 <td>
@@ -847,7 +848,7 @@
                         <input
                                 name="lineItems[_index_][quantity]"
                                 type="number"
-                                class="form-control"
+                                class="form-control js-quantity"
                                 value="1">
                     </div>
                 </td>
@@ -875,7 +876,7 @@
                         <input
                                 name="lineItems[_index_][unitPriceTaxExcl]"
                                 type="number"
-                                class="form-control"
+                                class="form-control js-unit-price-tax-excl"
                                 placeholder=""
                                 value="0">
                     </div>

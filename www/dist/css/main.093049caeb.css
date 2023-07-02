@@ -21775,10 +21775,6 @@ thead > tr > th svg.ascending {
   width: 27rem;
 }
 
-.js-tax-document-rows tr:first-of-type .js-remove-item {
-  display: none;
-}
-
 .js-tax-document-rows .form-control {
   padding: 0.375rem 0.75rem !important;
 }
@@ -21986,4 +21982,4 @@ thead > tr > th svg.ascending {
 .border-transparent {
   --bs-border-opacity: 0;
 }
-/*# sourceMappingURL=main.6a4dc647fb.css.map */
+/*# sourceMappingURL=main.093049caeb.css.map */
