@@ -40,6 +40,19 @@ services:
 		factory: App\EntityListener\TaxDocumentListener
 		inject: yes
 
+	# ------------------------------------------------- Latte --------------------------------------------------- #
+
+	#Latte services
+	LatteFilters:
+	    factory: App\Latte\Filters
+	    inject: yes
+
+	# Register Latte filters & functions
+	nette.latteFactory:
+		setup:
+			- addFilter('moneyFormat', [@LatteFilters, moneyFormat])
+			- addFilter('transPaymentMethod', [@LatteFilters, transPaymentMethod])
+
 	# ------------------------------------------------- Repositories --------------------------------------------------- #
 
 

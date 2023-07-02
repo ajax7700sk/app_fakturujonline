@@ -3,17 +3,75 @@ declare(strict_types=1);
 
 namespace App\TaxDocumentModule\Presenters;
 
-use App\Entity\Contact;
 use App\Entity\TaxDocument;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Nette\Application\Responses\FileResponse;
+use Nette\Application\UI\ITemplateFactory;
+use Nette\Http\Response;
 use Ublaboo\DataGrid\DataGrid;
 
 class ListPresenter extends BasePresenter
 {
+    /** @var ITemplateFactory @inject */
+    public $templateFactory;
+
     public function actionDefault()
     {
 
+    }
+
+    public function actionPdf($id)
+    {
+        /** @var TaxDocument|null $taxDocument */
+        $taxDocument = $this->em->getRepository(TaxDocument::class)->find((int)$id);
+
+        if ( ! $taxDocument) {
+            $this->error();
+        }
+
+        //create template
+        $template = $this->templateFactory->createTemplate();
+        // Variables
+        $template->taxDocument = $taxDocument;
+        $template->localeCode = $taxDocument->getLocaleCode();
+        $template->currencyCode = $taxDocument->getCurrencyCode();
+        //
+        $template->setFile(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte');
+
+        //options
+        $options = new Options();
+        $options->setIsPhpEnabled(true);
+        $options->setIsFontSubsettingEnabled(true);
+        $options->setIsRemoteEnabled(true);
+        $options->set('isRemoteEnabled', true);
+
+        //render pdf with Dompdf
+        $dompdf = new Dompdf($options);
+        $dompdf->getCanvas()->get_page_count();
+//        $template = str_replace(['[PP]'], [$dompdf->getCanvas()->get_page_count()], $template);
+        $dompdf->loadHtml($template, 'UTF-8');
+        $dompdf->setPaper('A4');
+        $dompdf->render();
+
+        $stream = $dompdf->output();
+        $filename = sprintf('doklad-%s.pdf', $taxDocument->getNumber());
+        $filepath = 'data/' . $filename;
+        //
+        file_put_contents($filepath, $stream);
+        // Response
+        //Send file response
+        $fileResponse = new FileResponse(
+            $filepath,
+            $filename,
+            'application/pdf',
+            false);
+
+        $this->sendResponse($fileResponse);
+        //
+        $this->terminate();
     }
 
     /********************************************************************************
@@ -23,7 +81,8 @@ class ListPresenter extends BasePresenter
     /**
      * Invoice datagrid
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return DataGrid
      */
     protected function createComponentTaxDocumentGrid(string $name)
@@ -34,8 +93,12 @@ class ListPresenter extends BasePresenter
         $data = $repository
             ->createQueryBuilder('taxDocument')
             ->leftJoin('\App\Entity\Contact', 'contact', Join::WITH, 'taxDocument.contact = contact.id')
-            ->leftJoin('\App\Entity\UserCompany', 'userCompany', Join::WITH, 'taxDocument.userCompany = userCompany.id')
-        ;
+            ->leftJoin(
+                '\App\Entity\UserCompany',
+                'userCompany',
+                Join::WITH,
+                'taxDocument.userCompany = userCompany.id'
+            );
 
         $grid = new DataGrid($this, $name);
         $grid->setStrictSessionFilterValues();
@@ -66,6 +129,8 @@ class ListPresenter extends BasePresenter
              ->setFilterDateRange();
 
         // Actions
+        $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
+             ->setClass('btn btn-info btn-sm');
         $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:', ['id' => 'id'])
              ->setIcon('pencil')
              ->setClass('btn btn-warning btn-sm');

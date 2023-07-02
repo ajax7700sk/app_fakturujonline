@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="images/favicon.png" rel="icon"/>
+    <title>Faktura</title>
+    <meta name="author" content="harnishdesign.net">
+
+    <!-- Web Fonts
+    ======================= -->
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900'
+          type='text/css'>
+
+    <!-- Stylesheet
+    ======================= -->
+    {*Bootstrap*}
+    <link rel="stylesheet" href="{$basePath}/pdf/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$basePath}/pdf/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{$basePath}/pdf/css/style.css">
+</head>
+<body>
+<div style="padding: 15px 40px">
+    <!-- Container -->
+    <div class="container-fluid invoice-container">
+        <!-- Header -->
+        <header>
+            <div class="row align-items-center">
+                <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
+                    <img id="logo" src="https://harnishdesign.net/demo/html/koice/images/logo.png" title="Koice" alt="Koice"/>
+                </div>
+                <div class="col-sm-5 text-center text-sm-end">
+                    <h4 class="mb-0">Doklad</h4>
+                    <p class="mb-0">Číslo - {$taxDocument->getNumber()}</p>
+                </div>
+            </div>
+            <hr>
+        </header>
+        <!-- Main Content -->
+        <main>
+            <div class="row">
+                <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Dodávateľ:</strong>
+                    <address>
+                        {$taxDocument->getSupplierBillingAddress()->getName()} <br/>
+                        {$taxDocument->getSupplierBillingAddress()->getEmail()} <br/>
+                        {$taxDocument->getSupplierBillingAddress()->getStreet()} <br/>
+                        {$taxDocument->getSupplierBillingAddress()->getZipCode()} {$taxDocument->getSupplierBillingAddress()->getCity()} <br/>
+                        {if $taxDocument->getVatPayer()}
+                            <strong>Platiteľ DPH</strong>
+                        {else}
+                            <strong>Neplatiteľ DPH</strong>
+                        {/if}
+                        <br/>
+                    </address>
+                </div>
+                <div class="col-sm-6 order-sm-0"> <strong>Odberateľ:</strong>
+                    <address>
+                        {$taxDocument->getSubscriberBillingAddress()->getName()} <br/>
+                        {$taxDocument->getSubscriberBillingAddress()->getEmail()} <br/>
+                        {$taxDocument->getSubscriberBillingAddress()->getStreet()} <br/>
+                        {$taxDocument->getSubscriberBillingAddress()->getZipCode()} {$taxDocument->getSubscriberBillingAddress()->getCity()}
+                        <br/>
+                    </address>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+
+                </div>
+                <div class="col-sm-6 text-end">
+                    <strong>Vystavené: </strong><span>{$taxDocument->getIssuedAt()|date("DD.MM.YYYY")}
+                        <br>
+                        <strong>Splatnosť: </strong> <span>{$taxDocument->getDueDateAt()|date("DD.MM.YYYY")}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12"> <strong>Forma úhrady: </strong><br>
+                    <span>{$taxDocument->getPaymentData()->getType()|transPaymentMethod} </span> <br />
+                    {if $taxDocument->getPaymentData()->getType() == 'paypal'}
+                        <address class="bank-account">
+                            PayPal e-mail: {$taxDocument->getPaymentData()->getPaypalMail()}<br>
+                        </address>
+                    {else}
+                        <address class="bank-account">
+                            Čislo uctu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
+                            IBAN: {$taxDocument->getPaymentData()->getBankAccountIban()}<br>
+                            SWIFT: {$taxDocument->getPaymentData()->getBankAccountSwift()}<br>
+{*                            Variabilný symbol: {$taxDocument->getVariableSymbol()}*}
+                    </address>
+                    {/if}
+                    <br />
+                </div>
+            </div>
+            {if $taxDocument->getNoteAboveItems()}
+                <div class="row">
+                    <div class="col-sm-6 mb-30">
+                        <p class="text-1"><strong>Poznámka nad položkami: </strong>{$taxDocument->getNoteAboveItems()}</p>
+                    </div>
+                </div>
+            {/if}
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                            <tr class="">
+                                <td><strong>Položka</strong></td>
+                                <td><strong>Jednotkova cena</strong></td>
+                                <td><strong>Jednotka</strong></td>
+                                <td><strong>Mnozstvo</strong></td>
+                                {if $taxDocument->getVatPayer()}
+                                    <td class="text-end"><strong>DPH</strong></td>
+                                {/if}
+                                <td class="text-end"><strong>Celkovo</strong></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $taxDocument->getLineItems() as $lineItem}
+                                <tr>
+                                    <td>
+                                        <div class="item-desc-1">
+                                            <span>{$lineItem->getName()}</span>
+                                        </div>
+                                    </td>
+                                    <td>{$lineItem->getUnitPriceTaxExcl()|moneyFormat($currencyCode, $localeCode)}</td>
+                                    <td>{$lineItem->getUnit()}</td>
+                                    <td>{$lineItem->getQuantity()}</td>
+                                    {if $taxDocument->getVatPayer()}
+                                        <td class="text-end">{$lineItem->getTotalTax()|moneyFormat($currencyCode, $localeCode)}</td>
+                                    {/if}
+                                    <td class="text-end">{$lineItem->getTotalPriceTaxExcl()|moneyFormat($currencyCode, $localeCode)}</td>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                            <tfoot class="card-footer">
+                            {php $colspan = 4}
+                            {if $taxDocument->getVatPayer()}
+                                {php $colspan = 5}
+                            {/if}
+                            <tr>
+                                    <td colspan="{{ colspan}" class="text-end"><strong>Medzisúčet:</strong></td>
+                                    <td class="text-end">{$taxDocument->getTotalPriceTaxExcl()|moneyFormat($currencyCode, $localeCode)}</td>
+                            </tr>
+                            {if $taxDocument->getVatPayer()}
+                                <tr>
+                                    <td colspan="{{ colspan}" class="text-end"><strong>DPH:</strong></td>
+                                    <td class="text-end">{$taxDocument->getTotalTax()|moneyFormat($currencyCode, $localeCode)}</td>
+                                </tr>
+                            {/if}
+                            <tr>
+                                <td colspan="{{ colspan}" class="text-end border-bottom-0"><strong>Celkovo:</strong></td>
+                                <td class="text-end">{$taxDocument->getTotalPriceTaxIncl()|moneyFormat($currencyCode, $localeCode)}</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </main>
+        <div>
+            {if $taxDocument->getType() == 'proforma_invoice'}
+                Proforma faktúra neslúži ako daňový doklad
+            {/if}
+        </div>
+        <div>
+            {if $taxDocument->getTransferedTaxLiability()}
+                Daň je povinný zaplatiť zákazník.
+            {/if}
+        </div>
+        <!-- Footer -->
+        <footer class="text-center footer">
+            {if $taxDocument->getNote()}
+                <p class="text-1"><strong>Poznámka:</strong> {$taxDocument->getNote()}</p>
+            {/if}
+        </footer>
+        <div class="copyright row">
+            <div class="col-6">
+                {if $taxDocument->getIssuedBy()}
+                    <p class="text-left">Vystavil: {$taxDocument->getIssuedBy()}</p>
+                {/if}
+            </div>
+            <div class="col-6">
+                <p class="text-right">Vytvorené v systéme fakturyonline.sk</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
