@@ -21,7 +21,7 @@ class UserCompanyForm extends AbstractForm
     /** @var \Nette\Security\User */
     public $securityUser;
     private Translator $translator;
-    /** @var UserCompany */
+    /** @var UserCompany|null */
     private $userCompany;
 
     public function __construct(
@@ -183,7 +183,7 @@ class UserCompanyForm extends AbstractForm
 
     // ------------------------------------ Helpers ---------------------------------- \\
 
-    public function setUserCompany(UserCompany $userCompany): void
+    public function setUserCompany(?UserCompany $userCompany): void
     {
         $this->userCompany = $userCompany;
     }

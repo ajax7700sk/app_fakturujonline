@@ -300,14 +300,10 @@ class TaxDocumentForm extends AbstractForm
             $lineItem->setName($_lineItem['name']);
             $lineItem->setQuantity((int) $_lineItem['quantity']);
             $lineItem->setUnit($_lineItem['unit']);
-            $lineItem->setUnitPriceTaxExcl($_lineItem['unitPriceTaxExcl']);
-            $lineItem->setTaxRate($_lineItem['taxRate']);
             $lineItem->setType('line_item');
-            // TODO
-            $lineItem->setTotalPriceTaxExcl("10");
-            $lineItem->setUnitPriceTaxExcl("10");
-            $lineItem->setUnitTaxTotal("10");
-            $lineItem->setTotalTax("10");
+            // Price + Tax rate
+            $lineItem->setTaxRate($_lineItem['taxRate']);
+            $lineItem->setUnitPriceTaxExcl($_lineItem['unitPriceTaxExcl']);
             //
             $taxDocument->addLineItem($lineItem);
         }
@@ -317,10 +313,6 @@ class TaxDocumentForm extends AbstractForm
         $taxDocument->setSubscriberBillingAddress($subscriber);
         $taxDocument->setPaymentData($paymentData);
         $taxDocument->setBankAccount($bankAccount);
-
-        // TODO:
-        $taxDocument->setTotalPriceTaxExcl("10");
-        $taxDocument->setTotalPriceTaxIncl("10");
 
         // Persist & flush
         $this->entityManager->persist($paymentData);

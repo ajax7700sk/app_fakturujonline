@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=LineItemRepository::class)
+ * @ORM\EntityListeners({"App\EntityListener\LineItemListener"})
  */
 class LineItem
 {
@@ -120,6 +121,8 @@ class LineItem
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+        //
+        $this->recalculateTotals();
 
         return $this;
     }
@@ -132,6 +135,8 @@ class LineItem
     public function setUnitPriceTaxExcl(string $unitPriceTaxExcl): self
     {
         $this->unitPriceTaxExcl = $unitPriceTaxExcl;
+        //
+        $this->recalculateTotals();
 
         return $this;
     }
@@ -153,11 +158,19 @@ class LineItem
         return $this->totalPriceTaxExcl;
     }
 
-    public function setTotalPriceTaxExcl(string $totalPriceTaxExcl): self
+    protected function setTotalPriceTaxExcl(string $totalPriceTaxExcl): self
     {
         $this->totalPriceTaxExcl = $totalPriceTaxExcl;
 
         return $this;
+    }
+
+    public function getTotalPriceTaxIncl(): ?string
+    {
+        $totalPriceTaxExcl = (float) $this->getTotalPriceTaxExcl();
+        $totalTax = (float) $this->getTotalTax();
+
+        return (string) ($totalPriceTaxExcl + $totalTax);
     }
 
     public function getTotalTax(): ?string
@@ -165,7 +178,7 @@ class LineItem
         return $this->totalTax;
     }
 
-    public function setTotalTax(string $totalTax): self
+    protected function setTotalTax(string $totalTax): self
     {
         $this->totalTax = $totalTax;
 
@@ -180,6 +193,8 @@ class LineItem
     public function setTaxRate(string $taxRate): self
     {
         $this->taxRate = $taxRate;
+        //
+        $this->recalculateTotals();
 
         return $this;
     }
@@ -194,5 +209,27 @@ class LineItem
         $this->taxDocument = $taxDocument;
 
         return $this;
+    }
+
+    // -------------------------------------- Recalculate --------------------------------------- \\
+
+    public function recalculateTotals(): void
+    {
+        $lineItem = $this;
+        //
+        $quantity         = $lineItem->getQuantity();
+        $unitPriceTaxExcl = $lineItem->getUnitPriceTaxExcl();
+        $taxRate          = $lineItem->getTaxRate();
+        $unitPriceTaxIncl = $unitPriceTaxExcl * (1 + ($taxRate / 100));
+        $unitTaxTotal     = $unitPriceTaxIncl - $unitPriceTaxExcl;
+        //
+        $totalPriceTaxExcl = $unitPriceTaxExcl * $quantity;
+        $totalPriceTaxIncl = $totalPriceTaxExcl * (1 + ($taxRate / 100));
+        $totalTax          = $totalPriceTaxIncl - $totalPriceTaxExcl;
+
+        // Update
+        $lineItem->setUnitTaxTotal($unitTaxTotal);
+        $lineItem->setTotalPriceTaxExcl($totalPriceTaxExcl);
+        $lineItem->setTotalTax($totalTax);
     }
 }

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TaxDocumentRepository::class)
+ * @ORM\EntityListeners({"App\EntityListener\TaxDocumentListener"})
  */
 class TaxDocument
 {
@@ -380,6 +381,9 @@ class TaxDocument
             $lineItem->setTaxDocument($this);
         }
 
+        //
+        $this->recalculateTotals();
+
         return $this;
     }
 
@@ -391,6 +395,9 @@ class TaxDocument
                 $lineItem->setTaxDocument(null);
             }
         }
+
+        //
+        $this->recalculateTotals();
 
         return $this;
     }
@@ -489,5 +496,28 @@ class TaxDocument
         $this->dueDateAt = $dueDateAt;
 
         return $this;
+    }
+
+    // -------------------------------------- Recalculate --------------------------------------- \\
+
+    public function recalculateTotals(): void
+    {
+        $taxDocument = $this;
+
+        foreach ($this->getLineItems() as $lineItem) {
+            $lineItem->recalculateTotals();
+        }
+
+        //
+        $totalPriceTaxExcl = 0;
+        $totalPriceTaxIncl = 0;
+
+        foreach ($taxDocument->getLineItems() as $lineItem) {
+            $totalPriceTaxExcl += (float) $lineItem->getTotalPriceTaxExcl();
+            $totalPriceTaxIncl += (float) $lineItem->getTotalPriceTaxIncl();
+        }
+
+        $taxDocument->setTotalPriceTaxExcl((string) $totalPriceTaxExcl);
+        $taxDocument->setTotalPriceTaxIncl((string) $totalPriceTaxIncl);
     }
 }

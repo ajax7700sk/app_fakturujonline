@@ -30,7 +30,18 @@ di:
 
 services:
 
+	# ------------------------------------------------- Listeners --------------------------------------------------- #
+
+	LineItemListener:
+		factory: App\EntityListener\LineItemListener
+		inject: yes
+
+	TaxDocumentListener:
+		factory: App\EntityListener\TaxDocumentListener
+		inject: yes
+
 	# ------------------------------------------------- Repositories --------------------------------------------------- #
+
 
 	AddressRepository:
 		type: App\Repository\AddressRepository
