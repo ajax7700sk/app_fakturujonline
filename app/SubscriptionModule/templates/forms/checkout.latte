@@ -1,0 +1,199 @@
+{form form}
+    <div class="row" style="max-width: 70rem;">
+        <div class="col-md-12">
+            <div class="row g-4 mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-label">
+                                <svg viewBox="0 0 24 24" fill="currentColor"
+                                     class="svg-icon--material svg-icon card-icon text-primary"
+                                     data-name="Material--Contacts" data-darkreader-inline-fill=""
+                                     style="--darkreader-inline-fill: currentColor;">
+                                    <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                    <path d="M20 6H4v12h16V6zm-8 1a2.5 2.5 0 010 5 2.5 2.5 0 010-5zm5 10H7v-1.01C7 13.9 10.31 13 12 13s5 .9 5 2.99V17z"
+                                          opacity="0.3"></path>
+                                    <path d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM4 6h16v12H4V6zm0-6h16v2H4zm0 22h16v2H4zm8-10a2.5 2.5 0 000-5 2.5 2.5 0 000 5zm0-3.5c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4.5c-1.69 0-5 .9-5 2.99V17h10v-1.01C17 13.9 13.69 13 12 13zm-3.19 2.5c.61-.52 2.03-1 3.19-1 1.17 0 2.59.48 3.2 1H8.81z"></path>
+                                </svg>
+                                <div class="card-title-wrapper"><h5 class="card-title">Fakturačné údaje</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating js-load-company-data" data-link="{link //LoadCompanyData!}">
+                                        {input userCompany, class: "form-select"}
+                                        <label n:name="userCompany" class="form-label">Faktúrovať na spoločnosť</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Názov spoločnosti"
+                                                n:name="billingAddress_name"
+                                        >
+                                        <label
+                                                n:name="billingAddress_name"
+                                                class="form-label"
+                                        >Názov spoločnosti</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="IČO"
+                                                n:name="billingAddress_businessId"
+                                        >
+                                        <label
+                                                n:name="billingAddress_businessId"
+                                                class="form-label"
+                                        >IČO</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="DIČ"
+                                                n:name="billingAddress_taxId"
+                                        >
+                                        <label
+                                                n:name="billingAddress_taxId"
+                                                class="form-label"
+                                        >DIČ</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="IČ DPH"
+                                                n:name="billingAddress_vatNumber"
+                                        >
+                                        <label
+                                                n:name="billingAddress_vatNumber"
+                                                class="form-label"
+                                        >IČ DPH</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Telefón"
+                                                n:name="billingAddress_phone"
+                                        >
+                                        <label
+                                                n:name="billingAddress_phone"
+                                                class="form-label"
+                                        >Telefón</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="E-mail"
+                                                n:name="billingAddress_email"
+                                        >
+                                        <label
+                                                n:name="billingAddress_email"
+                                                class="form-label"
+                                        >E-mail</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Adresa"
+                                                n:name="billingAddress_street"
+                                        >
+                                        <label
+                                                n:name="billingAddress_street"
+                                                class="form-label"
+                                        >Adresa</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Město"
+                                                n:name="billingAddress_city"
+                                        >
+                                        <label
+                                                n:name="billingAddress_city"
+                                                class="form-label"
+                                        >Mesto</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="PŠC"
+                                                n:name="billingAddress_zipCode"
+                                        >
+                                        <label
+                                                n:name="billingAddress_zipCode"
+                                                class="form-label"
+                                        >PSČ</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        {input billingAddress_countryCode, class: "form-select"}
+                                        <label n:name="billingAddress_countryCode" class="form-label">Štát</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-auto ml-auto">
+                                <button type="submit" n:name="submit" class="btn btn-light-success me-3">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"
+                                         class="svg-icon--material svg-icon btn-icon" data-name="Material--Save"
+                                         data-darkreader-inline-fill=""
+                                         style="--darkreader-inline-fill: currentColor;">
+                                        <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                        <path d="M5 5v14h14V7.83L16.17 5H5zm7 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-8H6V6h9v4z"
+                                              opacity="0.3"></path>
+                                        <path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2V7l-4-4zm2 16H5V5h11.17L19 7.83V19zm-7-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zM6 6h9v4H6z"></path>
+                                    </svg>
+                                    Objednať s povinnosťou platby
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/form}

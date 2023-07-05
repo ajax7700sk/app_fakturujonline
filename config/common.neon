@@ -114,6 +114,7 @@ services:
 	- App\UserModule\Forms\IUserCompanyForm
 	- App\TaxDocumentModule\Forms\ITaxDocumentForm
 	- App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm
+	- App\SubscriptionModule\Forms\ICheckoutForm
 
 # Extensions
 extensions:
