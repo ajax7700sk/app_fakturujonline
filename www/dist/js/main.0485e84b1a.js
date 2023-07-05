@@ -10,7 +10,7 @@
 // import Toolbar from "./components/Toolbar";
 document.addEventListener('DOMContentLoaded', function (event) {
   //
-  bootstrap(); //
+  bootstrapInit(); //
 
   taxDocument();
 });
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
  * Bootstrap functions
  */
 
-function bootstrap() {
+function bootstrapInit() {
   function datagrid() {
     // Datagrid fix
     $(document.body).on('click', "[data-toggle='collapse']", function () {
@@ -136,4 +136,4 @@ function taxDocument() {
     });
   });
 }
-//# sourceMappingURL=main.e1b9672f1e.js.map
+//# sourceMappingURL=main.0485e84b1a.js.map

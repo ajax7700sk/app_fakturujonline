@@ -70,8 +70,7 @@ class UserCompanyForm extends AbstractForm
              ->setRequired("form.general.validation.required");
         $form->addText('billingAddress_businessId', 'IČO')
              ->setRequired("form.general.validation.required");
-        $form->addText('billingAddress_taxId', 'DIČ')
-             ->setRequired("form.general.validation.required");
+        $form->addText('billingAddress_taxId', 'DIČ');
         $form->addText('billingAddress_vatNumber', 'IČ DPH');
         $form->addText('billingAddress_phone', 'Telefon')
              ->setRequired("form.general.validation.required");

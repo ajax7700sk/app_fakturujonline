@@ -10,15 +10,17 @@
 
 document.addEventListener('DOMContentLoaded', (event) => {
     //
-    bootstrap()
+    bootstrapInit()
     //
     taxDocument();
 });
 
+
+
 /**
  * Bootstrap functions
  */
-function bootstrap() {
+function bootstrapInit() {
     function datagrid() {
         // Datagrid fix
         $(document.body).on('click', "[data-toggle='collapse']", function() {
@@ -57,7 +59,6 @@ function bootstrap() {
 
 // Tax document
 function taxDocument() {
-
     function addItem() {
         // Copy template
         let template = $('#tax-document-item-template').find('tbody').html();
