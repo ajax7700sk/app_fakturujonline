@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Traits\ChangesLoggableTrait;
-use App\Repository\TaxDocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TaxDocumentRepository::class)
@@ -376,7 +374,7 @@ class TaxDocument
 
     public function addLineItem(LineItem $lineItem): self
     {
-        if (!$this->lineItems->contains($lineItem)) {
+        if ( ! $this->lineItems->contains($lineItem)) {
             $this->lineItems[] = $lineItem;
             $lineItem->setTaxDocument($this);
         }
@@ -438,12 +436,12 @@ class TaxDocument
         return $this;
     }
 
-    public function getPaidAt(): ?\DateTimeImmutable
+    public function getPaidAt(): ?\DateTimeInterface
     {
         return $this->paidAt;
     }
 
-    public function setPaidAt(?\DateTimeImmutable $paidAt): self
+    public function setPaidAt(?\DateTimeInterface $paidAt): self
     {
         $this->paidAt = $paidAt;
 
@@ -513,11 +511,16 @@ class TaxDocument
         $totalPriceTaxIncl = 0;
 
         foreach ($taxDocument->getLineItems() as $lineItem) {
-            $totalPriceTaxExcl += (float) $lineItem->getTotalPriceTaxExcl();
-            $totalPriceTaxIncl += (float) $lineItem->getTotalPriceTaxIncl();
+            $totalPriceTaxExcl += (float)$lineItem->getTotalPriceTaxExcl();
+            $totalPriceTaxIncl += (float)$lineItem->getTotalPriceTaxIncl();
         }
 
-        $taxDocument->setTotalPriceTaxExcl((string) $totalPriceTaxExcl);
-        $taxDocument->setTotalPriceTaxIncl((string) $totalPriceTaxIncl);
+        $taxDocument->setTotalPriceTaxExcl((string)$totalPriceTaxExcl);
+        $taxDocument->setTotalPriceTaxIncl((string)$totalPriceTaxIncl);
+    }
+
+    public function getTotalTax(): float
+    {
+        return (float)$this->getTotalPriceTaxIncl() - (float)$this->getTotalPriceTaxExcl();
     }
 }

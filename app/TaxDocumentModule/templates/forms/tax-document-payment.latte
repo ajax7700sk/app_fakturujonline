@@ -1,0 +1,21 @@
+{block content}
+
+{form form}
+    <div class="row g-4 mb-4">
+        <h2 class="modal-title">Nastaviť ako uhradené</h2>
+        <div class="col-md-12">
+            <input type="hidden" class="js-data-id" n:name="id">
+            <div class="form-floating">
+                <input type="date"
+                        n:name="paidAt"
+                       class="form-control"
+                       placeholder="Uhradené"
+                >
+                <label n:name="paidAt" class="form-label">Uhradené</label></div>
+        </div>
+        <div class="col-12">
+            <button type="submit" n:name="submit" class="btn btn-primary w-100 py-3 mt-3">Nastaviť</button>
+        </div>
+    </div>
+{/form}
+{*Template*}

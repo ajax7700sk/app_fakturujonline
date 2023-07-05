@@ -5,6 +5,10 @@ namespace App\TaxDocumentModule\Presenters;
 
 use App\Entity\TaxDocument;
 use App\Repository\ContactRepository;
+use App\TaxDocumentModule\Forms\ITaxDocumentForm;
+use App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm;
+use App\TaxDocumentModule\Forms\TaxDocumentForm;
+use App\TaxDocumentModule\Forms\TaxDocumentPaymentForm;
 use Doctrine\ORM\Query\Expr\Join;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -19,6 +23,9 @@ class ListPresenter extends BasePresenter
 {
     /** @var ITemplateFactory @inject */
     public $templateFactory;
+
+    /** @var ITaxDocumentPaymentForm @inject */
+    public $taxDocumentPaymentForm;
 
     public function actionDefault()
     {
@@ -140,6 +147,16 @@ class ListPresenter extends BasePresenter
              ->setFilterDateRange();
 
         // Actions
+        $grid->addAction('paidAt', 'Uhradiť', null)
+            ->setRenderer(function($entity) {
+                return "<a target='_blank' 
+                data-toggle='modal' 
+                title='Uhradené' 
+                data-target='#paymentModal' 
+                data-id='".$entity->getId()."' 
+                class='btn btn-primary btn-sm'>Uhradiť</a>";
+            })
+             ->setClass('btn btn-info btn-sm');
         $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
              ->setClass('btn btn-info btn-sm');
         $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
@@ -157,6 +174,17 @@ class ListPresenter extends BasePresenter
 
 
         return $grid;
+    }
+
+    /**
+     * @return TaxDocumentPaymentForm
+     */
+    public function createComponentTaxDocumentPaymentForm(): TaxDocumentPaymentForm
+    {
+        /** @var TaxDocumentPaymentForm $control */
+        $control = $this->taxDocumentPaymentForm->create();
+
+        return $control;
     }
 
     // --------------------------------------- Helpers ------------------------------------------------ \\

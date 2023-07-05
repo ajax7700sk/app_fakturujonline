@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
 function bootstrapInit() {
   function datagrid() {
     // Datagrid fix
-    $(document.body).on('click', "[data-toggle='collapse']", function () {
-      var target = $(this).attr('data-target');
+    $(document.body).on('click', "[data-toggle='collapse']", function (e) {
+      $this = $(e.target);
+      var target = $this.attr('data-target');
       var $target = $(target);
 
       if ($target.hasClass('show')) {
@@ -34,7 +35,7 @@ function bootstrapInit() {
   }
 
   function toolbar() {
-    $('.nav-link').on('click', function () {
+    $(document.body).on('click', '.nav-link', function () {
       $('.nav-link').parent().find('.nav-link').removeClass('active'); //
 
       $(this).addClass('active'); //
@@ -45,11 +46,30 @@ function bootstrapInit() {
 
       $('.tab-content').find(target).addClass('show').addClass('active');
     });
+  }
+
+  function modal() {
+    $(document.body).on('click', ["data-toggle='toggle'"], function (e) {
+      var $this = $(e.target);
+      var $target = $($this.attr('data-target')); //
+      // has id?
+
+      if ($this.attr('data-id')) {
+        $target.find('form .js-data-id').val($this.attr('data-id'));
+      } //
+
+
+      $target.modal('show');
+    });
+    $(document.body).on('click', '.js-modal-close', function (e) {
+      $('.modal').modal('hide');
+    });
   } // Init
 
 
   datagrid();
   toolbar();
+  modal();
 } // Tax document
 
 
@@ -139,4 +159,4 @@ function taxDocument() {
     });
   });
 }
-//# sourceMappingURL=main.b24721e5e2.js.map
+//# sourceMappingURL=main.8c4a448908.js.map
