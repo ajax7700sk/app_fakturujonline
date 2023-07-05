@@ -111,6 +111,9 @@ function taxDocument() {
 
   $(document.body).on('change', '.js-tax-rate', function (e) {
     recalculateTotals();
+  });
+  $(document.body).on('change', '.js-unit-price-tax-excl', function (e) {
+    recalculateTotals();
   }); // Load company data
 
   $(document.body).on('change', '#frm-taxDocumentForm-form-userCompany', function (e) {
@@ -136,4 +139,4 @@ function taxDocument() {
     });
   });
 }
-//# sourceMappingURL=main.0485e84b1a.js.map
+//# sourceMappingURL=main.b24721e5e2.js.map

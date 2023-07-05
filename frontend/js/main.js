@@ -123,6 +123,10 @@ function taxDocument() {
         recalculateTotals();
     })
 
+    $(document.body).on('change', '.js-unit-price-tax-excl', function(e) {
+        recalculateTotals();
+    })
+
     // Load company data
     $(document.body).on('change', '#frm-taxDocumentForm-form-userCompany', function (e) {
         var id = e.target.value;

@@ -119,13 +119,12 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('paymentData_iban', 'IBAN');
         $form->addText('paymentData_swift', 'SWIFT');
 
-        // Billing address
+        // Supplier
         $form->addText('supplier_name', 'Názov spoločnosti')
              ->setRequired("form.general.validation.required");
         $form->addText('supplier_businessId', 'IČO')
              ->setRequired("form.general.validation.required");
-        $form->addText('supplier_taxId', 'DIČ')
-             ->setRequired("form.general.validation.required");
+        $form->addText('supplier_taxId', 'DIČ');
         $form->addText('supplier_vatNumber', 'IČ DPH');
         $form->addText('supplier_phone', 'Telefon')
              ->setRequired("form.general.validation.required");
@@ -140,13 +139,12 @@ class TaxDocumentForm extends AbstractForm
         $form->addSelect('supplier_countryCode', 'Štát', Countries::getNames())
              ->setRequired("form.general.validation.required");
 
-        // Shipping address
+        // Subscriber address
         $form->addText('subscriber_name', 'Názov spoločnosti')
              ->setRequired("form.general.validation.required");
         $form->addText('subscriber_businessId', 'IČO')
              ->setRequired("form.general.validation.required");
-        $form->addText('subscriber_taxId', 'DIČ')
-             ->setRequired("form.general.validation.required");
+        $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
         $form->addText('subscriber_phone', 'Telefon')
              ->setRequired("form.general.validation.required");
