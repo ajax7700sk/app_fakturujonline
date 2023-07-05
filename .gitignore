@@ -1,3 +1,8 @@
 config/local.neon
 vendor
 .idea
+#
+/www/dist/css/main.*.css
+/www/dist/css/main.*.css.map
+/www/dist/js/main.*.js
+/www/dist/js/main.*.js.map

@@ -115,6 +115,22 @@ function taxDocument() {
         // Recalculate totals
     }
 
+    function exportPdf(url) {
+        var $filter = $('#frm-taxDocumentGrid-filter');
+        var checkboxes = $filter.find("[data-check='taxDocumentGrid']:checked");
+        var ids = [];
+
+        //
+        checkboxes.each(function(i, item) {
+            var name = $(item).attr('name');
+            ids.push(parseFloat(name.replace('taxdocumentgrid_group_action_item[', '')));
+        });
+
+        //
+        $('#export-pdf-form').find('.js-id').val(ids);
+        $('#export-pdf-form').submit();
+    }
+
     // ----------------------------------- Events ------------------------------------- \\
 
     // Add item
@@ -170,4 +186,12 @@ function taxDocument() {
             }
         })
     });
+
+    // Export PDF
+    $(document.body).on('click', '.js-export-pdf', function (e) {
+        var $target = $(e.target);
+        var url = $target.attr('data-href');
+        //
+        exportPdf(url);
+    })
 }

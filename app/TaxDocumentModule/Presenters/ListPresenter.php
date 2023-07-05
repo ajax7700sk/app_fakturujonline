@@ -3,26 +3,27 @@ declare(strict_types=1);
 
 namespace App\TaxDocumentModule\Presenters;
 
+use App\Entity\DeliveryNote;
 use App\Entity\TaxDocument;
 use App\Repository\ContactRepository;
-use App\TaxDocumentModule\Forms\ITaxDocumentForm;
+use App\Repository\DeliveryNoteRepository;
+use App\Repository\TaxDocumentRepository;
+use App\Service\FileService;
+use App\Service\TaxDocumentService;
 use App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm;
-use App\TaxDocumentModule\Forms\TaxDocumentForm;
 use App\TaxDocumentModule\Forms\TaxDocumentPaymentForm;
 use Doctrine\ORM\Query\Expr\Join;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Nette\Application\Responses\FileResponse;
-use Nette\Application\UI\ITemplateFactory;
-use Nette\Http\Response;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 use Ublaboo\DataGrid\DataGrid;
 
 class ListPresenter extends BasePresenter
 {
-    /** @var ITemplateFactory @inject */
-    public $templateFactory;
+    /** @var TaxDocumentService @inject */
+    public $taxDocumentService;
 
     /** @var ITaxDocumentPaymentForm @inject */
     public $taxDocumentPaymentForm;
@@ -42,16 +43,15 @@ class ListPresenter extends BasePresenter
         }
 
         //create template
-        $data = $this->generatePDF($taxDocument);
-        //
-        file_put_contents($data['filepath'], $data['stream']);
+        $data = $this->taxDocumentService->generatePDF($taxDocument);
         // Response
         //Send file response
         $fileResponse = new FileResponse(
             $data['filepath'],
             $data['filename'],
             'application/pdf',
-            false);
+            false
+        );
 
         $this->sendResponse($fileResponse);
         //
@@ -74,13 +74,13 @@ class ListPresenter extends BasePresenter
         // Variables
         $template->taxDocument = $taxDocument;
         //
-        $template->setFile(get_app_folder_path() . '/templates/email/tax-document.latte');
+        $template->setFile(get_app_folder_path().'/templates/email/tax-document.latte');
 
         // Message
         $message = new Message();
         $message
-            ->setSubject('Doklad č. ' . $taxDocument->getNumber())
-            ->setHtmlBody((string) $template)
+            ->setSubject('Doklad č. '.$taxDocument->getNumber())
+            ->setHtmlBody((string)$template)
             ->setFrom($taxDocument->getSupplierBillingAddress()->getEmail())
             ->addTo($taxDocument->getSubscriberBillingAddress()->getEmail())
             ->addAttachment($pdfData['filepath']);
@@ -90,6 +90,39 @@ class ListPresenter extends BasePresenter
 
         $this->flashMessage('E-mail bol úspešne odoslaný', 'success');
         $this->redirect(':TaxDocument:List:default');
+    }
+
+    public function actionExport()
+    {
+        $ids = $this->request->getPost('id');
+        //
+        /** @var TaxDocumentRepository $repository */
+        $repository = $this->em->getRepository(TaxDocument::class);
+        $taxDocuments = $repository->findBy([
+            'id' => $ids
+        ]);
+
+        $files = [];
+
+        // ---
+        foreach ($taxDocuments as $taxDocument) {
+            $data = $this->taxDocumentService->generatePDF($taxDocument);
+            //
+            $files[$data['filename']] = $data['filepath'];
+        }
+
+        // Export
+        $data = $this->taxDocumentService->exportPdf($files);
+
+        // --- Send file response
+        $fileResponse = new FileResponse(
+            $data['filepath'],
+            $data['filename'],
+        );
+
+        $this->sendResponse($fileResponse);
+        //
+        $this->terminate();
     }
 
     /********************************************************************************
@@ -148,14 +181,14 @@ class ListPresenter extends BasePresenter
 
         // Actions
         $grid->addAction('paidAt', 'Uhradiť', null)
-            ->setRenderer(function($entity) {
-                return "<a target='_blank' 
+             ->setRenderer(function ($entity) {
+                 return "<a target='_blank' 
                 data-toggle='modal' 
                 title='Uhradené' 
                 data-target='#paymentModal' 
                 data-id='".$entity->getId()."' 
                 class='btn btn-primary btn-sm'>Uhradiť</a>";
-            })
+             })
              ->setClass('btn btn-info btn-sm');
         $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
              ->setClass('btn btn-info btn-sm');
@@ -167,7 +200,8 @@ class ListPresenter extends BasePresenter
         $grid->addAction('delete', 'Zmazať', ':TaxDocument:List:delete', ['id' => 'id'])
              ->setIcon('trash')
              ->setClass('btn btn-danger btn-sm');
-
+        // Action
+        $grid->addGroupAction('exportPdf');
         $grid->setOuterFilterRendering(true);
         //set translator
         $grid->setTranslator($this->translator);
@@ -187,42 +221,4 @@ class ListPresenter extends BasePresenter
         return $control;
     }
 
-    // --------------------------------------- Helpers ------------------------------------------------ \\
-
-    private function generatePDF(TaxDocument $taxDocument): array
-    {
-        //create template
-        $template = $this->templateFactory->createTemplate();
-        // Variables
-        $template->taxDocument = $taxDocument;
-        $template->localeCode = $taxDocument->getLocaleCode();
-        $template->currencyCode = $taxDocument->getCurrencyCode();
-        //
-        $template->setFile(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte');
-
-        //options
-        $options = new Options();
-        $options->setIsPhpEnabled(true);
-        $options->setIsFontSubsettingEnabled(true);
-        $options->setIsRemoteEnabled(true);
-        $options->set('isRemoteEnabled', true);
-
-        //render pdf with Dompdf
-        $dompdf = new Dompdf($options);
-        $dompdf->getCanvas()->get_page_count();
-//        $template = str_replace(['[PP]'], [$dompdf->getCanvas()->get_page_count()], $template);
-        $dompdf->loadHtml($template, 'UTF-8');
-        $dompdf->setPaper('A4');
-        $dompdf->render();
-
-        $stream = $dompdf->output();
-        $filename = sprintf('doklad-%s.pdf', $taxDocument->getNumber());
-        $filepath = 'data/' . $filename;
-
-        return array(
-            'dompdf' => $dompdf,
-            'filename' => $filename,
-            'filepath' => $filepath
-        );
-    }
 }
