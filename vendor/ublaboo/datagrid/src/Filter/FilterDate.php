@@ -29,6 +29,7 @@ class FilterDate extends OneColumnFilter implements IFilterDate
 		$control = $container->addText($this->key, $this->name);
 
 		$control->setAttribute('data-provide', 'datepicker')
+                ->setAttribute('type', 'date')
 			->setAttribute('data-date-orientation', 'bottom')
 			->setAttribute('data-date-format', $this->getJsFormat())
 			->setAttribute('data-date-today-highlight', 'true')
