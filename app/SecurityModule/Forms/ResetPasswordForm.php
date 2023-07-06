@@ -97,18 +97,19 @@ final class ResetPasswordForm extends AbstractForm
         /** @var \Nette\Utils\ArrayHash $values */
         $values = $form->getValues();
         /** @var User|null $user */
-        $user = $this->entityManager->getRepository(User::class)->findOneBy($values['email']);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $values['email']]);
+
 
         try {
             if($user) {
-                $this->emailService->resetPassword($user);
+                $this->emailService->resetPassword($user, $this->presenter->link('//:Security:Auth:changePassword'));
                 // Redirect to dashboard
                 $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
                 $this->presenter->redirect(':Security:Auth:login');
             }
         } catch (\Exception $e) {
             // TODO: odchytit transport email exception
-            $this->presenter->flashMessage("Pri odoslaní e-mailu nastala neočakávana chyba");
+            $this->presenter->flashMessage("Pri odoslaní e-mailu nastala neočakávana chyba", 'danger');
             $this->presenter->redirect("this");
         }
     }

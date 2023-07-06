@@ -478,7 +478,7 @@ function validations() {
 
         // Is form valid
         if(isFormValid($form)) {
-            $form.submit();
+            $form[0].submit();
         }
     })
 

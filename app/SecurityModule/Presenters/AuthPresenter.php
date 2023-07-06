@@ -41,6 +41,11 @@ class AuthPresenter extends BasePresenter
 
     }
 
+    public function actionChangePassword()
+    {
+        //
+    }
+
     public function actionLogout()
     {
         $this->getUser()->logout();

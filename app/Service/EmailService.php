@@ -52,12 +52,13 @@ class EmailService
      * @throws \Exception
      * @return void
      */
-    public function resetPassword(User $user): void
+    public function resetPassword(User $user, string $resetLink): void
     {
         // Template
         $template = $this->templateFactory->createTemplate();
         // Variables
         $template->user = $user;
+        $template->resetLink = $resetLink;
         //
         $template->setFile(get_app_folder_path().'/templates/email/reset-password.latte');
 
