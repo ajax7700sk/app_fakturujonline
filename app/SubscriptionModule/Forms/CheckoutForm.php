@@ -65,6 +65,8 @@ class CheckoutForm extends AbstractForm
 
         // Form
         $form = new Form();
+        $form->getElementPrototype()
+             ->setAttribute('novalidate', "novalidate");
         $form->setTranslator($this->translator);
 
         $form->addHidden('type', $this->type);
