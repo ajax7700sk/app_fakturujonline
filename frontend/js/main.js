@@ -75,6 +75,7 @@ function bootstrapInit() {
     datagrid();
     toolbar();
     modal();
+    darkMode();
 }
 
 // Tax document
@@ -219,5 +220,22 @@ function subscription() {
                 }
             }
         })
+    });
+}
+
+function darkMode() {
+    $(document.body).on('click', '.js-dark-mode', function(e) {
+        var $body = $(document.body);
+
+        if($body.attr('theme')) {
+            // Light mode
+            $body.removeAttr('theme');
+            //
+        } else {
+            // Dark mode
+            $body.attr('theme', 'dark');
+            //
+            $('.js-dark-mode')
+        }
     });
 }
