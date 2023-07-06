@@ -30,7 +30,7 @@ class TaxDocument
 
     /**
      * @ORM\ManyToOne(targetEntity=UserCompany::class, inversedBy="taxDocuments")
-     * @ORM\JoinColumn(name="user_company_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="user_company_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     private $userCompany;
 

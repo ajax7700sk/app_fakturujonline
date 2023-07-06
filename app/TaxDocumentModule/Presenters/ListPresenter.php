@@ -37,6 +37,22 @@ class ListPresenter extends BasePresenter
 
     }
 
+    public function actionDelete($id)
+    {
+        /** @var TaxDocument|null $taxDocument */
+        $taxDocument = $this->em->getRepository(TaxDocument::class)->find((int) $id);
+
+        if(!$taxDocument) {
+            $this->error();
+        }
+
+        $this->em->remove($taxDocument);
+        $this->em->flush();
+        //
+        $this->flashMessage('Doklad bol úspešne zmazaný', 'success');
+        $this->redirect(':TaxDocument:List:default');
+    }
+
     public function actionPdf($id)
     {
         /** @var TaxDocument|null $taxDocument */

@@ -37,7 +37,18 @@ class UserCompanyPresenter extends BasePresenter
 
     public function actionDelete($id)
     {
-        dd($id);
+        /** @var UserCompany|null $company */
+        $company = $this->em->getRepository(UserCompany::class)->find((int) $id);
+
+        if(!$company) {
+            $this->error();
+        }
+
+        $this->em->remove($company);
+        $this->em->flush();
+        //
+        $this->flashMessage('Firma bola úspšne odstránená', 'success');
+        $this->redirect(':User:Settings:default');
     }
 
     /*********************************************************************
