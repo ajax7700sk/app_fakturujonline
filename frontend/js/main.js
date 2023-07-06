@@ -343,8 +343,12 @@ function validations() {
             if (!validateByType(value, rule.op)) {
                 showFieldError($input, rule.msg);
                 //
-                throw new Error(rule.msg);
+                // throw new Error(rule.msg);
+                return true;
             }
+
+            // Valid
+            showFieldSuccess($input);
 
             // Next loop
             return true;
@@ -360,6 +364,18 @@ function validations() {
         $input.addClass('is-invalid');
         $input.parent().find('.error-msg').text(msg);
     }
+
+    function showFieldSuccess($input) {
+        hideFieldError($input);
+        //
+        $input.addClass('is-valid');
+    }
+
+    function hideFieldError($input) {
+        $input.removeClass('is-invalid');
+        $input.parent().find('.error-msg').text('');
+    }
+
 
     /**
      * @param {string} value
@@ -414,5 +430,11 @@ function validations() {
         e.preventDefault();
         //
         validateFields($(this));
+    })
+
+    $(document.body).on('focusout', 'input', function(e) {
+        var $target = $(e.target);
+        //
+        validateField($target);
     })
 }
