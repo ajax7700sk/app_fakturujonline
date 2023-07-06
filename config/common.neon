@@ -35,7 +35,6 @@ services:
 	LineItemListener:
 		factory: App\EntityListener\LineItemListener
 		inject: yes
-
 	TaxDocumentListener:
 		factory: App\EntityListener\TaxDocumentListener
 		inject: yes
@@ -104,6 +103,9 @@ services:
 	taxDocumentService:
 		factory: \App\Service\TaxDocumentService
 		inject: yes
+	paymentService:
+		factory: \App\Service\PaymentService
+		inject: yes
 
 	# Form controls
 	- App\SecurityModule\Forms\ILoginForm
@@ -115,6 +117,11 @@ services:
 	- App\TaxDocumentModule\Forms\ITaxDocumentForm
 	- App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm
 	- App\SubscriptionModule\Forms\ICheckoutForm
+
+	# Gateways
+	stripeGateway:
+	    factory: \App\Gateways\Strip
+	    inject: yes
 
 # Extensions
 extensions:

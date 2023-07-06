@@ -178,4 +178,16 @@ class OrderItem
 
         return $this;
     }
+
+    public static function priceByType(string $type): float
+    {
+        switch ($type) {
+            case 'month':
+                return 5;
+            case 'quarter':
+                return 10;
+            case 'year':
+                return 30;
+        }
+    }
 }

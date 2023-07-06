@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\SubscriptionModule\Forms;
 
+use App\Entity\Ecommerce\Order;
+use App\Entity\Ecommerce\OrderItem;
 use App\Entity\UserCompany;
 use App\Forms\AbstractForm;
+use App\Service\PaymentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
@@ -17,16 +20,20 @@ class CheckoutForm extends AbstractForm
 
     /** @var \Nette\Security\User */
     public $securityUser;
+    public $type;
     private Translator $translator;
+    private PaymentService $paymentService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         Translator $translator,
-        User $securityUser
+        User $securityUser,
+        PaymentService $paymentService,
     ) {
-        $this->entityManager = $entityManager;
-        $this->translator    = $translator;
-        $this->securityUser  = $securityUser;
+        $this->entityManager  = $entityManager;
+        $this->translator     = $translator;
+        $this->securityUser   = $securityUser;
+        $this->paymentService = $paymentService;
     }
 
     /**
@@ -60,6 +67,7 @@ class CheckoutForm extends AbstractForm
         $form = new Form();
         $form->setTranslator($this->translator);
 
+        $form->addHidden('type', $this->type);
         $form->addSelect('userCompany', 'Faktúrovať na spoločnosť', $list);
         // Billing address
         $form->addText('billingAddress_name', 'Názov spoločnosti')
@@ -100,8 +108,42 @@ class CheckoutForm extends AbstractForm
     {
         /** @var \Nette\Utils\ArrayHash $values */
         $values = $form->getValues(true);
+        //
+        $price   = OrderItem::priceByType($values['type']);
+        $taxRate = Order::TAX_RATE_DEFAULT;
 
-        dd($values);
+        // --- Create order
+        $order = new Order();
+        //
+        $orderItem = new OrderItem();
+        $orderItem
+            ->setType($values['type'])
+            ->setName('Predplatné')
+            ->setQuantity(1)
+            ->setTaxRate((string)$taxRate)
+            ->setUnitPriceTaxExcl((string)$price)
+            ->setTotalPriceTaxExcl((string)($price * 1))
+            ->setUnitTaxTotal((string)($price * ($taxRate / 100)))
+            ->setTotalTax((string)($orderItem->getTotalPriceTaxExcl() * ($taxRate / 100)));
+
+        $order->addItem($orderItem);
+        //
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        // --- Create payment
+        $payment = $this->paymentService->createPaymentFromOrder($order, 'stripe');
+        //
+
+        // --- Create stripe payment
+        $data = $this->paymentService->createStripePaymentFromPayment(
+            $payment,
+            $this->presenter->link('//:TaxDocument:Order:stripeSuccess'),
+            $this->presenter->link('//:TaxDocument:Order:stripeCancel')
+        );
+
+        // Redirect
+        $this->presenter->redirectUrl($data['url']);
     }
 
     // ------------------------------------ Helpers ---------------------------------- \\
@@ -127,9 +169,9 @@ class CheckoutForm extends AbstractForm
         /** @var UserCompany|null $company */
         $company = $this->entityManager
             ->getRepository(UserCompany::class)
-            ->find((int) $id);
+            ->find((int)$id);
 
-        if(!$company) {
+        if ( ! $company) {
             $this->error();
         }
 
@@ -138,16 +180,16 @@ class CheckoutForm extends AbstractForm
 
         // Send data
         $this->presenter->sendJson(array(
-            'billingAddress_name' => $company->getName(),
-            'billingAddress_businessId' => $billingAddress ? $billingAddress->getBusinessId() : null,
-            'billingAddress_taxId' => $billingAddress ? $billingAddress->getTaxId() : null,
-            'billingAddress_vatNumber' => $billingAddress ? $billingAddress->getVatNumber() : null,
-            'billingAddress_phone' => $billingAddress ? $billingAddress->getPhone() : null,
-            'billingAddress_email' => $billingAddress ? $billingAddress->getEmail() : null,
-            'billingAddress_street' => $billingAddress ? $billingAddress->getStreet() : null,
-            'billingAddress_city' => $billingAddress ? $billingAddress->getCity() : null,
-            'billingAddress_zipCode' => $billingAddress ? $billingAddress->getZipCode() : null,
-            'billingAddress_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null
+            'billingAddress_name'        => $company->getName(),
+            'billingAddress_businessId'  => $billingAddress ? $billingAddress->getBusinessId() : null,
+            'billingAddress_taxId'       => $billingAddress ? $billingAddress->getTaxId() : null,
+            'billingAddress_vatNumber'   => $billingAddress ? $billingAddress->getVatNumber() : null,
+            'billingAddress_phone'       => $billingAddress ? $billingAddress->getPhone() : null,
+            'billingAddress_email'       => $billingAddress ? $billingAddress->getEmail() : null,
+            'billingAddress_street'      => $billingAddress ? $billingAddress->getStreet() : null,
+            'billingAddress_city'        => $billingAddress ? $billingAddress->getCity() : null,
+            'billingAddress_zipCode'     => $billingAddress ? $billingAddress->getZipCode() : null,
+            'billingAddress_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null,
         ));
     }
 

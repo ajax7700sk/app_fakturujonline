@@ -18,6 +18,8 @@ class Order
 {
     use ChangesLoggableTrait;
 
+    const TAX_RATE_DEFAULT = 20;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

@@ -11,6 +11,7 @@ class OrderPresenter extends BasePresenter
 {
     /** @var ICheckoutForm @inject */
     public $checkoutForm;
+    private $checkoutType;
 
     public function actionSelectType()
     {
@@ -19,7 +20,19 @@ class OrderPresenter extends BasePresenter
 
     public function actionType($type)
     {
-        //
+        $this->checkoutType = $type;
+    }
+
+    // --- Gateways
+
+    public function actionStripeSuccess()
+    {
+        dd("Success");
+    }
+
+    public function actionStripeCancel()
+    {
+        dd("Cancel");
     }
 
     /*********************************************************************
@@ -30,6 +43,7 @@ class OrderPresenter extends BasePresenter
     {
         /** @var ICheckoutForm $control */
         $control = $this->checkoutForm->create();
+        $control->type = $this->checkoutType;
 
         return $control;
     }
