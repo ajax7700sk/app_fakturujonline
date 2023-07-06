@@ -64,7 +64,10 @@ class ListPresenter extends BasePresenter
                 Join::WITH,
                 'contact.shippingAddress = shippingAddress.id'
             )
-            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'contact.user = user.id');
+            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'contact.user = user.id')
+            // Filter
+            ->andWhere('contact.user = :user')
+            ->setParameter('user', $this->getLoggedUser());
 
         $grid = new DataGrid($this, $name);
         $grid->setStrictSessionFilterValues();

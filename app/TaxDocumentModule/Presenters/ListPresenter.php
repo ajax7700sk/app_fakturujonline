@@ -155,7 +155,10 @@ class ListPresenter extends BasePresenter
                 'userCompany',
                 Join::WITH,
                 'taxDocument.userCompany = userCompany.id'
-            );
+            )
+            // Filter
+            ->andWhere('userCompany.user = :user')
+            ->setParameter('user', $this->getLoggedUser());
 
         $grid = new DataGrid($this, $name);
         $grid->setStrictSessionFilterValues();
