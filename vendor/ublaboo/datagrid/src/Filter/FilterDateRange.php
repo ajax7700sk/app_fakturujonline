@@ -34,6 +34,7 @@ class FilterDateRange extends FilterRange implements IFilterDate
 		$from = $container->addText('from', $this->name);
 
 		$from->setAttribute('data-provide', 'datepicker')
+            ->setAttribute('type', 'date')
 			->setAttribute('data-date-orientation', 'bottom')
 			->setAttribute('data-date-format', $this->getJsFormat())
 			->setAttribute('data-date-today-highlight', 'true')
@@ -42,6 +43,7 @@ class FilterDateRange extends FilterRange implements IFilterDate
 		$to = $container->addText('to', $this->nameSecond);
 
 		$to->setAttribute('data-provide', 'datepicker')
+            ->setAttribute('type', 'date')
 			->setAttribute('data-date-orientation', 'bottom')
 			->setAttribute('data-date-format', $this->getJsFormat())
 			->setAttribute('data-date-today-highlight', 'true')
