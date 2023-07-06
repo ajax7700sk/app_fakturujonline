@@ -17,7 +17,7 @@
 		style="{if isset($body_styles)}{$body_styles}{else}{/if}">
 	<div class="d-flex flex-column flex-grow-1 flex-shrink-1">
 		<!-- Flashes -->
-		<div n:foreach="$flashes as $flash" n:class="alertflash, $flash->type, alert">{$flash->message}</div>
+		{include 'partials/flashes.latte'}
 
 		<!-- Aside nav -->
 		{include 'partials/aside-nav.latte'}

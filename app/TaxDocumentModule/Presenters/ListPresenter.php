@@ -8,6 +8,7 @@ use App\Entity\TaxDocument;
 use App\Repository\ContactRepository;
 use App\Repository\DeliveryNoteRepository;
 use App\Repository\TaxDocumentRepository;
+use App\Service\EmailService;
 use App\Service\FileService;
 use App\Service\TaxDocumentService;
 use App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm;
@@ -27,6 +28,9 @@ class ListPresenter extends BasePresenter
 
     /** @var ITaxDocumentPaymentForm @inject */
     public $taxDocumentPaymentForm;
+
+    /** @var EmailService @inject */
+    public $emailService;
 
     public function actionDefault()
     {
@@ -67,28 +71,14 @@ class ListPresenter extends BasePresenter
             $this->error();
         }
 
-        $pdfData = $this->generatePDF($taxDocument);
+        try {
+            $this->emailService->sendTaxDocument($taxDocument);
+            //
+            $this->flashMessage('E-mail bol úspešne odoslaný', 'success');
+        } catch (\Exception) {
+            $this->flashMessage('Pri odoslaní e-mailu nastala chyba.', 'danger');
+        }
 
-        // Template
-        $template = $this->templateFactory->createTemplate();
-        // Variables
-        $template->taxDocument = $taxDocument;
-        //
-        $template->setFile(get_app_folder_path().'/templates/email/tax-document.latte');
-
-        // Message
-        $message = new Message();
-        $message
-            ->setSubject('Doklad č. '.$taxDocument->getNumber())
-            ->setHtmlBody((string)$template)
-            ->setFrom($taxDocument->getSupplierBillingAddress()->getEmail())
-            ->addTo($taxDocument->getSubscriberBillingAddress()->getEmail())
-            ->addAttachment($pdfData['filepath']);
-
-        $mailer = new SendmailMailer();
-        $mailer->send($message);
-
-        $this->flashMessage('E-mail bol úspešne odoslaný', 'success');
         $this->redirect(':TaxDocument:List:default');
     }
 

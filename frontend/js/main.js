@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     bootstrapInit()
     taxDocument();
     subscription();
+    alert();
 });
-
 
 
 /**
@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function bootstrapInit() {
     function datagrid() {
         // Datagrid fix
-        $(document.body).on('click', "[data-toggle='collapse']", function(e) {
+        $(document.body).on('click', "[data-toggle='collapse']", function (e) {
             var $this = $(e.target);
             const target = $this.attr('data-target');
             var $target = $(target);
 
-            if($target.hasClass('show')) {
+            if ($target.hasClass('show')) {
                 $target.removeClass('show');
             } else {
                 $target.addClass('show');
@@ -54,7 +54,7 @@ function bootstrapInit() {
     }
 
     function modal() {
-        $(document.body).on('click', ["data-toggle='toggle'"], function(e) {
+        $(document.body).on('click', ["data-toggle='toggle'"], function (e) {
             // var $this = $(e.target);
             // var $target = $($this.attr('data-target'));
             // //
@@ -66,7 +66,7 @@ function bootstrapInit() {
             // $target.modal('show');
         })
 
-        $(document.body).on('click', '.js-modal-close', function(e) {
+        $(document.body).on('click', '.js-modal-close', function (e) {
             $('.modal').modal('hide');
         })
     }
@@ -91,7 +91,7 @@ function taxDocument() {
     }
 
     function recalculateLineItemsTotals() {
-        $('.js-tax-document-rows tr').each(function(item) {
+        $('.js-tax-document-rows tr').each(function (item) {
             var $tr = $(this);
             //
             var quantity = parseFloat($tr.find('.js-quantity').val());
@@ -122,7 +122,7 @@ function taxDocument() {
         var ids = [];
 
         //
-        checkboxes.each(function(i, item) {
+        checkboxes.each(function (i, item) {
             var name = $(item).attr('name');
             ids.push(parseFloat(name.replace('taxdocumentgrid_group_action_item[', '')));
         });
@@ -135,14 +135,14 @@ function taxDocument() {
     // ----------------------------------- Events ------------------------------------- \\
 
     // Add item
-    $(document.body).on('click', '.js-add-item', function() {
+    $(document.body).on('click', '.js-add-item', function () {
         addItem();
         //
         recalculateTotals();
     })
 
     // Remove item
-    $(document.body).on('click', '.js-remove-item', function(e) {
+    $(document.body).on('click', '.js-remove-item', function (e) {
         var $btn = $(e.target);
         var $tr = $btn.parents('tr');
         //
@@ -151,16 +151,16 @@ function taxDocument() {
     });
 
     // Change quantity
-    $(document.body).on('change', '.js-quantity', function(e) {
+    $(document.body).on('change', '.js-quantity', function (e) {
         recalculateTotals();
     })
 
     // Change tax rate
-    $(document.body).on('change', '.js-tax-rate', function(e) {
+    $(document.body).on('change', '.js-tax-rate', function (e) {
         recalculateTotals();
     })
 
-    $(document.body).on('change', '.js-unit-price-tax-excl', function(e) {
+    $(document.body).on('change', '.js-unit-price-tax-excl', function (e) {
         recalculateTotals();
     })
 
@@ -169,20 +169,20 @@ function taxDocument() {
         var id = e.target.value;
         var url = $(this).parent('.js-load-company-data').attr('data-link');
         //
-        $.ajax( {
+        $.ajax({
             url: url,
             data: {
                 id: id
             },
             method: 'POST',
             dataType: 'json',
-            complete: function(xhr) {
+            complete: function (xhr) {
                 var data = xhr.responseJSON;
                 //
                 for (var key in data) {
                     var value = data[key];
                     // Set value
-                    $("input[name="+key+"]").val(value);
+                    $("input[name=" + key + "]").val(value);
                 }
             }
         })
@@ -203,20 +203,20 @@ function subscription() {
         var id = e.target.value;
         var url = $(this).parent('.js-load-company-data').attr('data-link');
         //
-        $.ajax( {
+        $.ajax({
             url: url,
             data: {
                 id: id
             },
             method: 'POST',
             dataType: 'json',
-            complete: function(xhr) {
+            complete: function (xhr) {
                 var data = xhr.responseJSON;
                 //
                 for (var key in data) {
                     var value = data[key];
                     // Set value
-                    $("input[name="+key+"]").val(value);
+                    $("input[name=" + key + "]").val(value);
                 }
             }
         })
@@ -224,10 +224,10 @@ function subscription() {
 }
 
 function darkMode() {
-    $(document.body).on('click', '.js-dark-mode', function(e) {
+    $(document.body).on('click', '.js-dark-mode', function (e) {
         var $body = $(document.body);
 
-        if($body.attr('theme')) {
+        if ($body.attr('theme')) {
             // Light mode
             $body.removeAttr('theme');
             //
@@ -238,4 +238,16 @@ function darkMode() {
             $('.js-dark-mode')
         }
     });
+}
+
+function alert() {
+    // Timer
+    $('.alert').delay(5000).fadeOut('slow');
+
+    // Events
+    $(document.body).on('click', '.js-close-alert', function (e) {
+        var $this = $(e.target);
+        //
+        $('.alert').hide();
+    })
 }

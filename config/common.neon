@@ -103,6 +103,9 @@ services:
 	taxDocumentService:
 		factory: \App\Service\TaxDocumentService
 		inject: yes
+	emailService:
+		factory: \App\Service\EmailService
+		inject: yes
 	paymentService:
 		factory: \App\Service\PaymentService
 		inject: yes

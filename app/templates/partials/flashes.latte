@@ -1,0 +1,4 @@
+<div n:foreach="$flashes as $flash" n:class="alertflash, $flash->type, alert">
+    <span class="message">{$flash->message}</span>
+    <span class="js-close-alert close-mark"></span>
+</div>
