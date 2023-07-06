@@ -129,6 +129,21 @@ class User
         return $this;
     }
 
+    public function getFullName(): string
+    {
+        $parts = [];
+
+        if($this->getFirstName()) {
+            $parts[] = $this->getFirstName();
+        }
+
+        if($this->getLastName()) {
+            $parts[] = $this->getLastName();
+        }
+
+        return implode(' ', $parts);
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;

@@ -24,6 +24,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         if ($this->canRedirectFromSecurity()) {
             $this->redirect(":Contact:List:default");
         }
+
+        //
+        $this->template->currentActionMask = $this->getAction(true);
+        $this->template->user = $this->getLoggedUser();
     }
 
     // ------------------------------------- Helpers -------------------------------------- \\

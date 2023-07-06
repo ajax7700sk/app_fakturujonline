@@ -2,7 +2,8 @@
     <div class="aside-head">
         <div class="brand">
             <div class="brand-logo">
-                <h1 class="brand-title "><a aria-label="Logo" href="/">
+                <h1 class="brand-title ">
+                    <a aria-label="Logo" href="/">
                         <svg width="80.74941451990632" height="32" viewBox="0 0 2155 854" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M985.058 284.2C953.411 284.2 937.587 301.4 937.587 335.8V355H1025.92V415H939.991V673H864.879V415H812V355H864.879V334.6C864.879 300.2 874.894 273.2 894.924 253.6C914.953 233.6 943.195 223.6 979.65 223.6C1008.49 223.6 1031.13 229.4 1047.55 241L1026.52 297.4C1013.7 288.6 999.88 284.2 985.058 284.2Z"
@@ -44,22 +45,27 @@
     <div class="aside-body">
         <nav aria-label="aside-contacts">
             <ul id="aside-contacts" class="navigation">
-                <li class="navigation-item"><a class="navigation-link navigation-link-pill active"
-                                               href="/contacts/list"><span class="navigation-link-info"><svg
+                <li class="navigation-item">
+                    <a class="navigation-link navigation-link-pill{if $currentActionMask == ':Contact:List:default'} active{/if}"
+                       href="{link :Contact:List:default}">
+                        <span class="navigation-link-info"><svg
                                     viewBox="0 0 24 24" fill="currentColor"
                                     class="svg-icon--material svg-icon navigation-icon"
-                                    data-name="Material--People"><path d="M0 0h24v24H0V0z" fill="none"></path><circle
+                                    data-name="Material--People">
+                                <path d="M0 0h24v24H0V0z" fill="none"></path><circle
                                         cx="9" cy="8.5" opacity="0.3" r="1.5"></circle><path
                                         d="M4.34 17h9.32c-.84-.58-2.87-1.25-4.66-1.25s-3.82.67-4.66 1.25z"
                                         opacity="0.3"></path><path
                                         d="M9 12c1.93 0 3.5-1.57 3.5-3.5S10.93 5 9 5 5.5 6.57 5.5 8.5 7.07 12 9 12zm0-5c.83 0 1.5.67 1.5 1.5S9.83 10 9 10s-1.5-.67-1.5-1.5S8.17 7 9 7zm0 6.75c-2.34 0-7 1.17-7 3.5V19h14v-1.75c0-2.33-4.66-3.5-7-3.5zM4.34 17c.84-.58 2.87-1.25 4.66-1.25s3.82.67 4.66 1.25H4.34zm11.7-3.19c1.16.84 1.96 1.96 1.96 3.44V19h4v-1.75c0-2.02-3.5-3.17-5.96-3.44zM15 12c1.93 0 3.5-1.57 3.5-3.5S16.93 5 15 5c-.54 0-1.04.13-1.5.35.63.89 1 1.98 1 3.15s-.37 2.26-1 3.15c.46.22.96.35 1.5.35z"></path></svg><span
-                                    class="navigation-text">Kontakty</span></span></a></li>
+                                    class="navigation-text">Kontakty</span></span>
+                    </a>
+                </li>
             </ul>
         </nav>
         <nav aria-label="aside-invoices">
             <ul id="aside-invoices" class="navigation">
                 <li class="navigation-item">
-                    <a class="navigation-link navigation-link-pill"
+                    <a class="navigation-link navigation-link-pill{if $currentActionMask == ':TaxDocument:List:default'} active{/if}"
                        href="{link :TaxDocument:List:default}">
                         <span class="navigation-link-info">
                             <svg
@@ -90,7 +96,7 @@
             <ul id="aside-subscription" class="navigation">
                 <li class="navigation-item"><span class="navigation-title">Predplatné</span></li>
                 <li class="navigation-item">
-                    <a class="navigation-link navigation-link-pill"
+                    <a class="navigation-link navigation-link-pill{if $currentActionMask == ':Subscription:List:default'} active{/if}"
                        href="{link :Subscription:List:default}">
                         <span class="navigation-link-info">
                             <svg
@@ -114,14 +120,17 @@
                         src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NICAgIDxnIGZpbGw9IiM1NDU5NWQiPg0gICAgICAgIDxwYXRoIGQ9Ik0gMTAgMTEgQyA0LjA4IDExIDIgMTQgMiAxNiBMIDIgMTkgTCAxOCAxOSBMIDE4IDE2IEMgMTggMTQgMTUuOTIgMTEgMTAgMTEgWiIvPg0gICAgICAgIDxjaXJjbGUgY3g9IjEwIiBjeT0iNS41IiByPSI0LjUiLz4NICAgIDwvZz4NPC9zdmc+"
                         alt="Avatar" width="120" height="120"></div>
             <div class="user-info">
-                <div class="user-name d-flex align-items-center">Jméno Priezvisko
+                <div class="user-name d-flex align-items-center">{$user->getFullName()}
                     <svg viewBox="0 0 24 24" fill="currentColor"
                          class="svg-icon--material svg-icon text-info ms-1" data-name="Material--Verified">
-                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path fill="none" d="M0 0h24v24H0z">
+                        </path>
                         <path d="M18.49 9.88l.08-.85.18-1.95-1.9-.43-.84-.19-.44-.74-.99-1.68-1.79.76-.79.34-.79-.34-1.79-.77-.99 1.68-.44.74-.84.19-1.9.43.18 1.94.08.85-.56.65-1.29 1.48 1.29 1.47.56.65-.08.85-.18 1.96 1.9.43.84.19.44.74.99 1.67 1.78-.77.8-.33.79.34 1.78.77.99-1.68.44-.74.84-.19 1.9-.43-.18-1.95-.08-.85.56-.65L20.33 12l-1.29-1.47-.55-.65zm-8.4 6.84l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"
-                              opacity="0.3"></path>
+                              opacity="0.3">
+                        </path>
                         <path d="M23 11.99L20.56 9.2l.34-3.69-3.61-.82L15.4 1.5 12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 11.99l2.44 2.79-.34 3.7 3.61.82 1.89 3.2 3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69 2.44-2.8zm-3.95 1.48l-.56.65.08.85.18 1.95-1.9.43-.84.19-.44.74-.99 1.68-1.78-.77-.8-.34-.79.34-1.78.77-.99-1.67-.44-.74-.84-.19-1.9-.43.18-1.96.08-.85-.56-.65L3.67 12l1.29-1.48.56-.65-.09-.86-.18-1.94 1.9-.43.84-.19.44-.74.99-1.68 1.78.77.8.34.79-.34 1.78-.77.99 1.68.44.74.84.19 1.9.43-.18 1.95-.08.85.56.65 1.29 1.47-1.28 1.48z"></path>
-                        <path d="M10.09 13.75l-2.32-2.33-1.48 1.49 3.8 3.81 7.34-7.36-1.48-1.49z"></path>
+                        <path d="M10.09 13.75l-2.32-2.33-1.48 1.49 3.8 3.81 7.34-7.36-1.48-1.49z">
+                        </path>
                     </svg>
                 </div>
             </div>
@@ -129,16 +138,27 @@
         <div class="user-menu collapse show">
             <nav aria-label="aside-bottom-user-menu">
                 <div class="navigation">
-                    <div role="presentation" class="navigation-item cursor-pointer"><span
-                                class="navigation-link navigation-link-pill"><span class="navigation-link-info"><svg
-                                        viewBox="0 0 24 24" fill="currentColor"
+                    <div role="presentation" class="navigation-item cursor-pointer">
+                        <a href="{link :User:Settings:default}" class="navigation-link navigation-link-pill{if $currentActionMask == ':User:Settings:default'} active{/if}">
+                            <span class="navigation-link-info">
+                                <svg
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
                                         class="svg-icon--material svg-icon navigation-icon"
-                                        data-name="Material--AccountBox"><path d="M0 0h24v24H0V0z"
-                                                                               fill="none"></path><path
+                                        data-name="Material--AccountBox">
+                                    <path d="M0 0h24v24H0V0z"
+                                          fill="none">
+                                    </path>
+                                    <path
                                             d="M5 19h14V5H5v14zm7-13c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3zM6 16.47c0-2.5 3.97-3.58 6-3.58s6 1.08 6 3.58V18H6v-1.53z"
-                                            opacity="0.3"></path><path
-                                            d="M12 12c1.65 0 3-1.35 3-3s-1.35-3-3-3-3 1.35-3 3 1.35 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7-5H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-1-2.53c0-2.5-3.97-3.58-6-3.58s-6 1.08-6 3.58V18h12v-1.53zM8.31 16c.69-.56 2.38-1.12 3.69-1.12s3.01.56 3.69 1.12H8.31z"></path></svg><span
-                                        class="navigation-text">Nastavenia</span></span></span></div>
+                                            opacity="0.3">
+                                    </path>
+                                    <path d="M12 12c1.65 0 3-1.35 3-3s-1.35-3-3-3-3 1.35-3 3 1.35 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7-5H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-1-2.53c0-2.5-3.97-3.58-6-3.58s-6 1.08-6 3.58V18h12v-1.53zM8.31 16c.69-.56 2.38-1.12 3.69-1.12s3.01.56 3.69 1.12H8.31z"></path>
+                                </svg>
+                            <span class="navigation-text">Nastavenia</span>
+                            </span>
+                        </a>
+                    </div>
                     <div role="presentation" class="navigation-item cursor-pointer"><span
                                 class="navigation-link navigation-link-pill"><span class="navigation-link-info"><svg
                                         viewBox="0 0 24 24" fill="currentColor"
@@ -154,13 +174,21 @@
             <nav aria-label="aside-bottom-user-menu-2">
                 <div class="navigation">
                     <div role="presentation" class="navigation-item cursor-pointer"><span
-                                class="navigation-link navigation-link-pill"><span class="navigation-link-info"><svg
+                                class="navigation-link navigation-link-pill">
+                            <a href="{link :Security:Auth:logout}" class="navigation-link-info">
+                                <svg
                                         viewBox="0 0 24 24" fill="currentColor"
                                         class="svg-icon--material svg-icon navigation-icon"
-                                        data-name="Material--Logout"><path d="M0 0h24v24H0V0z"
-                                                                           fill="none"></path><path
-                                            d="M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5zm16 7l-4-4v3H9v2h8v3l4-4z"></path></svg><span
-                                        class="navigation-text">Odhlásiť sa</span></span></span></div>
+                                        data-name="Material--Logout">
+                                    <path d="M0 0h24v24H0V0z"
+                                          fill="none">
+                                    </path>
+                                    <path d="M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5zm16 7l-4-4v3H9v2h8v3l4-4z"></path>
+                                </svg>
+                                <span class="navigation-text">Odhlásiť sa</span>
+                            </a>
+                        </span>
+                    </div>
                 </div>
             </nav>
         </div>

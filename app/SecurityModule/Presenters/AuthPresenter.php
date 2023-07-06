@@ -41,6 +41,15 @@ class AuthPresenter extends BasePresenter
 
     }
 
+    public function actionLogout()
+    {
+        $this->getUser()->logout();
+
+        $this->flashMessage('Boli ste úspešne odhlásený','success');
+        //
+        $this->redirect(':Security:Auth:login');
+    }
+
     /*********************************************************************
      * Components
      ********************************************************************/

@@ -40,6 +40,8 @@ class Filters
                 return 'PayPal';
             case 'card':
                 return 'Platobná karta';
+            default:
+                return 'Platba';
         }
     }
 }

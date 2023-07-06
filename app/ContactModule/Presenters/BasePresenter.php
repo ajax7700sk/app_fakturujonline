@@ -25,6 +25,7 @@ class BasePresenter extends \App\Presenters\BasePresenter
 
     public function createComponentContactForm(): ContactForm
     {
+        $this->getAction();
         /** @var ContactForm $control */
         $control = $this->contactForm->create();
         //

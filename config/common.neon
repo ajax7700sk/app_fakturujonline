@@ -120,7 +120,7 @@ services:
 
 	# Gateways
 	stripeGateway:
-	    factory: \App\Gateways\Strip
+	    factory: \App\Gateways\Stripe
 	    inject: yes
 
 # Extensions
