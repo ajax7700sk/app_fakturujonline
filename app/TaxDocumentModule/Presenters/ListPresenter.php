@@ -170,24 +170,63 @@ class ListPresenter extends BasePresenter
              ->setFilterDateRange();
 
         // Actions
-        $grid->addAction('paidAt', 'Uhradiť', null)
+        $grid->addAction('paidAt', '€', null)
              ->setRenderer(function ($entity) {
                  return "<a target='_blank' 
                 data-toggle='modal' 
                 title='Uhradené' 
                 data-target='#paymentModal' 
                 data-id='".$entity->getId()."' 
-                class='btn btn-primary btn-sm'>Uhradiť</a>";
+                class='btn btn-primary btn-sm'>€</a>";
              })
-             ->setClass('btn btn-info btn-sm');
+             ->setClass('btn btn-info btn-sm btn-payment');
         $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
-             ->setClass('btn btn-info btn-sm');
+             ->setClass('btn btn-info btn-sm btn-pdf');
         $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
+              ->setRenderer(function(TaxDocument $item) {
+                    $link = $this->link(':TaxDocument:List:email', ['id' => $item->getId()]);
+                    //
+                    return sprintf('
+                        <a href="%s" class="btn btn-email btn-sm">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="svg-icon--material svg-icon btn-icon" data-name="Material--Email">
+                                <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                <path d="M20 8l-8 5-8-5v10h16zm0-2H4l8 4.99z" opacity="0.3"></path>
+                                <path d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM20 6l-8 4.99L4 6h16zM4 8l8 5 8-5v10H4V8z"></path>
+                            </svg>
+                        </a>', $link
+                    );
+                })
              ->setClass('btn btn-info btn-sm');
-        $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:', ['id' => 'id'])
+        $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:default', ['id' => 'id'])
+             ->setRenderer(function(TaxDocument $item) {
+                 $link = $this->link(':TaxDocument:Edit:default', ['id' => $item->getId()]);
+                 //
+                 return sprintf('
+                    <a href="%s" class="btn btn-edit btn-sm">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="svg-icon--material svg-icon btn-icon" data-name="Material--Edit">
+                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                            <path d="M5 18.08V19h.92l9.06-9.06-.92-.92z" opacity="0.3"></path>
+                            <path d="M20.71 7.04a.996.996 0 000-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19z"></path>
+                        </svg>
+                    </a>', $link
+                 );
+             })
              ->setIcon('pencil')
              ->setClass('btn btn-warning btn-sm');
         $grid->addAction('delete', 'Zmazať', ':TaxDocument:List:delete', ['id' => 'id'])
+             ->setRenderer(function(TaxDocument $item) {
+                 $link = $this->link(':TaxDocument:List:delete', ['id' => $item->getId()]);
+                 //
+                 return sprintf('
+                    <a href="%s" class="btn btn-delete btn-sm">
+                        <svg viewBox="0 0 24 24" fill="currentColor" class="svg-icon--material svg-icon btn-icon" data-name="Material--Delete">
+                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                            <path d="M8 9h8v10H8z" opacity="0.3"></path>
+                            <path d="M15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z"></path>
+                        </svg>
+                    </a>', $link
+                 );
+             })
              ->setIcon('trash')
              ->setClass('btn btn-danger btn-sm');
         // Action
