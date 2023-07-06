@@ -1,0 +1,4 @@
+form:
+    general:
+        validation:
+            required: 'Pole je povinné'

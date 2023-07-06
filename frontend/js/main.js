@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     subscription();
     flashes();
     contacts();
+    validations();
 });
 
 
@@ -268,4 +269,150 @@ function contacts() {
     }
 
     form();
+}
+
+function validations() {
+    /**
+     * Validate all fields
+     */
+    function validateFields($form) {
+        var fields = $form.find('input, textarea, select');
+        //
+        fields.each(function(index, element) {
+            validateField($(element));
+        });
+    }
+
+    /**
+     * Validate specific field
+     * @param {jQuery} $input
+     */
+    function validateField($input) {
+        var rules = $input.attr('data-nette-rules');
+
+        if(rules) {
+            rules = JSON.parse(rules);
+            //
+            validateFieldRules($input, rules);
+        }
+    }
+
+    /**
+     * Validate all field rules
+     * @param $input
+     * @param rules
+     */
+    function validateFieldRules($input, rules) {
+        var value = $input.val();
+
+        rules.every((rule) => {
+            // // On condition rule?
+            // if(rule.hasOwnProperty('rules')) {
+            //     var conditionalControl = document.querySelector('input[name="'+rule.control+'"]');
+            //     var conditionalControlValue = null;
+            //
+            //     // --- Filter condintional control by its type
+            //     switch (conditionalControl.type) {
+            //         case 'radio':
+            //             conditionalControl = document.querySelector('input[name="'+rule.control+'"]:checked');
+            //             break;
+            //     }
+            //
+            //     // Get control value
+            //     conditionalControlValue = this._filterControlValue(conditionalControl);
+            //
+            //     // Checkbox
+            //     if(rule.op === ':equal') {
+            //         // Checkbox has to be checked to run validation
+            //         // Checkbox has to be unchecked to run validation
+            //         if((rule.arg && conditionalControlValue) || (!rule.arg && !conditionalControlValue)) {
+            //             return this._validateRules(rule.rules, value, input);
+            //         }
+            //     }
+            //
+            //     return false; // Break loop
+            // }
+
+            // Optional validate
+            if(rule.op === 'optional' && value === '') {
+                // Break loop
+                return false;
+            }
+
+            // Throw error
+            if (!validateByType(value, rule.op)) {
+                showFieldError($input, rule.msg);
+                //
+                throw new Error(rule.msg);
+            }
+
+            // Next loop
+            return true;
+        });
+    }
+
+    /**
+     * Show field error
+     * @param {jQuery} $input
+     * @param msg
+     */
+    function showFieldError($input, msg) {
+        $input.addClass('is-invalid');
+        $input.parent().find('.error-msg').text(msg);
+    }
+
+    /**
+     * @param {string} value
+     * @param {string} op
+     * @private
+     */
+    function validateByType(value, op) {
+
+        // Validate by type
+        switch (op) {
+
+            case ':filled':
+                return validatorIsFilled(value);
+            case ':email':
+                return validatorIsEmail(value);
+            // case 'App\\Validator\\PhoneNumberValidator::validate':
+            //     return Validator.phone(value) !== false;
+            //
+            // case 'App\\Validator\\ZipValidator::validate':
+            //     return Validator.zip(value) !== false;
+            //
+            // case 'App\\Validator\\CompanyInValidator::validate':
+            //     return Validator.companyId(value) !== false;
+            //
+            // case 'App\\Validator\\TaxIdValidator::validate':
+            //     return Validator.taxId(value) !== false;
+
+            default:
+                return true;
+        }
+    }
+
+    // --- Validators
+
+    function validatorIsFilled(value) {
+        if(value.length == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function validatorIsEmail(value) {
+        return validator.isEmail(value);
+    }
+
+    // ------------------------------------------ Events -------------------------------------------- \\
+
+    // Submit
+    $('form').on('submit', function(e) {
+        // Validate all fields
+        e.preventDefault();
+        //
+        validateFields($(this));
+    })
 }

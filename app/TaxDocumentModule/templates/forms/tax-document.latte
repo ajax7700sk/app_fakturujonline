@@ -1,6 +1,13 @@
 {block content}
 
 {form form}
+    {if ($form->getErrors()|length) > 0}
+        <ul class="form-errors">
+            {foreach $form->getErrors() as $error}
+                <li>{$error}</li>
+            {/foreach}
+        </ul>
+    {/if}
     <div class="row h-100 align-content-start">
         <div class="col-md-12">
             <div class="card">
@@ -47,7 +54,7 @@
                                             <div style="padding-bottom: 20px;">
                                                 <div class="form-floating">
                                                     {input type, class: "form-select"}
-                                                    <div class="valid-feedback">OK!</div>
+                                                    <div class="error-msg"></div>
                                                     <label n:name="type" class="form-label">Druh dokladu</label>
                                                 </div>
                                             </div>
@@ -59,6 +66,7 @@
                                                             class="form-control"
                                                             placeholder="Číslo dokladu"
                                                             style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                                    <div class="error-msg"></div>
                                                     <label n:name="number" class="form-label">Číslo dokladu</label></div>
                                             </div>
                                             <div style="padding-bottom: 20px;">
@@ -67,7 +75,9 @@
                                                         <input class="form-check-input"
                                                                 n:name="transferedTaxLiability"
                                                                type="checkbox"
-                                                        ><label class="form-check-label" n:name="transferedTaxLiability">Preniesť daňovú zodpovednosť</label>
+                                                        >
+                                                        <div class="error-msg"></div>
+                                                        <label class="form-check-label" n:name="transferedTaxLiability">Preniesť daňovú zodpovednosť</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,6 +88,7 @@
                                                                 n:name="vatPayer"
                                                                type="checkbox"
                                                         >
+                                                        <div class="error-msg"></div>
                                                         <label class="form-check-label" n:name="vatPayer">Plátca DPH</label>
                                                     </div>
                                                 </div>
@@ -91,6 +102,7 @@
                                                             placeholder="Vystavil"
                                                             n:name="issuedBy"
                                                     >
+                                                    <div class="error-msg"></div>
                                                     <label n:name="issuedBy" class="form-label">Vystavil</label>
                                                 </div>
                                             </div>
@@ -104,6 +116,7 @@
                                                             class="form-control"
                                                             placeholder="Dátum vydania"
                                                     >
+                                                    <div class="error-msg"></div>
                                                     <label n:name="issuedAt" class="form-label">Dátum vydania</label>
                                                 </div>
                                             </div>
@@ -115,6 +128,7 @@
                                                             class="form-control"
                                                             placeholder="Dátum dodania"
                                                     >
+                                                    <div class="error-msg"></div>
                                                     <label n:name="deliveryDateAt" class="form-label">Dátum dodania</label>
                                                 </div>
                                             </div>
@@ -126,6 +140,7 @@
                                                             class="form-control"
                                                             placeholder="Splatnosť"
                                                     >
+                                                    <div class="error-msg"></div>
                                                     <label for="dueDateAt" class="form-label">Splatnosť</label>
                                                 </div>
                                             </div>
@@ -172,6 +187,7 @@
                                                     class="form-control form-control-lg"
                                                     rows="5"
                                                     placeholder="Poznámka"></textarea>
+                                                <div class="error-msg"></div>
                                                 <label n:name="note" class="form-label">Poznámka</label>
                                             </div>
                                         </div>
@@ -218,6 +234,7 @@
                                                                         class="form-control js-name"
                                                                         value="{$lineItem->getName()}"
                                                                 >
+                                                                <div class="error-msg"></div>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -228,6 +245,7 @@
                                                                         class="form-control js-quantity"
                                                                         value="{$lineItem->getQuantity()}"
                                                                 >
+                                                                <div class="error-msg"></div>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -247,7 +265,7 @@
                                                                     <option value="m²" aria-labelledby="m²" label="m²">m²</option>
                                                                     <option value="m³" aria-labelledby="m³" label="m³">m³</option>
                                                                 </select>
-                                                                <div class="valid-feedback">OK!</div>
+                                                                <div class="error-msg"></div>
                                                         </td>
                                                         <td>
                                                             <div class="form-floating">
@@ -258,6 +276,7 @@
                                                                         placeholder=""
                                                                         value="{$lineItem->getUnitPriceTaxExcl()}"
                                                                 >
+                                                                <div class="error-msg"></div>
                                                             </div>
                                                         </td>
                                                         <td style="display: none;">
@@ -268,6 +287,7 @@
                                                                        placeholder=""
                                                                        value="{$lineItem->getTaxRate()}"
                                                                 >
+                                                                <div class="error-msg"></div>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -279,6 +299,7 @@
                                                                         disabled
                                                                         value="{$lineItem->getTotalPriceTaxIncl()}"
                                                                 />
+                                                                <div class="error-msg"></div>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -326,13 +347,14 @@
                                             <div style="padding-bottom: 20px;">
                                                 <div class="form-floating js-load-company-data" data-link="{link //LoadCompanyData!}">
                                                     {input userCompany, class: "form-select"}
+                                                    <div class="error-msg"></div>
                                                     <label n:name="userCompany" class="form-label">Spoločnosť</label>
                                                 </div>
                                             </div>
                                             <div style="padding-bottom: 20px;">
                                                 <div class="form-floating">
                                                     {input currencyCode, class: "form-select"}
-                                                    <div class="valid-feedback">OK!</div>
+                                                    <div class="error-msg"></div>
                                                     <label n:name="currencyCode" class="form-label">Mena</label>
                                                 </div>
                                             </div>
@@ -344,6 +366,7 @@
                                                             class="form-control"
                                                             placeholder="Konštantný symbol"
                                                     >
+                                                    <div class="error-msg"></div>
                                                     <label n:name="constantSymbol" class="form-label">Konštantný symbol</label>
                                                 </div>
                                             </div>
@@ -355,6 +378,7 @@
                                                             class="form-control"
                                                             placeholder="Špecifický symbol"
                                                     >
+                                                    <div class="error-msg"></div>
                                                     <label n:name="specificSymbol" class="form-label">Špecifický symbol</label>
                                                 </div>
                                             </div>
@@ -376,7 +400,7 @@
                                         <div class="col-md-12">
                                             <div class="form-floating">
                                                 {input paymentData_type, class: "form-select text-muted"}
-                                                <div class="valid-feedback">OK!</div>
+                                                <div class="error-msg"></div>
                                                 <label n:name="paymentData_type" class="form-label">Typ úhrady</label>
                                             </div>
                                         </div>
@@ -390,6 +414,7 @@
                                                         class="form-control"
                                                         placeholder="Bankový účet"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label n:name="paymentData_bankAccount" class="form-label">Bankový účet</label>
                                             </div>
                                         </div>
@@ -403,6 +428,7 @@
                                                         class="form-control"
                                                         placeholder="IBAN"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label n:name="paymentData_iban" class="form-label">IBAN</label>
                                             </div>
                                         </div>
@@ -416,6 +442,7 @@
                                                         class="form-control"
                                                         placeholder="SWIFT"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label n:name="paymentData_swift" class="form-label">SWIFT</label>
                                             </div>
                                         </div>
@@ -446,6 +473,7 @@
                                                         placeholder="Názov spoločnosti"
                                                         n:name="supplier_name"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_name"
                                                         class="form-label"
@@ -462,6 +490,7 @@
                                                         placeholder="IČO"
                                                         n:name="supplier_businessId"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_businessId"
                                                         class="form-label"
@@ -478,6 +507,7 @@
                                                         placeholder="DIČ"
                                                         n:name="supplier_taxId"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_taxId"
                                                         class="form-label"
@@ -492,6 +522,7 @@
                                                         placeholder="IČ DPH"
                                                         n:name="supplier_vatNumber"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_vatNumber"
                                                         class="form-label"
@@ -508,6 +539,7 @@
                                                         placeholder="Telefón"
                                                         n:name="supplier_phone"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_phone"
                                                         class="form-label"
@@ -522,6 +554,7 @@
                                                         placeholder="E-mail"
                                                         n:name="supplier_email"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_email"
                                                         class="form-label"
@@ -538,6 +571,7 @@
                                                         placeholder="Adresa"
                                                         n:name="supplier_street"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_street"
                                                         class="form-label"
@@ -554,6 +588,7 @@
                                                         placeholder="Město"
                                                         n:name="supplier_city"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_city"
                                                         class="form-label"
@@ -568,6 +603,7 @@
                                                         placeholder="PŠC"
                                                         n:name="supplier_zipCode"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label
                                                         n:name="supplier_zipCode"
                                                         class="form-label"
@@ -579,6 +615,7 @@
                                         <div class="col-md-12">
                                             <div class="form-floating">
                                                 {input supplier_countryCode, class: "form-select"}
+                                                <div class="error-msg"></div>
                                                 <label n:name="supplier_countryCode" class="form-label">Štát</label>
                                             </div>
                                         </div>
@@ -605,6 +642,7 @@
                                                         class="form-control"
                                                         placeholder="Číslo účtu"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label n:name="bankAccount_accountNumber" class="form-label">Číslo účtu</label>
                                             </div>
                                         </div>
@@ -618,6 +656,7 @@
                                                         class="form-control"
                                                         placeholder="IBAN"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label n:name="bankAccount_accountNumber" class="form-label">IBAN</label>
                                             </div>
                                         </div>
@@ -631,6 +670,7 @@
                                                         class="form-control"
                                                         placeholder="SWIFT"
                                                 >
+                                                <div class="error-msg"></div>
                                                 <label n:name="bankAccount_accountNumber" class="form-label">SWIFT</label>
                                             </div>
                                         </div>
@@ -659,6 +699,7 @@
                                                 placeholder="Názov spoločnosti"
                                                 n:name="subscriber_name"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_name"
                                                 class="form-label"
@@ -675,6 +716,7 @@
                                                 placeholder="IČO"
                                                 n:name="subscriber_businessId"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_businessId"
                                                 class="form-label"
@@ -691,6 +733,7 @@
                                                 placeholder="DIČ"
                                                 n:name="subscriber_taxId"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_taxId"
                                                 class="form-label"
@@ -705,6 +748,7 @@
                                                 placeholder="IČ DPH"
                                                 n:name="subscriber_vatNumber"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_vatNumber"
                                                 class="form-label"
@@ -721,6 +765,7 @@
                                                 placeholder="Telefón"
                                                 n:name="subscriber_phone"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_phone"
                                                 class="form-label"
@@ -735,6 +780,7 @@
                                                 placeholder="E-mail"
                                                 n:name="subscriber_email"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_email"
                                                 class="form-label"
@@ -751,6 +797,7 @@
                                                 placeholder="Adresa"
                                                 n:name="subscriber_street"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_street"
                                                 class="form-label"
@@ -767,6 +814,7 @@
                                                 placeholder="Město"
                                                 n:name="subscriber_city"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_city"
                                                 class="form-label"
@@ -781,6 +829,7 @@
                                                 placeholder="PŠC"
                                                 n:name="subscriber_zipCode"
                                         >
+                                        <div class="error-msg"></div>
                                         <label
                                                 n:name="subscriber_zipCode"
                                                 class="form-label"
@@ -792,6 +841,7 @@
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         {input subscriber_countryCode, class: "form-select"}
+                                        <div class="error-msg"></div>
                                         <label n:name="subscriber_countryCode" class="form-label">Štát</label>
                                     </div>
                                 </div>

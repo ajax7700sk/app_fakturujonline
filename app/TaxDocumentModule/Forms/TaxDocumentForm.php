@@ -61,6 +61,8 @@ class TaxDocumentForm extends AbstractForm
     public function createComponentForm()
     {
         $form = new Form();
+        $form->getElementPrototype()
+             ->setAttribute('novalidate', "novalidate");
         $form->setTranslator($this->translator);
 
         if ($this->taxDocument) {
