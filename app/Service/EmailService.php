@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\TaxDocument;
+use App\Entity\User;
 use Nette\Application\UI\ITemplateFactory;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
@@ -40,6 +41,33 @@ class EmailService
             ->setFrom($taxDocument->getSupplierBillingAddress()->getEmail())
             ->addTo($taxDocument->getSubscriberBillingAddress()->getEmail())
             ->addAttachment($pdfData['filepath']);
+
+        $mailer = new SendmailMailer();
+        $mailer->send($message);
+    }
+
+    /**
+     * @param TaxDocument $taxDocument
+     *
+     * @throws \Exception
+     * @return void
+     */
+    public function resetPassword(User $user): void
+    {
+        // Template
+        $template = $this->templateFactory->createTemplate();
+        // Variables
+        $template->user = $user;
+        //
+        $template->setFile(get_app_folder_path().'/templates/email/reset-password.latte');
+
+        // Message
+        $message = new Message();
+        $message
+            ->setSubject('Obnova hesla')
+            ->setHtmlBody((string)$template)
+            ->setFrom('no-reply@fakturujonline.sk')
+            ->addTo($user->getEmail());
 
         $mailer = new SendmailMailer();
         $mailer->send($message);

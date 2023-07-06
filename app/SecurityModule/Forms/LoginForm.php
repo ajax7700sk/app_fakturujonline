@@ -53,16 +53,18 @@ final class LoginForm extends AbstractForm
     public function createComponentForm()
     {
         $form = new Form();
+        $form->getElementPrototype()
+             ->setAttribute('novalidate', "novalidate");
         $form->setTranslator($this->translator);
 
         $form->addText('email', 'Váš e-mail')
              ->setRequired("Pole je povinné")
              ->setAttribute("placeholder", 'Váš e-mail');
         $form->addPassword('password', 'Vaše heslo')
-             ->setRequired("form.validation.required")
+             ->setRequired("Pole je povinné")
              ->setAttribute("placeholder", 'Vaše heslo');
 
-        $form->addSubmit("submit", 'form.general.submit.label');
+        $form->addSubmit("submit", 'Obnoviť heslo');
 
         // Events
         $form->onValidate[] = [$this, 'onValidate'];

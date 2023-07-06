@@ -60,6 +60,8 @@ final class RegisterForm extends AbstractForm
     public function createComponentForm()
     {
         $form = new Form();
+        $form->getElementPrototype()
+             ->setAttribute('novalidate', "novalidate");
         $form->setTranslator($this->translator);
 
         $form->addText('firstName', 'Meno')

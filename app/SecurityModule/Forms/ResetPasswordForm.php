@@ -5,6 +5,7 @@ namespace App\SecurityModule\Forms;
 
 use App\Entity\User;
 use App\Forms\AbstractForm;
+use App\Service\EmailService;
 use App\Service\SecurityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
@@ -21,17 +22,21 @@ final class ResetPasswordForm extends AbstractForm
     private SecurityService $securityService;
 
     private Translator $translator;
+    private EmailService $emailService;
+
 
     public function __construct(
         Translator $translator,
         EntityManagerInterface $entityManager,
         SecurityService $securityService,
-        SecurityUser $securityUser
+        SecurityUser $securityUser,
+        EmailService $emailService
     ) {
         $this->entityManager   = $entityManager;
         $this->securityService = $securityService;
         $this->securityUser    = $securityUser;
         $this->translator      = $translator;
+        $this->emailService    = $emailService;
     }
 
     /**
@@ -55,6 +60,8 @@ final class ResetPasswordForm extends AbstractForm
     public function createComponentForm()
     {
         $form = new Form();
+        $form->getElementPrototype()
+             ->setAttribute('novalidate', "novalidate");
         $form->setTranslator($this->translator);
 
         $form->addEmail('email', 'E-mail')
@@ -89,14 +96,18 @@ final class ResetPasswordForm extends AbstractForm
     {
         /** @var \Nette\Utils\ArrayHash $values */
         $values = $form->getValues();
+        /** @var User|null $user */
+        $user = $this->entityManager->getRepository(User::class)->findOneBy($values['email']);
 
         try {
-            // Redirect to dashboard
-            $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
-            $this->presenter->redirect(':Security:Auth:login');
+            if($user) {
+                $this->emailService->resetPassword($user);
+                // Redirect to dashboard
+                $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
+                $this->presenter->redirect(':Security:Auth:login');
+            }
         } catch (\Exception $e) {
             // TODO: odchytit transport email exception
-            dd($e->getMessage());
             $this->presenter->flashMessage("Pri odoslaní e-mailu nastala neočakávana chyba");
             $this->presenter->redirect("this");
         }
