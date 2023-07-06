@@ -86,6 +86,8 @@ class UserCompanyForm extends AbstractForm
              ->setRequired("Pole je povinné");
         $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames())
              ->setRequired("Pole je povinné");
+        $form->addText('registerInfo', 'Registračné info')
+             ->setRequired("Pole je povinné");
 
         // Bank account
         $form->addText('bankAccount_accountNumber', 'Číslo účtu');
@@ -162,6 +164,7 @@ class UserCompanyForm extends AbstractForm
 
 
         // Set relations
+        $userCompany->setRegisterInfo($values['registerInfo']);
         $userCompany->setBillingAddress($billingAddress);
         $userCompany->setBankAccount($bankAccount);
 
@@ -200,6 +203,7 @@ class UserCompanyForm extends AbstractForm
                 // Company
                 'name'     => $entity->getName(),
                 'vatPayer' => $entity->getVatPayer(),
+                'registerInfo' => $entity->getRegisterInfo()
             ));
 
             // Bank account

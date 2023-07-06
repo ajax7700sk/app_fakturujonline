@@ -77,7 +77,8 @@ class TaxDocumentForm extends AbstractForm
         }
 
         // Invoice
-        $form->addSelect('userCompany', 'Spoločnosť', $companiesList);
+        $form->addSelect('userCompany', 'Spoločnosť', $companiesList)
+            ->setRequired("Pole je povinné");
         $form->addSelect('type', 'Druh dokladu', [
             TaxDocument::TYPE_INVOICE => 'Faktúra',
             TaxDocument::TYPE_ADVANCE_PAYMENT => 'Zálohová faktúra',
@@ -360,6 +361,7 @@ class TaxDocumentForm extends AbstractForm
                 'currencyCode'   => $entity->getCurrencyCode(),
                 'constantSymbol' => $entity->getConstantSymbol(),
                 'specificSymbol' => $entity->getSpecificSymbol(),
+                'userCompany'    => $entity->getUserCompany()->getId(),
             ));
 
             // Payment data

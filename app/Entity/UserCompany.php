@@ -64,6 +64,11 @@ class UserCompany
      */
     private $taxDocuments;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $registerInfo;
+
     public function __construct()
     {
         $this->taxDocuments = new ArrayCollection();
@@ -184,6 +189,18 @@ class UserCompany
                 $taxDocument->setUserCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRegisterInfo(): ?string
+    {
+        return $this->registerInfo;
+    }
+
+    public function setRegisterInfo(?string $registerInfo): self
+    {
+        $this->registerInfo = $registerInfo;
 
         return $this;
     }

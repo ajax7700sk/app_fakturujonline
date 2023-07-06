@@ -182,6 +182,9 @@
                 Daň je povinný zaplatiť zákazník.
             {/if}
         </div>
+        {if $taxDocument->getUserCompany() && $taxDocument->getUserCompany()->getRegisterInfo()}
+            <p class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
+        {/if}
         <!-- Footer -->
         <footer class="text-center footer">
             {if $taxDocument->getNote()}
