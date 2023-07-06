@@ -99,3 +99,9 @@
 .datagrid .input-group-append {
 	display: none;
 }
+
+.error-msg {
+	color: $danger;
+	margin-top: 0.25rem;
+	font-size: .875em;
+}
