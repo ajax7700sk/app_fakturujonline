@@ -24,6 +24,7 @@ class Authenticator implements Nette\Security\IAuthenticator
         /** @var User|null $row */
         $row = $repository->findOneBy(["email" => $name]);
         $passwords = new Passwords();
+        //
 
         if ( ! $row) {
             throw new Nette\Security\AuthenticationException(

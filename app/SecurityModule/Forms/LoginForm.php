@@ -87,7 +87,7 @@ final class LoginForm extends AbstractForm
             $this->presenter->flashMessage('Boli ste úspešne prihlásený', 'success');
             $this->presenter->redirect(':Dashboard:Default:default');
         } catch (\Nette\Security\AuthenticationException $e) {
-            $this->presenter->flashMessage("form.login.validation.authentication");
+            $this->presenter->flashMessage("Nesprávne prihlasovacie údaje", 'danger');
             $this->presenter->redirect("this");
         }
     }

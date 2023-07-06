@@ -19,6 +19,11 @@
 
 
 // Bootstrap
+.btn-info,
+.btn-primary {
+	background-color: #4d69fa;
+}
+
 .btn {
 	border-radius: 10px;
 	padding: 6.5px 10px;
@@ -89,4 +94,8 @@
 .datagrid-collapse-filters-button-row .btn {
 	padding: 5.5px 11px !important;
 	margin: 0 !important;
+}
+
+.datagrid .input-group-append {
+	display: none;
 }

@@ -34,6 +34,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
     protected function canRedirectFromSecurity(): bool
     {
+        if($this->getAction(true) == ':Security:Auth:logout') {
+            return false;
+        }
+
         // Is not security presenter
         if ( ! in_array($this->name, ['Security:Auth'])) {
             return false;

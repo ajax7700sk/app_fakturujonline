@@ -9,7 +9,7 @@ class DefaultPresenter extends BasePresenter
 {
     public function actionDefault()
     {
-        dd("Dashboard");
+        $this->redirect(':TaxDocument:List:default');
     }
 
 }

@@ -6,6 +6,10 @@
 
     <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
     <link rel="stylesheet" href='{webpack "dist/css/main.css"}'>
+    <script
+            src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+            crossorigin="anonymous"></script>
 </head>
 
 <body
@@ -19,7 +23,7 @@
 
 <!-- Scripts -->
 {block scripts}
-    <script href='{webpack "dist/js/main.js"}'></script>
+    <script src='{webpack "dist/js/main.js"}'></script>
     {*	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>*}
 {/block}
 </body>

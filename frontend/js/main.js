@@ -8,12 +8,12 @@
 // import Datagird from "./components/Datagrid";
 // import Toolbar from "./components/Toolbar";
 
-document.addEventListener('DOMContentLoaded', (event) => {
+$( document ).ready(function() {
     //
     bootstrapInit()
     taxDocument();
     subscription();
-    alert();
+    flashes();
 });
 
 
@@ -240,7 +240,7 @@ function darkMode() {
     });
 }
 
-function alert() {
+function flashes() {
     // Timer
     $('.alert').delay(5000).fadeOut('slow');
 

@@ -4,10 +4,17 @@
   right: 15px;
   top: 15px;
   padding: 10px 20px;
+  background-color: white;
+  color: black;
 }
 
 .alert.success {
   background-color: $success;
+  color: #fff;
+}
+
+.alert.danger {
+  background-color: $danger;
   color: #fff;
 }
 
