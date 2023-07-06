@@ -15,7 +15,7 @@
 		);
 	}
 	@include padding(map.get($header, padding-y) map.get($header, padding-x));
-	@include header-shadow(map.get($header, box-shadow));
+	//@include header-shadow(map.get($header, box-shadow));
 
 	position: sticky;
 	z-index: $zindex-sticky;
