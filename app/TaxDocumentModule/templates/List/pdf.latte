@@ -34,7 +34,9 @@
             <tr>
                 <td class="row align-items-center w-50">
                     <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
-                        <img id="logo" src="https://harnishdesign.net/demo/html/koice/images/logo.png" title="Koice" alt="Koice"/>
+                        {if $logo}
+                            <img id="logo" src="{$logo}"/>
+                        {/if}
                     </div>
                 </td>
                 <td class="w-50">

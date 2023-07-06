@@ -5,6 +5,8 @@ namespace App\TaxDocumentModule\Presenters;
 
 use App\Entity\DeliveryNote;
 use App\Entity\TaxDocument;
+use App\Entity\User;
+use App\Entity\UserCompany;
 use App\Repository\ContactRepository;
 use App\Repository\DeliveryNoteRepository;
 use App\Repository\TaxDocumentRepository;
@@ -32,9 +34,41 @@ class ListPresenter extends BasePresenter
     /** @var EmailService @inject */
     public $emailService;
 
+    /** @var UserCompany|null */
+    private $userCompany;
+
     public function actionDefault()
     {
+        $user = $this->getLoggedUser();
+        /** @var UserCompany[] $userCompanies */
+        $userCompanies = $this->em
+            ->getRepository(UserCompany::class)
+            ->findBy([
+                'user' => $user,
+            ]);
+        //
+        $this->template->userCompanies = $userCompanies;
+    }
 
+    public function actionUserCompany($id)
+    {
+        /** @var UserCompany|null $userCompany */
+        $userCompany = $this->em->getRepository(UserCompany::class)->find((int) $id);
+        $user = $this->getLoggedUser();
+
+        if(!$userCompany) {
+            $this->error();
+        }
+        $userCompanies = $this->em
+            ->getRepository(UserCompany::class)
+            ->findBy([
+                'user' => $user,
+            ]);
+
+
+        //
+        $this->template->userCompanies = $userCompanies;
+        $this->template->userCompany = $userCompany;
     }
 
     public function actionDelete($id)
@@ -159,6 +193,12 @@ class ListPresenter extends BasePresenter
             // Filter
             ->andWhere('userCompany.user = :user')
             ->setParameter('user', $this->getLoggedUser());
+
+        if($this->userCompany) {
+            $data
+                ->andWhere('userCompany = :userCompany')
+                ->setParameter('userCompany', $this->userCompany);
+        }
 
         $grid = new DataGrid($this, $name);
         $grid->setStrictSessionFilterValues();

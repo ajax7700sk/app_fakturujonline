@@ -43,9 +43,18 @@
                     <div class="row g-4">
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <textarea n:name="registerInfo" class="form-control"></textarea>
+                                {input registerInfo}
                                 <div class="error-msg"></div>
                                 <label class="form-check-label" n:name="registerInfo">Registračné info</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-12">
+                            <label class="form-check-label" n:name="logo">Logo</label>
+                            <div class="form-floating">
+                                <input type="file" n:name="logo" class="form-control"></input>
+                                <div class="error-msg"></div>
                             </div>
                         </div>
                     </div>

@@ -7,9 +7,11 @@ use App\Entity\Address;
 use App\Entity\BankAccount;
 use App\Entity\Contact;
 use App\Entity\UserCompany;
+use App\Exception\FileUploadException;
 use App\Forms\AbstractForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
+use Nette\Http\FileUpload;
 use Nette\Localization\Translator;
 use Nette\Security\User;
 use Symfony\Component\Intl\Countries;
@@ -67,6 +69,8 @@ class UserCompanyForm extends AbstractForm
              ->setRequired("Pole je povinné");
         $form->addCheckbox('vatPayer', 'Plátca DPH');
 
+        //
+        $form->addUpload('logo', 'Logo spoločnosti');
         // Billing address
         $form->addText('billingAddress_name', 'Názov spoločnosti')
              ->setRequired("Pole je povinné");
@@ -86,7 +90,8 @@ class UserCompanyForm extends AbstractForm
              ->setRequired("Pole je povinné");
         $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames())
              ->setRequired("Pole je povinné");
-        $form->addText('registerInfo', 'Registračné info')
+        $form->addTextArea('registerInfo', 'Registračné info')
+             ->setHtmlAttribute('class', 'form-control')
              ->setRequired("Pole je povinné");
 
         // Bank account
@@ -162,7 +167,6 @@ class UserCompanyForm extends AbstractForm
         $billingAddress->setZipCode($values['billingAddress_zipCode']);
         $billingAddress->setCountryCode($values['billingAddress_countryCode']);
 
-
         // Set relations
         $userCompany->setRegisterInfo($values['registerInfo']);
         $userCompany->setBillingAddress($billingAddress);
@@ -174,6 +178,16 @@ class UserCompanyForm extends AbstractForm
         $this->entityManager->persist($userCompany);
         //
         $this->entityManager->flush();
+
+        // -- Upload logo
+        if($values['logo']) {
+            $logo = $values['logo'];
+            //
+            $filename = $this->uploadLogo($logo, $userCompany);
+            $userCompany->setLogo($filename);
+            //
+            $this->entityManager->flush();
+        }
 
         // Redirect to dashboard
         if ( ! $this->userCompany) {
@@ -250,6 +264,16 @@ class UserCompanyForm extends AbstractForm
             ->find((int)$this->securityUser->id);
 
         return $user;
+    }
+
+    public function uploadLogo(FileUpload $fileUpload, UserCompany $userCompany)
+    {
+        $filename = sprintf('/media/user-company/logo/%s.jpg', $userCompany->getId());
+        $filepath = get_app_www_folder_path() . $filename;
+        // Save file
+        $fileUpload->move($filepath);
+
+        return $filename;
     }
 }
 

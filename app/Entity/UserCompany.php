@@ -69,6 +69,11 @@ class UserCompany
      */
     private $registerInfo;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $logo;
+
     public function __construct()
     {
         $this->taxDocuments = new ArrayCollection();
@@ -204,4 +209,17 @@ class UserCompany
 
         return $this;
     }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
 }
