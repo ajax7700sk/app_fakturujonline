@@ -23,6 +23,7 @@
                                        class="form-control"
                                        placeholder="Názov"
                                 >
+                                <div class="error-msg"></div>
                                 <label n:name=name class="form-label">Názov</label></div>
                         </div>
                     </div>
@@ -32,6 +33,7 @@
                                 <div id="name" class="">
                                     <div class="form-check form-switch">
                                         <input n:name="vatPayer" class="form-check-input">
+                                        <div class="error-msg"></div>
                                         <label class="form-check-label" n:name="vatPayer">Plátca DPH</label>
                                     </div>
                                 </div>
@@ -64,6 +66,7 @@
                                         placeholder="Názov spoločnosti"
                                         n:name="billingAddress_name"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_name"
                                         class="form-label"
@@ -80,6 +83,7 @@
                                         placeholder="IČO"
                                         n:name="billingAddress_businessId"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_businessId"
                                         class="form-label"
@@ -96,6 +100,7 @@
                                         placeholder="DIČ"
                                         n:name="billingAddress_taxId"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_taxId"
                                         class="form-label"
@@ -110,6 +115,7 @@
                                         placeholder="IČ DPH"
                                         n:name="billingAddress_vatNumber"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_vatNumber"
                                         class="form-label"
@@ -126,6 +132,7 @@
                                         placeholder="Telefón"
                                         n:name="billingAddress_phone"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_phone"
                                         class="form-label"
@@ -140,6 +147,7 @@
                                         placeholder="E-mail"
                                         n:name="billingAddress_email"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_email"
                                         class="form-label"
@@ -156,6 +164,7 @@
                                         placeholder="Adresa"
                                         n:name="billingAddress_street"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_street"
                                         class="form-label"
@@ -172,6 +181,7 @@
                                         placeholder="Město"
                                         n:name="billingAddress_city"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_city"
                                         class="form-label"
@@ -186,6 +196,7 @@
                                         placeholder="PŠC"
                                         n:name="billingAddress_zipCode"
                                 >
+                                <div class="error-msg"></div>
                                 <label
                                         n:name="billingAddress_zipCode"
                                         class="form-label"
@@ -197,6 +208,7 @@
                         <div class="col-md-12">
                             <div class="form-floating">
                                 {input billingAddress_countryCode, class: "form-select"}
+                                <div class="error-msg"></div>
                                 <label n:name="billingAddress_countryCode" class="form-label">Štát</label>
                             </div>
                         </div>
@@ -230,6 +242,7 @@
                                         class="form-control"
                                         placeholder="Číslo účtu"
                                 >
+                                <div class="error-msg"></div>
                                 <label n:name="bankAccount_accountNumber" class="form-label">Číslo účtu</label>
                             </div>
                         </div>
@@ -243,6 +256,7 @@
                                         class="form-control"
                                         placeholder="IBAN"
                                 >
+                                <div class="error-msg"></div>
                                 <label n:name="bankAccount_accountNumber" class="form-label">IBAN</label>
                             </div>
                         </div>
@@ -256,6 +270,7 @@
                                         class="form-control"
                                         placeholder="SWIFT"
                                 >
+                                <div class="error-msg"></div>
                                 <label n:name="bankAccount_accountNumber" class="form-label">SWIFT</label>
                             </div>
                         </div>
