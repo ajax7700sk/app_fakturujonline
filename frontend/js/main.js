@@ -273,6 +273,27 @@ function contacts() {
 
 function validations() {
     /**
+     * @param {jQuery} $form
+     */
+    function toggleValidTabs($form) {
+        // Find all invalid fields
+        var fields = $form.find('input.is-invalid, textarea.is-invalid, select.is-invalid');
+        // Remove class
+        $('.js-form-tab').find('button').removeClass('invalid');
+
+        fields.each(function(index, element) {
+            var $field = $(element);
+            var tabTarget = $field.parents('.tab-pane').attr('id');
+            tabTarget = '#' + tabTarget;
+            //
+            var $tab = $("[data-bs-target='" + tabTarget + "']");
+            console.log(tabTarget);
+            console.log($tab);
+            $tab.addClass('invalid');
+        });
+    }
+
+    /**
      * Validate all fields
      */
     function validateFields($form) {
@@ -289,12 +310,15 @@ function validations() {
      */
     function validateField($input) {
         var rules = $input.attr('data-nette-rules');
+        var $form = $input.closest('form');
 
         if(rules) {
             rules = JSON.parse(rules);
             //
             validateFieldRules($input, rules);
         }
+        //
+        toggleValidTabs($form);
     }
 
     /**
@@ -422,14 +446,40 @@ function validations() {
         return validator.isEmail(value);
     }
 
+    /**
+     * @param {jQuery} $form
+     * @return boolean
+     */
+    function isFormValid($form)
+    {
+        var fields = $form.find('input, textarea, select');
+        var isValid = true;
+        // Check if some field is invalid
+        fields.each(function(index, element) {
+            var $field = $(element);
+            //
+            if($field.hasClass('is-invalid')) {
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
     // ------------------------------------------ Events -------------------------------------------- \\
 
     // Submit
     $('form').on('submit', function(e) {
+        var $form = $(e.target);
         // Validate all fields
         e.preventDefault();
         //
         validateFields($(this));
+
+        // Is form valid
+        if(isFormValid($form)) {
+            $form.submit();
+        }
     })
 
     $(document.body).on('focusout', 'input', function(e) {

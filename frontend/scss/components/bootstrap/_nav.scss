@@ -7,6 +7,11 @@
 		border-bottom-color: $dark-nav-tabs-border-color;
 	}
 
+	.nav-link.invalid {
+		color: $danger;
+		text-decoration: underline;
+	}
+
 	.nav-link {
 		&:hover,
 		&:focus {
