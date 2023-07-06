@@ -6,9 +6,7 @@ namespace App\ContactModule\Presenters;
 use App\Entity\Contact;
 use App\Entity\Interfaces\ITaxDocument;
 use App\Entity\Invoice;
-use App\Entity\TaxDocument;
 use App\Repository\ContactRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Join;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -21,7 +19,19 @@ class ListPresenter extends BasePresenter
 
     public function actionDelete($id)
     {
+        /** @var Contact|null $contact */
+        $contact = $this->em->getRepository(Contact::class)->find((int) $id);
+
+        if(!$contact) {
+            $this->error();
+        }
+
+        $this->em->remove($contact);
+        $this->em->flush();
+
         //
+        $this->flashMessage('Kontakt bol úspešne zmazaný', 'success');
+        $this->redirect(':Contact:List:default');
     }
 
     /********************************************************************************
@@ -31,7 +41,8 @@ class ListPresenter extends BasePresenter
     /**
      * Invoice datagrid
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return DataGrid
      */
     protected function createComponentContactGrid(string $name)
@@ -41,10 +52,19 @@ class ListPresenter extends BasePresenter
 
         $data = $repository
             ->createQueryBuilder('contact')
-            ->leftJoin('\App\Entity\Address', 'billingAddress', Join::WITH, 'contact.billingAddress = billingAddress.id')
-            ->leftJoin('\App\Entity\Address', 'shippingAddress', Join::WITH, 'contact.shippingAddress = shippingAddress.id')
-            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'contact.user = user.id')
-        ;
+            ->leftJoin(
+                '\App\Entity\Address',
+                'billingAddress',
+                Join::WITH,
+                'contact.billingAddress = billingAddress.id'
+            )
+            ->leftJoin(
+                '\App\Entity\Address',
+                'shippingAddress',
+                Join::WITH,
+                'contact.shippingAddress = shippingAddress.id'
+            )
+            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'contact.user = user.id');
 
         $grid = new DataGrid($this, $name);
         $grid->setStrictSessionFilterValues();
@@ -68,9 +88,9 @@ class ListPresenter extends BasePresenter
         $grid->addColumnText('billingAddressCity', 'Město', 'billingAddress.city')
              ->setFilterText();
         $grid->addColumnDateTime('createdAt', 'Vytvorené', 'createdAt')
-            ->setFilterDateRange();
+             ->setFilterDateRange();
         $grid->addColumnDateTime('updatedAt', 'Upravené', 'updatedAt')
-            ->setFilterDateRange();
+             ->setFilterDateRange();
 
         // Actions
         $grid->addAction('edit', 'Upraviť', ':Contact:Edit:', ['id' => 'id'])
