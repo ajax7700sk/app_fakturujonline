@@ -2,16 +2,24 @@
   color: inherit !important;
 }
 
+.daily-mode-btn {
+  display: flex;
+}
+
 .dark-mode-btn {
   display: none;
 }
 
 body[theme="dark"] {
   .dark-mode-btn {
-    display: block;
+    display: flex;
   }
 
   .daily-mode-btn {
     display: none;
   }
+}
+
+.datagrid-taxDocumentGrid .row-group-actions {
+  display: none;
 }
