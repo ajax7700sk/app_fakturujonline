@@ -58,7 +58,7 @@ final class ResetPasswordForm extends AbstractForm
         $form->setTranslator($this->translator);
 
         $form->addEmail('email', 'E-mail')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
 
         $form->addSubmit("submit", 'form.general.submit.label');
 

@@ -63,11 +63,11 @@ final class RegisterForm extends AbstractForm
         $form->setTranslator($this->translator);
 
         $form->addText('firstName', 'Meno')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('lastName', 'Priezvisko')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('email', 'E-mail')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addPassword('password', 'Heslo')
              ->setRequired("form.validation.required");
         $form->addPassword('passwordRepeat', 'Heslo znova')

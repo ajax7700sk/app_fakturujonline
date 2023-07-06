@@ -84,19 +84,19 @@ class TaxDocumentForm extends AbstractForm
             TaxDocument::TYPE_PROFORMA_INVOCE => 'Proforma faktúra',
             TaxDocument::TYPE_CREDIT_NOTE => 'Dobropis'
         ])
-            ->setRequired("form.general.validation.required");
+            ->setRequired("Pole je povinné");
         $form->addText('number', 'Číslo dokladu')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addCheckbox('transferedTaxLiability', 'Preniesť daňovú zodpovednosť');
         $form->addCheckbox('vatPayer', 'Plátca DPH');
         $form->addText('issuedBy', 'Vystavil')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('issuedAt', 'Dátum vystavenia')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('deliveryDateAt', 'Dátum dodania')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('dueDateAt', 'Splatnosť')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
 
         // Notes
         $form->addTextArea('noteAboveItems', 'Poznámka nad položkami');
@@ -104,7 +104,7 @@ class TaxDocumentForm extends AbstractForm
 
         // Settings
         $form->addSelect('currencyCode', 'Mena', Currencies::getNames())
-            ->setRequired("form.general.validation.required");
+            ->setRequired("Pole je povinné");
         $form->addText('constantSymbol', 'Konštantný symbol');
         $form->addText('specificSymbol', 'Špecifický symbol');
 
@@ -116,50 +116,50 @@ class TaxDocumentForm extends AbstractForm
             PaymentData::TYPE_PAYPAL => 'Paypal',
             PaymentData::TYPE_PAYMENT_CARD => 'Platobná karta'
         ])
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('paymentData_bankAccount', 'Bankový účet');
         $form->addText('paymentData_iban', 'IBAN');
         $form->addText('paymentData_swift', 'SWIFT');
 
         // Supplier
         $form->addText('supplier_name', 'Názov spoločnosti')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('supplier_businessId', 'IČO')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('supplier_taxId', 'DIČ');
         $form->addText('supplier_vatNumber', 'IČ DPH');
         $form->addText('supplier_phone', 'Telefon')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('supplier_email', 'E-mail')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('supplier_street', 'Adresa')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('supplier_city', 'Město')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('supplier_zipCode', 'PŠC')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addSelect('supplier_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
 
         // Subscriber address
         $form->addText('subscriber_name', 'Názov spoločnosti')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('subscriber_businessId', 'IČO')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
         $form->addText('subscriber_phone', 'Telefon')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('subscriber_email', 'E-mail')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('subscriber_street', 'Adresa')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('subscriber_city', 'Město')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('subscriber_zipCode', 'PŠC')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addSelect('subscriber_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
 
         // Supplier bank account
         $form->addText('bankAccount_accountNumber', 'Číslo účtu');

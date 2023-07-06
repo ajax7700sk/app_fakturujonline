@@ -56,7 +56,7 @@ final class LoginForm extends AbstractForm
         $form->setTranslator($this->translator);
 
         $form->addText('email', 'Váš e-mail')
-             ->setRequired("form.general.validation.required")
+             ->setRequired("Pole je povinné")
              ->setAttribute("placeholder", 'Váš e-mail');
         $form->addPassword('password', 'Vaše heslo')
              ->setRequired("form.validation.required")

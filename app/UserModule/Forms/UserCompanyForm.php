@@ -62,28 +62,28 @@ class UserCompanyForm extends AbstractForm
         }
         //
         $form->addText('name', 'Názov')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addCheckbox('vatPayer', 'Plátca DPH');
 
         // Billing address
         $form->addText('billingAddress_name', 'Názov spoločnosti')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('billingAddress_businessId', 'IČO')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('billingAddress_taxId', 'DIČ');
         $form->addText('billingAddress_vatNumber', 'IČ DPH');
         $form->addText('billingAddress_phone', 'Telefon')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('billingAddress_email', 'E-mail')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('billingAddress_street', 'Adresa')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('billingAddress_city', 'Město')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('billingAddress_zipCode', 'PŠC')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
 
         // Bank account
         $form->addText('bankAccount_accountNumber', 'Číslo účtu');

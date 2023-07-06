@@ -54,9 +54,9 @@ class UserSettingsForm extends AbstractForm
 
         $form->addHidden('id', 'ID');
         $form->addText('firstName', 'Meno')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('lastName', 'Meno')
-             ->setRequired("form.general.validation.required");
+             ->setRequired("Pole je povinné");
         $form->addText('phoneNumber', 'Telefón');
 
         //
