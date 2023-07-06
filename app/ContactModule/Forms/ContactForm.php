@@ -89,25 +89,25 @@ class ContactForm extends AbstractForm
              ->setRequired("form.general.validation.required");
 
         // Shipping address
-        $form->addText('shippingAddress_name', 'Názov spoločnosti')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_businessId', 'IČO')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_taxId', 'DIČ')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_vatNumber', 'IČ DPH');
-        $form->addText('shippingAddress_phone', 'Telefon')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_email', 'E-mail')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_street', 'Adresa')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_city', 'Město')
-             ->setRequired("form.general.validation.required");
-        $form->addText('shippingAddress_zipCode', 'PŠC')
-             ->setRequired("form.general.validation.required");
-        $form->addSelect('shippingAddress_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_name', 'Názov spoločnosti')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_businessId', 'IČO')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_taxId', 'DIČ')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_vatNumber', 'IČ DPH');
+//        $form->addText('shippingAddress_phone', 'Telefon')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_email', 'E-mail')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_street', 'Adresa')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_city', 'Město')
+//             ->setRequired("form.general.validation.required");
+//        $form->addText('shippingAddress_zipCode', 'PŠC')
+//             ->setRequired("form.general.validation.required");
+//        $form->addSelect('shippingAddress_countryCode', 'Štát', Countries::getNames())
+//             ->setRequired("form.general.validation.required");
 
         // Bank account
         $form->addText('bankAccount_accountNumber', 'Číslo účtu');
@@ -148,7 +148,7 @@ class ContactForm extends AbstractForm
         //
         $contact->setName($values['name']);
         // TODO
-        $contact->setBillingSameAsShipping($values['billingSameAsShipping']);
+        $contact->setBillingSameAsShipping(true /*$values['billingSameAsShipping']*/);
 
         // ------------------------------------- Bank account ---------------------------------------- \\
 
@@ -196,16 +196,16 @@ class ContactForm extends AbstractForm
         if ($contact->getBillingSameAsShipping()) {
             $shippingAddress = $billingAddress;
         } else {
-            $shippingAddress->setName($values['billingAddress_name']);
-            $shippingAddress->setBusinessId($values['billingAddress_businessId']);
-            $shippingAddress->setTaxId($values['billingAddress_taxId']);
-            $shippingAddress->setVatNumber($values['billingAddress_vatNumber']);
-            $shippingAddress->setPhone($values['billingAddress_phone']);
-            $shippingAddress->setEmail($values['billingAddress_email']);
-            $shippingAddress->setStreet($values['billingAddress_street']);
-            $shippingAddress->setCity($values['billingAddress_city']);
-            $shippingAddress->setZipCode($values['billingAddress_zipCode']);
-            $shippingAddress->setCountryCode($values['billingAddress_countryCode']);
+//            $shippingAddress->setName($values['billingAddress_name']);
+//            $shippingAddress->setBusinessId($values['billingAddress_businessId']);
+//            $shippingAddress->setTaxId($values['billingAddress_taxId']);
+//            $shippingAddress->setVatNumber($values['billingAddress_vatNumber']);
+//            $shippingAddress->setPhone($values['billingAddress_phone']);
+//            $shippingAddress->setEmail($values['billingAddress_email']);
+//            $shippingAddress->setStreet($values['billingAddress_street']);
+//            $shippingAddress->setCity($values['billingAddress_city']);
+//            $shippingAddress->setZipCode($values['billingAddress_zipCode']);
+//            $shippingAddress->setCountryCode($values['billingAddress_countryCode']);
         }
 
         // Set relations

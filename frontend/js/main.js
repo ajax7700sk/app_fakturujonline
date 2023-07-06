@@ -8,12 +8,13 @@
 // import Datagird from "./components/Datagrid";
 // import Toolbar from "./components/Toolbar";
 
-$( document ).ready(function() {
+document.addEventListener('DOMContentLoaded', (event) => {
     //
     bootstrapInit()
     taxDocument();
     subscription();
     flashes();
+    contacts();
 });
 
 
@@ -250,4 +251,21 @@ function flashes() {
         //
         $('.alert').hide();
     })
+}
+
+function contacts() {
+    function form() {
+        $(document.body).on('change', function(e) {
+            var $this = (e.target);
+
+            if($this.checked) {
+                // Show shipping
+                $('.js-shipping-address').hide();
+            } else {
+                $('.js-shipping-address').show();
+            }
+        })
+    }
+
+    form();
 }
