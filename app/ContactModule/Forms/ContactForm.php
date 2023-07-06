@@ -56,6 +56,8 @@ class ContactForm extends AbstractForm
     {
         $form = new Form();
         $form->setTranslator($this->translator);
+        $form->getElementPrototype()
+             ->setAttribute('novalidate', "novalidate");
 
         if ($this->contact) {
             $form->addHidden('id', 'ID');
