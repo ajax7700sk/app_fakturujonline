@@ -57,15 +57,15 @@ function bootstrapInit() {
 
     function modal() {
         $(document.body).on('click', ["data-toggle='toggle'"], function (e) {
-            // var $this = $(e.target);
-            // var $target = $($this.attr('data-target'));
-            // //
-            // // has id?
-            // if($this.attr('data-id')) {
-            //     $target.find('form .js-data-id').val($this.attr('data-id'));
-            // }
-            // //
-            // $target.modal('show');
+            var $this = $(e.target);
+            var $target = $($this.attr('data-target'));
+            //
+            // has id?
+            if($this.attr('data-id')) {
+                $target.find('form .js-data-id').val($this.attr('data-id'));
+            }
+            //
+            $target.modal('show');
         })
 
         $(document.body).on('click', '.js-modal-close', function (e) {
