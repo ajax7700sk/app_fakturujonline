@@ -180,8 +180,10 @@ class UserCompanyForm extends AbstractForm
         $this->entityManager->flush();
 
         // -- Upload logo
-        if($values['logo']) {
-            $logo = $values['logo'];
+        /** @var FileUpload $logo */
+        $logo = $values['logo'];
+
+        if($logo && $logo->hasFile()) {
             //
             $filename = $this->uploadLogo($logo, $userCompany);
             $userCompany->setLogo($filename);
