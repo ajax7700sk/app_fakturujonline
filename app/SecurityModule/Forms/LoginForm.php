@@ -38,7 +38,7 @@ final class LoginForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/login.latte');
+        $this->template->render(__DIR__.'/../templates/forms/login.latte');
     }
 
     /*********************************************************************
