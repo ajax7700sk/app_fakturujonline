@@ -56,7 +56,7 @@ function bootstrapInit() {
     }
 
     function modal() {
-        $(document.body).on('click', ["data-toggle='toggle'"], function (e) {
+        $(document.body).on('click', '.js-modal', function (e) {
             var $this = $(e.target);
             var $target = $($this.attr('data-target'));
             //

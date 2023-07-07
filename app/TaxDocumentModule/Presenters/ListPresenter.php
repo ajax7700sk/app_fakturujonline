@@ -232,11 +232,10 @@ class ListPresenter extends BasePresenter
         $grid->addAction('paidAt', '€', null)
              ->setRenderer(function ($entity) {
                  return "<a target='_blank' 
-                data-toggle='modal' 
                 title='Uhradené' 
                 data-target='#paymentModal' 
                 data-id='".$entity->getId()."' 
-                class='btn btn-primary btn-sm'>€</a>";
+                class='btn btn-primary btn-sm js-modal'>€</a>";
              })
              ->setClass('btn btn-info btn-sm btn-payment');
         $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])

@@ -15,8 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;
-use Symfony\Component\Intl\Countries;
-use Symfony\Component\Intl\Currencies;
+use App\Intl\Countries;
+use App\Intl\Currencies;
 
 class TaxDocumentForm extends AbstractForm
 {

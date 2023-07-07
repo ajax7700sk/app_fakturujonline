@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;
-use Symfony\Component\Intl\Countries;
+use App\Intl\Countries;
 
 class CheckoutForm extends AbstractForm
 {

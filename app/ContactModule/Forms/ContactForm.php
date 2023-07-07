@@ -7,12 +7,12 @@ use App\Entity\Address;
 use App\Entity\BankAccount;
 use App\Entity\Contact;
 use App\Forms\AbstractForm;
+use App\Intl\Countries;
 use App\SecurityModule\Forms\LoginForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;
-use Symfony\Component\Intl\Countries;
 
 class ContactForm extends AbstractForm
 {

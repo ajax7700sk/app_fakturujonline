@@ -14,7 +14,7 @@ use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
 use Nette\Localization\Translator;
 use Nette\Security\User;
-use Symfony\Component\Intl\Countries;
+use App\Intl\Countries;
 
 class UserCompanyForm extends AbstractForm
 {
