@@ -21,14 +21,7 @@ class TaxDocumentService
         $template->taxDocument = $taxDocument;
         $template->localeCode = $taxDocument->getLocaleCode();
         $template->currencyCode = $taxDocument->getCurrencyCode();
-        $base64 = null;
-        if($taxDocument->getUserCompany() && $taxDocument->getUserCompany()->getLogo()) {
-            $path = get_app_www_folder_path() . $taxDocument->getUserCompany()->getLogo();
-            $type = pathinfo($path, PATHINFO_EXTENSION);
-            $data = file_get_contents($path);
-            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-        }
-        $template->logo = $base64;
+        $template->logo = get_app_www_folder_path() . $taxDocument->getUserCompany()->getLogo();
         //
         $template->setFile(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte');
 
