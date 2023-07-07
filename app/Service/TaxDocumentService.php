@@ -58,7 +58,7 @@ class TaxDocumentService
     {
         $zip     = new \ZipArchive();
         $zipName = time().".zip"; // Zip name
-        $filepath = 'data/zip/' . $filename;
+        $filepath = get_app_root_folder_path() . '/data/zip/' . $filename;
 
         //
         $zip->open($filepath, \ZipArchive::CREATE);
