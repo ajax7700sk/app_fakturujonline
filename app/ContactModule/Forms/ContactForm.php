@@ -40,7 +40,7 @@ class ContactForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/contact.latte');
+        $this->template->render(__DIR__.'/../templates/forms/contact.latte');
     }
 
     /*********************************************************************

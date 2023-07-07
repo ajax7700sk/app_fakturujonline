@@ -35,7 +35,7 @@ class UserSettingsForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/user-settings.latte');
+        $this->template->render(__DIR__.'/../templates/forms/user-settings.latte');
     }
 
     /*********************************************************************

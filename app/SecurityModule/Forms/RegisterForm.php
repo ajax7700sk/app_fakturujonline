@@ -45,7 +45,7 @@ final class RegisterForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/register.latte');
+        $this->template->render(__DIR__.'/../templates/forms/register.latte');
     }
 
     /*********************************************************************

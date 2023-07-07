@@ -46,7 +46,7 @@ class TaxDocumentForm extends AbstractForm
         // Render
         $this->template->taxDocument = $this->taxDocument;
         //
-        $this->template->render(__DIR__.'./../templates/forms/tax-document.latte');
+        $this->template->render(__DIR__.'/../templates/forms/tax-document.latte');
     }
 
     /*********************************************************************

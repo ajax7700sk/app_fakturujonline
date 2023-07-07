@@ -45,7 +45,7 @@ final class ResetPasswordForm extends AbstractForm
     public function render()
     {
         // Render
-        $this->template->render(__DIR__.'./../templates/forms/reset.latte');
+        $this->template->render(__DIR__.'/../templates/forms/reset.latte');
     }
 
     /*********************************************************************

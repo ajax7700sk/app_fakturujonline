@@ -34,7 +34,7 @@ class TaxDocumentPaymentForm extends AbstractForm
     public function render()
     {
         //
-        $this->template->render(__DIR__.'./../templates/forms/tax-document-payment.latte');
+        $this->template->render(__DIR__.'/../templates/forms/tax-document-payment.latte');
     }
 
     /*********************************************************************
