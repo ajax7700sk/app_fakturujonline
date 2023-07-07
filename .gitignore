@@ -6,3 +6,4 @@ vendor
 /www/dist/css/main.*.css.map
 /www/dist/js/main.*.js
 /www/dist/js/main.*.js.map
+/www/dist/manifest.json
