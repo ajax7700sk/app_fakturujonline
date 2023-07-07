@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Entity\User;
+use App\SecurityModule\Presenters\AuthPresenter;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette;
 use Nette\Localization\Translator;
@@ -19,6 +20,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     public function startup()
     {
         parent::startup();
+
+
+        if(!$this->isLoggedIn() && get_class($this->getPresenter()) != AuthPresenter::class) {
+            $this->redirect(':Security:Auth:login');
+        }
 
         // --- Can redirect from security to dashboard
         if ($this->canRedirectFromSecurity()) {
