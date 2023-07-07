@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use Nette\Bootstrap\Configurator;
+use Tracy\Debugger;
 
 
 require_once 'functions.php';
@@ -24,6 +25,7 @@ class Bootstrap
 		$configurator->createRobotLoader()
 			->addDirectory(__DIR__)
 			->register();
+        Debugger::enable();
 
 		$configurator->addConfig($appDir . '/config/common.neon');
 		$configurator->addConfig($appDir . '/config/services.neon');
