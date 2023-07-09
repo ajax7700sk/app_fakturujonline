@@ -209,7 +209,7 @@
                                         <div class="card-title-wrapper"><h5 class="card-title">Položky dokladu</h5></div>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body table-items-card">
                                     <table class="table table-modern">
                                         <thead>
                                             <tr>
@@ -228,7 +228,7 @@
                                             {if isset($taxDocument)}
                                                 {foreach $taxDocument->getLineItems() as $key => $lineItem}
                                                     <tr>
-                                                        <td>
+                                                        <td class="td-name">
                                                             <div>
                                                                 <input
                                                                         name="lineItems[{$key}][name]"
@@ -899,7 +899,7 @@
     <table>
         <tbody>
             <tr>
-                <td>
+                <td class="td-name">
                     <div>
                         <input
                                 name="lineItems[_index_][name]"
@@ -933,7 +933,6 @@
                             <option value="m²" aria-labelledby="m²" label="m²">m²</option>
                             <option value="m³" aria-labelledby="m³" label="m³">m³</option>
                         </select>
-                        <div class="valid-feedback">OK!</div>
                 </td>
                 <td>
                     <div class="form-floating">
@@ -945,13 +944,25 @@
                                 value="0">
                     </div>
                 </td>
-                <td style="display: none;">
+                <td class="js-taxable">
                     <div class="form-floating">
                         <input name="lineItems[_index_][taxRate]"
                                type="number"
                                class="form-control js-tax-rate"
                                placeholder=""
                                value="0">
+                    </div>
+                </td>
+                <td class="js-taxable">
+                    <div class="form-floating">
+                        <input
+                                type="number"
+                                class="form-control js-item-excl-tax"
+                                placeholder=""
+                                disabled
+                                value="0"
+                        />
+                        <div class="error-msg"></div>
                     </div>
                 </td>
                 <td>

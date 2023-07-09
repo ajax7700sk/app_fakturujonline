@@ -100,15 +100,24 @@ function taxDocument() {
             var quantity = parseFloat($tr.find('.js-quantity').val());
             var unitPriceTaxExcl = parseFloat($tr.find('.js-unit-price-tax-excl').val());
             var taxRate = parseFloat($tr.find('.js-tax-rate').val());
+            var taxable = $('#frm-taxDocumentForm-form-vatPayer').is(':checked');
             //
             quantity = isNaN(quantity) ? 0 : quantity;
             unitPriceTaxExcl = isNaN(unitPriceTaxExcl) ? 0 : unitPriceTaxExcl;
+            unitPriceTaxExcl = unitPriceTaxExcl.toFixed(2);
             taxRate = isNaN(taxRate) ? 0 : taxRate;
+            taxRate = taxable ? taxRate : 0;
             //
             var unitPriceTaxIncl = unitPriceTaxExcl * (1 + (taxRate / 100));
-            var totalPriceTaxExcl = unitPriceTaxExcl * quantity;
-            var totalPriceTaxIncl = unitPriceTaxIncl * quantity;
+            unitPriceTaxIncl = unitPriceTaxIncl.toFixed(2);
             //
+            var totalPriceTaxExcl = unitPriceTaxExcl * quantity;
+            totalPriceTaxExcl = totalPriceTaxExcl.toFixed(2);
+            //
+            var totalPriceTaxIncl = unitPriceTaxIncl * quantity;
+            totalPriceTaxIncl = totalPriceTaxIncl.toFixed(2);
+            //
+            $tr.find('.js-item-excl-tax').val(totalPriceTaxExcl);
             $tr.find('.js-item-total').val(totalPriceTaxIncl);
         });
     }

@@ -132,3 +132,23 @@
 .js-taxable.show {
 	display: table-cell;
 }
+
+.table-modern > tbody > tr > * {
+	padding: 0.5rem;
+}
+
+.table-items-card {
+	overflow-x: auto;
+}
+
+.td-name {
+	min-width: 150px;
+}
+
+.table-modern > thead > tr > * {
+	font-size: 0.75rem;
+}
+
+.table-modern > tbody > tr * {
+	font-size: 0.8rem;
+}
