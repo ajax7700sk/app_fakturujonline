@@ -56,6 +56,11 @@ class TaxDocumentService
 
     public function exportPdf(array $files, string $filename = 'export.zip'): array
     {
+        // Remove file
+        if(file_exists(get_app_root_folder_path() . '/data/zip/' . $filename)) {
+            unlink(get_app_root_folder_path() . '/data/zip/' . $filename);
+        }
+        //
         $zip     = new \ZipArchive();
         $zipName = time().".zip"; // Zip name
         $filepath = get_app_root_folder_path() . '/data/zip/' . $filename;

@@ -151,7 +151,22 @@ class ListPresenter extends BasePresenter
 
         $files = [];
 
+        // Check if user is owner of document
+
         // ---
+        foreach ($taxDocuments as $key => $taxDocument) {
+            // Is user owner?
+            if ($taxDocument->getUserCompany()->getUser()->getId() != $this->getLoggedUser()->getId()) {
+                unset($taxDocuments[$key]);
+            }
+
+        }
+
+        if(count($taxDocuments) == 0) {
+            $this->flashMessage('Nebolo možné vyexportovať žiaden doklad', 'danger');
+            $this->redirect(':TaxDocument:List:');
+        }
+
         foreach ($taxDocuments as $taxDocument) {
             $data = $this->taxDocumentService->generatePDF($taxDocument);
             //
