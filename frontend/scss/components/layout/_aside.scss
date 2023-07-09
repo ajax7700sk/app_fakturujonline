@@ -17,6 +17,10 @@
 	color: color-contrast(map.get($aside, background-color));
 	transition: $transition-base;
 
+	@media (max-width: 767.98px) {
+		left: -15rem;
+	}
+
 	// Mobile Status
 	@include aside-close(true) {
 		@include media-breakpoint-down(map.get($aside, mobile-breakpoint)) {
@@ -41,6 +45,7 @@
 	//  Status
 	&.open,
 	&:hover {
+		left: 0;
 		width: map.get($aside, width);
 	}
 

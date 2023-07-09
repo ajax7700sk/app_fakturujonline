@@ -78,6 +78,7 @@ function bootstrapInit() {
     toolbar();
     modal();
     darkMode();
+    responsive()
 }
 
 // Tax document
@@ -269,6 +270,37 @@ function contacts() {
     }
 
     form();
+}
+
+function responsive() {
+    function toggleAsideNavByScreenWidth() {
+        // On desktop it is default opened
+        if($(window).width() >= 768) {
+            $('.aside').addClass('open');
+        }
+    }
+
+    // --- Init
+    toggleAsideNavByScreenWidth();
+
+    // ---- Events
+    $(window).on('resize', function (e) {
+        toggleAsideNavByScreenWidth();
+    })
+
+    $(document.body).on('click', '.js-toggle-aside', function (e) {
+        var $toggler = $(e.target);
+        var $aside = $('.aside');
+        //
+        $aside.toggleClass('open');
+        // Toggle
+        if($aside.hasClass('open')) {
+            $toggler.addClass('is-open');
+        } else {
+            $toggler.removeClass('is-open');
+        }
+    });
+
 }
 
 function validations() {
