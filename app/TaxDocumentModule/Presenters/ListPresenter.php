@@ -48,6 +48,12 @@ class ListPresenter extends BasePresenter
             ]);
         //
         $this->template->userCompanies = $userCompanies;
+        //
+
+        foreach ($userCompanies as $userCompany) {
+            $this->redirect(':TaxDocument:List:userCompany', ['id' => $userCompany->getId()]);
+            break;
+        }
     }
 
     public function actionUserCompany($id)
@@ -66,6 +72,7 @@ class ListPresenter extends BasePresenter
             ]);
 
 
+        $this->userCompany = $userCompany;
         //
         $this->template->userCompanies = $userCompanies;
         $this->template->userCompany = $userCompany;

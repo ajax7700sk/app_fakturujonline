@@ -32,8 +32,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         }
 
         //
+        $user = $this->getLoggedUser();
+        //
         $this->template->currentActionMask = $this->getAction(true);
-        $this->template->user = $this->getLoggedUser();
+        $this->template->user = $user;
+        $this->template->userCompanies = $user ? $user->getUserCompanies() : [];
     }
 
     // ------------------------------------- Helpers -------------------------------------- \\
