@@ -15,4 +15,5 @@ final class HomePresenter extends BasePresenter
     {
         $this->redirect(':Security:Auth:login');
     }
+
 }

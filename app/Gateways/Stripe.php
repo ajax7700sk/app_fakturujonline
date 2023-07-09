@@ -3,10 +3,22 @@ declare(strict_types=1);
 
 namespace App\Gateways;
 
+use App\Entity\Ecommerce\Payment;
+use App\Service\OrderService;
+use Doctrine\ORM\EntityManagerInterface;
+
 class Stripe
 {
     const ENDPOINT_SECRET = 'whsec_oZA3ClZZmuFGJVVTjPBH3vrvmY0lZEbc';
     const API_KEY = 'sk_test_51KvJ7XFhL4d5ya3cv77O9F85Frx6k3Obzn5cyT1MZh5AeehzYGzBmX82HL371maOD0du0mLGOJ8bEIhJzI3KMLqj00msVS9Wmi';
+    private EntityManagerInterface $em;
+    private OrderService $orderService;
+
+    public function __construct(EntityManagerInterface $em, OrderService $orderService)
+    {
+        $this->em = $em;
+        $this->orderService = $orderService;
+    }
 
     /**
      * Create stripe payment
@@ -119,22 +131,32 @@ class Stripe
                 exit();
         }
 
-        echo sprintf(
-            'https://api.fakturujonline.sk/payments/process-payment?payment_intent=%s&payment_status=%s',
-            $data['payment_intent'],
-            $data['payment_status']
-        );
+        // Process
+        $this->updatePaymentStatus($data['payment_intent'], $data['payment_status']);
 
-        // Call NestJS endpoint
-        file_get_contents(
-            sprintf(
-                'https://api.fakturujonline.sk/payments/process-payment?payment_intent=%s&payment_status=%s',
-                $data['payment_intent'],
-                $data['payment_status']
-            )
-        );
-
+        //
         http_response_code( 200 );
         exit();
+    }
+
+    private function updatePaymentStatus(?string $intent, ?string $status): void
+    {
+        /** @var Payment|null $payment */
+        $payment = $this->em
+            ->getRepository(Payment::class)
+            ->findOneBy(['stripePaymentIntent' => $intent]);
+
+        if($payment) {
+            switch ($status) {
+                case 'paid':
+                    $this->orderService->setOrderAsPaid($payment->getOrder());
+                    break;
+                case 'unpaid':
+                    $this->orderService->setOrderAsUnPaid($payment->getOrder());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

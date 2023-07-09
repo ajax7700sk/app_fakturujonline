@@ -109,6 +109,9 @@ services:
 	paymentService:
 		factory: \App\Service\PaymentService
 		inject: yes
+	orderService:
+		factory: \App\Service\OrderService
+		inject: yes
 
 	# Form controls
 	- App\SecurityModule\Forms\ILoginForm

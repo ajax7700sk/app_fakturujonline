@@ -40,6 +40,11 @@ class Order
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $subscriptionType;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $currencyCode;
 
     /**
@@ -135,6 +140,16 @@ class Order
         $this->currencyCode = $currencyCode;
 
         return $this;
+    }
+
+    public function getSubscriptionType(): ?string
+    {
+        return $this->subscriptionType;
+    }
+
+    public function setSubscriptionType(?string $subscriptionType): void
+    {
+        $this->subscriptionType = $subscriptionType;
     }
 
     public function getLocaleCode(): ?string
