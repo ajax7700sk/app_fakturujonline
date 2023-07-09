@@ -4,6 +4,10 @@
 
 @use 'sass:map';
 
+.btn-light-primary {
+	background-color: $primary;
+}
+
 .scroll-margin {
 	scroll-margin-top: map.get($header, height) + map.get($subheader, height) +
 		map.get($page, padding-y);
@@ -20,8 +24,18 @@
 
 // Bootstrap
 .btn-info,
-.btn-primary {
-	background-color: #4d69fa;
+.btn-primary,
+.btn-check:checked + .btn,
+:not(.btn-check) + .btn:active,
+.btn:first-child:active,
+.btn.active, .btn.show,
+.btn-primary:hover,
+.btn-light-primary.is-open {
+	background-color: $primary;
+
+	svg {
+		color: white;
+	}
 }
 
 .btn {

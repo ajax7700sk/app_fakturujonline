@@ -59,6 +59,13 @@
 	}
 }
 
+.aside-opened .wrapper .content,
+.header-right-opened .wrapper .content {
+	@media (max-width: 767.98px) {
+		filter: blur(10px);
+	}
+}
+
 .wrapper-overlay {
 	@include backdrop-filter-blur($overlay-backdrop-filter);
 

@@ -272,35 +272,106 @@ function contacts() {
     form();
 }
 
-function responsive() {
+function responsive(force) {
     function toggleAsideNavByScreenWidth() {
         // On desktop it is default opened
         if($(window).width() >= 768) {
             $('.aside').addClass('open');
+        }
+
+        if(force && $(window).width < 768) {
+            $('.aside').removeClass('open');
         }
     }
 
     // --- Init
     toggleAsideNavByScreenWidth();
 
-    // ---- Events
-    $(window).on('resize', function (e) {
-        toggleAsideNavByScreenWidth();
-    })
-
-    $(document.body).on('click', '.js-toggle-aside', function (e) {
-        var $toggler = $(e.target);
+    /**
+     * @param {jQuery} $toggler
+     */
+    function toggleAside($toggler) {
         var $aside = $('.aside');
         //
         $aside.toggleClass('open');
         // Toggle
         if($aside.hasClass('open')) {
             $toggler.addClass('is-open');
+            //
+            $(document.body).addClass('aside-opened');
         } else {
             $toggler.removeClass('is-open');
+            //
+            $(document.body).removeClass('aside-opened');
+        }
+    }
+
+    /**
+     * @param {jQuery} $toggler
+     */
+    function toggleHeaderMenu($toggler) {
+        var $header = $('.header');
+        //
+        $header.toggleClass('header-right-open');
+
+        // Toggle
+        if($header.hasClass('header-right-open')) {
+            $(document.body).addClass('header-right-opened');
+            //
+            $toggler.addClass('btn-light-primary');
+            $toggler.addClass('is-open');
+        } else {
+            $(document.body).removeClass('header-right-opened');
+            //
+            $toggler.removeClass('btn-light-primary');
+            $toggler.removeClass('is-open');
+        }
+    }
+
+    // ---- Events
+    $(window).on('resize', function (e) {
+        toggleAsideNavByScreenWidth(true);
+    })
+
+    // On toggler click
+    $(document.body).on('click', '.js-toggle-aside', function (e) {
+        var $target = $(e.target);
+        var $toggler = $target;
+        //
+        if($target.hasClass('js-toggle-aside')) {
+            toggleAside($toggler);
         }
     });
 
+    // Right toggler
+    $(document.body).on('click', '.js-toggle-right', function (e) {
+        var $target = $(e.target);
+        //
+        if($target.hasClass('js-toggle-right')) {
+            toggleHeaderMenu($target);
+        }
+    });
+
+    // On wrapper click
+    $('.wrapper').on('click', function(e) {
+        var $target = $(e.target);
+        //
+        if(!$target.hasClass('js-toggle-aside') && !$target.hasClass('js-toggle-right')) {
+            // Check which menu is opened
+            if($(document.body).hasClass('aside-opened')) {
+                var $toggler = $('.js-toggle-aside');
+                //
+                toggleAside($toggler);
+            }
+
+            if($(document.body).hasClass('header-right-opened')) {
+                var $toggler = $('.js-toggle-right');
+                console.log($toggler);
+                //
+                toggleHeaderMenu($toggler);
+            }
+        }
+    })
 }
 
 function validations() {

@@ -4,6 +4,36 @@
 
 @use 'sass:map';
 
+.js-toggle-aside.is-open {
+	//
+	@media (max-width: 767.98px) {
+		display: none;
+	}
+}
+
+
+.js-toggle-right {
+	border: none;
+	padding: 0;
+	display: inline-block;
+	z-index: 100000;
+
+	//
+	.opened {
+		display: none;
+	}
+
+	&.is-open {
+		.not-opened {
+			display: none;
+		}
+
+		.opened {
+			display: inline-block;
+		}
+	}
+}
+
 .aside {
 	position: fixed;
 	z-index: $zindex-aside;
