@@ -27,6 +27,8 @@ class TaxDocumentForm extends AbstractForm
     private Translator $translator;
     /** @var TaxDocument|null */
     private $taxDocument;
+    /** @var UserCompany|null */
+    private $userCompany;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -79,6 +81,9 @@ class TaxDocumentForm extends AbstractForm
         // Invoice
         $form->addSelect('userCompany', 'Spoločnosť', $companiesList)
             ->setRequired("Pole je povinné");
+        if($this->userCompany) {
+            $form['userCompany']->setDisabled(true);
+        }
         $form->addSelect('type', 'Druh dokladu', [
             TaxDocument::TYPE_INVOICE => 'Faktúra',
             TaxDocument::TYPE_ADVANCE_PAYMENT => 'Zálohová faktúra',
@@ -198,9 +203,13 @@ class TaxDocumentForm extends AbstractForm
 
         // User company
         /** @var UserCompany|null $userCompany */
-        $userCompany = $this->entityManager
-            ->getRepository(UserCompany::class)
-            ->find((int)$values['userCompany']);
+        if(!$this->userCompany) {
+            $userCompany = $this->entityManager
+                ->getRepository(UserCompany::class)
+                ->find((int)$values['userCompany']);
+        } else {
+            $userCompany = $this->userCompany;
+        }
 
         //
         $taxDocument->setUserCompany($userCompany);
@@ -339,9 +348,39 @@ class TaxDocumentForm extends AbstractForm
         $this->taxDocument = $taxDocument;
     }
 
+    public function setUserCompany(?UserCompany $userCompany): void
+    {
+        $this->userCompany = $userCompany;
+    }
+
     private function setDefaults(Form $form): void
     {
         $defaults = array();
+
+        if(!$this->taxDocument && $this->userCompany) {
+            $company = $this->userCompany;
+            $billingAddress = $company->getBillingAddress();
+            $bankAccount = $company->getBankAccount();
+            //
+            $defaults = array_merge($defaults, array(
+                'userCompany' => $company->getId(),
+                //
+                'supplier_name' => $company->getName(),
+                'supplier_businessId' => $billingAddress ? $billingAddress->getBusinessId() : null,
+                'supplier_taxId' => $billingAddress ? $billingAddress->getTaxId() : null,
+                'supplier_vatNumber' => $billingAddress ? $billingAddress->getVatNumber() : null,
+                'supplier_phone' => $billingAddress ? $billingAddress->getPhone() : null,
+                'supplier_email' => $billingAddress ? $billingAddress->getEmail() : null,
+                'supplier_street' => $billingAddress ? $billingAddress->getStreet() : null,
+                'supplier_city' => $billingAddress ? $billingAddress->getCity() : null,
+                'supplier_zipCode' => $billingAddress ? $billingAddress->getZipCode() : null,
+                'supplier_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null,
+                // Bank
+                'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
+                'paymentData_iban' => $bankAccount ? $bankAccount->getIban() : null,
+                'paymentData_swift' => $bankAccount ? $bankAccount->getSwift() : null
+            ));
+        }
 
         if ($this->taxDocument) {
             $entity = $this->taxDocument;

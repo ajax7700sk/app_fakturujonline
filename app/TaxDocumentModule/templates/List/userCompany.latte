@@ -22,10 +22,10 @@
                 </div>
                 <!-- Create -->
                 <div>
-                    <button class="btn btn-outline-danger ml-auto js-export-pdf" data-href="{link //:TaxDocument:List:export}">Export PDF</button>
+                    <button class="btn btn-outline-danger ml-auto js-export-pdf" data-href="{link //:TaxDocument:List:export, id => $userCompany->getId()}">Export PDF</button>
                     <a class="btn btn-light-success"
                        rel="noopener"
-                       href="{link :TaxDocument:Create:default}">
+                       href="{link :TaxDocument:Create:default, id => $userCompany->getId()}">
                         <svg viewBox="0 0 24 24" fill="currentColor"
                              class="svg-icon--material svg-icon btn-icon"
                              data-name="Material--Add">
