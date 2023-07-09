@@ -221,6 +221,8 @@ class ListPresenter extends BasePresenter
              ->setFilterText();
         $grid->addColumnText('contact_name', 'Kontakt', 'contact.name')
              ->setFilterText();
+        $grid->addColumnDateTime('deliveryDateAt', 'Dátum dodania', 'deliveryDateAt')
+             ->setFilterDateRange();
         $grid->addColumnDateTime('dueDateAt', 'Splatnosť', 'dueDateAt')
              ->setFilterDateRange();
         $grid->addColumnDateTime('createdAt', 'Vytvorené', 'createdAt')

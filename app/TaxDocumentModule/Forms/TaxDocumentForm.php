@@ -463,6 +463,7 @@ class TaxDocumentForm extends AbstractForm
 
         //
         $billingAddress = $company->getBillingAddress();
+        $bankAccount = $company->getBankAccount();
 
         // Send data
         $this->presenter->sendJson(array(
@@ -475,7 +476,11 @@ class TaxDocumentForm extends AbstractForm
             'supplier_street' => $billingAddress ? $billingAddress->getStreet() : null,
             'supplier_city' => $billingAddress ? $billingAddress->getCity() : null,
             'supplier_zipCode' => $billingAddress ? $billingAddress->getZipCode() : null,
-            'supplier_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null
+            'supplier_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null,
+            // Bank
+            'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
+            'paymentData_iban' => $bankAccount ? $bankAccount->getIban() : null,
+            'paymentData_swift' => $bankAccount ? $bankAccount->getSwift() : null
         ));
     }
 }
