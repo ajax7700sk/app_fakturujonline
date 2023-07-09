@@ -124,3 +124,11 @@
 	font-size: 1.25rem;
 	text-align: center;
 }
+
+.js-taxable {
+	display: none;
+}
+
+.js-taxable.show {
+	display: table-cell;
+}

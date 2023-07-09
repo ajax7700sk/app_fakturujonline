@@ -135,6 +135,18 @@ function taxDocument() {
         $('#export-pdf-form').submit();
     }
 
+    function taxable() {
+        if($('#frm-taxDocumentForm-form-vatPayer').is(':checked')) {
+            $('.js-taxable').addClass('show');
+        } else {
+            $('.js-taxable').removeClass('show');
+        }
+    }
+
+    // ----------------------------------- Init ------------------------------------- \\
+
+    taxable();
+
     // ----------------------------------- Events ------------------------------------- \\
 
     // Add item
@@ -198,6 +210,10 @@ function taxDocument() {
         //
         exportPdf(url);
     })
+
+    $(document.body).on('change', '#frm-taxDocumentForm-form-vatPayer', function (e) {
+       taxable();
+    });
 }
 
 function subscription() {

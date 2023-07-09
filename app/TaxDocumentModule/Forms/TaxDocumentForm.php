@@ -129,8 +129,7 @@ class TaxDocumentForm extends AbstractForm
              ->setRequired("Pole je povinné");
         $form->addText('supplier_taxId', 'DIČ');
         $form->addText('supplier_vatNumber', 'IČ DPH');
-        $form->addText('supplier_phone', 'Telefon')
-             ->setRequired("Pole je povinné");
+        $form->addText('supplier_phone', 'Telefon');
         $form->addText('supplier_email', 'E-mail')
              ->setRequired("Pole je povinné");
         $form->addText('supplier_street', 'Adresa')
@@ -149,8 +148,7 @@ class TaxDocumentForm extends AbstractForm
              ->setRequired("Pole je povinné");
         $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
-        $form->addText('subscriber_phone', 'Telefon')
-             ->setRequired("Pole je povinné");
+        $form->addText('subscriber_phone', 'Telefon');
         $form->addText('subscriber_email', 'E-mail')
              ->setRequired("Pole je povinné");
         $form->addText('subscriber_street', 'Adresa')

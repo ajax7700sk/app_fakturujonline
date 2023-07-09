@@ -217,6 +217,8 @@
                                                 <th>Množstvo</th>
                                                 <th>M.J.</th>
                                                 <th>Cena za MJ</th>
+                                                <th class="js-taxable">DPH %</th>
+                                                <th class="js-taxable">Celkom bez DPH</th>
                                                 <th>Celkom</th>
                                                 <th></th>
                                             </tr>
@@ -279,7 +281,7 @@
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
-                                                        <td style="display: none;">
+                                                        <td class="js-taxable">
                                                             <div class="form-floating">
                                                                 <input name="lineItems[{$key}][taxRate]"
                                                                        type="number"
@@ -287,6 +289,18 @@
                                                                        placeholder=""
                                                                        value="{$lineItem->getTaxRate()}"
                                                                 >
+                                                                <div class="error-msg"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="js-taxable">
+                                                            <div class="form-floating">
+                                                                <input
+                                                                        type="number"
+                                                                        class="form-control js-item-excl-tax"
+                                                                        placeholder=""
+                                                                        disabled
+                                                                        value="{$lineItem->getTotalPriceTaxExcl()}"
+                                                                />
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
