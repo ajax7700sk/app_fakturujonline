@@ -45,8 +45,10 @@ class TaxDocumentForm extends AbstractForm
      */
     public function render()
     {
+
         // Render
         $this->template->taxDocument = $this->taxDocument;
+        $this->template->lastTaxDocument = $this->getLastTaxDocument();
         //
         $this->template->render(__DIR__.'/../templates/forms/tax-document.latte');
     }
@@ -80,17 +82,17 @@ class TaxDocumentForm extends AbstractForm
 
         // Invoice
         $form->addSelect('userCompany', 'Spoločnosť', $companiesList)
-            ->setRequired("Pole je povinné");
-        if($this->userCompany) {
+             ->setRequired("Pole je povinné");
+        if ($this->userCompany) {
             $form['userCompany']->setDisabled(true);
         }
         $form->addSelect('type', 'Druh dokladu', [
-            TaxDocument::TYPE_INVOICE => 'Faktúra',
+            TaxDocument::TYPE_INVOICE         => 'Faktúra',
             TaxDocument::TYPE_ADVANCE_PAYMENT => 'Zálohová faktúra',
             TaxDocument::TYPE_PROFORMA_INVOCE => 'Proforma faktúra',
-            TaxDocument::TYPE_CREDIT_NOTE => 'Dobropis'
+            TaxDocument::TYPE_CREDIT_NOTE     => 'Dobropis',
         ])
-            ->setRequired("Pole je povinné");
+             ->setRequired("Pole je povinné");
         $form->addText('number', 'Číslo dokladu')
              ->setRequired("Pole je povinné");
         $form->addCheckbox('transferedTaxLiability', 'Preniesť daňovú zodpovednosť');
@@ -110,17 +112,17 @@ class TaxDocumentForm extends AbstractForm
 
         // Settings
         $form->addSelect('currencyCode', 'Mena', Currencies::getNames())
-            ->setRequired("Pole je povinné");
+             ->setRequired("Pole je povinné");
         $form->addText('constantSymbol', 'Konštantný symbol');
         $form->addText('specificSymbol', 'Špecifický symbol');
 
         // Payment data
         $form->addSelect('paymentData_type', 'Typ', [
-            PaymentData::TYPE_BANK_PAYMENT => 'Bankový prevod',
+            PaymentData::TYPE_BANK_PAYMENT     => 'Bankový prevod',
             PaymentData::TYPE_CASH_ON_DELIVERY => 'Dobierka',
-            PaymentData::TYPE_CASH => 'Hotovosť',
-            PaymentData::TYPE_PAYPAL => 'Paypal',
-            PaymentData::TYPE_PAYMENT_CARD => 'Platobná karta'
+            PaymentData::TYPE_CASH             => 'Hotovosť',
+            PaymentData::TYPE_PAYPAL           => 'Paypal',
+            PaymentData::TYPE_PAYMENT_CARD     => 'Platobná karta',
         ])
              ->setRequired("Pole je povinné");
         $form->addText('paymentData_bankAccount', 'Bankový účet');
@@ -203,7 +205,7 @@ class TaxDocumentForm extends AbstractForm
 
         // User company
         /** @var UserCompany|null $userCompany */
-        if(!$this->userCompany) {
+        if ( ! $this->userCompany) {
             $userCompany = $this->entityManager
                 ->getRepository(UserCompany::class)
                 ->find((int)$values['userCompany']);
@@ -266,7 +268,7 @@ class TaxDocumentForm extends AbstractForm
         // ------------------------------------- Shipping address ---------------------------------------- \\
 
         // Fill address
-        if (!$taxDocument->getSubscriberBillingAddress()) {
+        if ( ! $taxDocument->getSubscriberBillingAddress()) {
             $subscriber = new Address();
         } else {
             $subscriber = $taxDocument->getSubscriberBillingAddress();
@@ -285,7 +287,7 @@ class TaxDocumentForm extends AbstractForm
 
         // ------------------------------------- Bank account ---------------------------------------- \\
 
-        if(!$taxDocument->getBankAccount()) {
+        if ( ! $taxDocument->getBankAccount()) {
             $bankAccount = new BankAccount();
         } else {
             $bankAccount = $taxDocument->getBankAccount();
@@ -306,7 +308,7 @@ class TaxDocumentForm extends AbstractForm
         foreach ($httpData['lineItems'] as $_lineItem) {
             $lineItem = new LineItem();
             $lineItem->setName($_lineItem['name']);
-            $lineItem->setQuantity((int) $_lineItem['quantity']);
+            $lineItem->setQuantity((int)$_lineItem['quantity']);
             $lineItem->setUnit($_lineItem['unit']);
             $lineItem->setType('line_item');
             // Price + Tax rate
@@ -332,7 +334,7 @@ class TaxDocumentForm extends AbstractForm
         $this->entityManager->flush();
 
         // Redirect to dashboard
-        if($this->taxDocument) {
+        if ($this->taxDocument) {
             $this->presenter->flashMessage('Doklad bol úspešne aktualizovaný', 'success');
         } else {
             $this->presenter->flashMessage('Doklad bol úspešne vytvorený', 'success');
@@ -357,28 +359,28 @@ class TaxDocumentForm extends AbstractForm
     {
         $defaults = array();
 
-        if(!$this->taxDocument && $this->userCompany) {
-            $company = $this->userCompany;
+        if ( ! $this->taxDocument && $this->userCompany) {
+            $company        = $this->userCompany;
             $billingAddress = $company->getBillingAddress();
-            $bankAccount = $company->getBankAccount();
+            $bankAccount    = $company->getBankAccount();
             //
             $defaults = array_merge($defaults, array(
-                'userCompany' => $company->getId(),
+                'userCompany'             => $company->getId(),
                 //
-                'supplier_name' => $company->getName(),
-                'supplier_businessId' => $billingAddress ? $billingAddress->getBusinessId() : null,
-                'supplier_taxId' => $billingAddress ? $billingAddress->getTaxId() : null,
-                'supplier_vatNumber' => $billingAddress ? $billingAddress->getVatNumber() : null,
-                'supplier_phone' => $billingAddress ? $billingAddress->getPhone() : null,
-                'supplier_email' => $billingAddress ? $billingAddress->getEmail() : null,
-                'supplier_street' => $billingAddress ? $billingAddress->getStreet() : null,
-                'supplier_city' => $billingAddress ? $billingAddress->getCity() : null,
-                'supplier_zipCode' => $billingAddress ? $billingAddress->getZipCode() : null,
-                'supplier_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null,
+                'supplier_name'           => $company->getName(),
+                'supplier_businessId'     => $billingAddress ? $billingAddress->getBusinessId() : null,
+                'supplier_taxId'          => $billingAddress ? $billingAddress->getTaxId() : null,
+                'supplier_vatNumber'      => $billingAddress ? $billingAddress->getVatNumber() : null,
+                'supplier_phone'          => $billingAddress ? $billingAddress->getPhone() : null,
+                'supplier_email'          => $billingAddress ? $billingAddress->getEmail() : null,
+                'supplier_street'         => $billingAddress ? $billingAddress->getStreet() : null,
+                'supplier_city'           => $billingAddress ? $billingAddress->getCity() : null,
+                'supplier_zipCode'        => $billingAddress ? $billingAddress->getZipCode() : null,
+                'supplier_countryCode'    => $billingAddress ? $billingAddress->getCountryCode() : null,
                 // Bank
                 'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
-                'paymentData_iban' => $bankAccount ? $bankAccount->getIban() : null,
-                'paymentData_swift' => $bankAccount ? $bankAccount->getSwift() : null
+                'paymentData_iban'        => $bankAccount ? $bankAccount->getIban() : null,
+                'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
             ));
         }
 
@@ -402,14 +404,14 @@ class TaxDocumentForm extends AbstractForm
             ));
 
             // Payment data
-            if($entity->getPaymentData()) {
+            if ($entity->getPaymentData()) {
                 $paymentData = $entity->getPaymentData();
                 //
                 $defaults = array_merge($defaults, array(
-                    'paymentData_type' => $paymentData->getType(),
+                    'paymentData_type'        => $paymentData->getType(),
                     'paymentData_bankAccount' => $paymentData->getBankAccountNumber(),
-                    'paymentData_iban' => $paymentData->getBankAccountIban(),
-                    'paymentData_swift' => $paymentData->getBankAccountSwift()
+                    'paymentData_iban'        => $paymentData->getBankAccountIban(),
+                    'paymentData_swift'       => $paymentData->getBankAccountSwift(),
                 ));
             }
 
@@ -491,34 +493,61 @@ class TaxDocumentForm extends AbstractForm
         /** @var UserCompany|null $company */
         $company = $this->entityManager
             ->getRepository(UserCompany::class)
-            ->find((int) $id);
+            ->find((int)$id);
 
-        if(!$company) {
+        if ( ! $company) {
             $this->error();
         }
 
 
         //
         $billingAddress = $company->getBillingAddress();
-        $bankAccount = $company->getBankAccount();
+        $bankAccount    = $company->getBankAccount();
 
         // Send data
         $this->presenter->sendJson(array(
-            'supplier_name' => $company->getName(),
-            'supplier_businessId' => $billingAddress ? $billingAddress->getBusinessId() : null,
-            'supplier_taxId' => $billingAddress ? $billingAddress->getTaxId() : null,
-            'supplier_vatNumber' => $billingAddress ? $billingAddress->getVatNumber() : null,
-            'supplier_phone' => $billingAddress ? $billingAddress->getPhone() : null,
-            'supplier_email' => $billingAddress ? $billingAddress->getEmail() : null,
-            'supplier_street' => $billingAddress ? $billingAddress->getStreet() : null,
-            'supplier_city' => $billingAddress ? $billingAddress->getCity() : null,
-            'supplier_zipCode' => $billingAddress ? $billingAddress->getZipCode() : null,
-            'supplier_countryCode' => $billingAddress ? $billingAddress->getCountryCode() : null,
+            'supplier_name'           => $company->getName(),
+            'supplier_businessId'     => $billingAddress ? $billingAddress->getBusinessId() : null,
+            'supplier_taxId'          => $billingAddress ? $billingAddress->getTaxId() : null,
+            'supplier_vatNumber'      => $billingAddress ? $billingAddress->getVatNumber() : null,
+            'supplier_phone'          => $billingAddress ? $billingAddress->getPhone() : null,
+            'supplier_email'          => $billingAddress ? $billingAddress->getEmail() : null,
+            'supplier_street'         => $billingAddress ? $billingAddress->getStreet() : null,
+            'supplier_city'           => $billingAddress ? $billingAddress->getCity() : null,
+            'supplier_zipCode'        => $billingAddress ? $billingAddress->getZipCode() : null,
+            'supplier_countryCode'    => $billingAddress ? $billingAddress->getCountryCode() : null,
             // Bank
             'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
-            'paymentData_iban' => $bankAccount ? $bankAccount->getIban() : null,
-            'paymentData_swift' => $bankAccount ? $bankAccount->getSwift() : null
+            'paymentData_iban'        => $bankAccount ? $bankAccount->getIban() : null,
+            'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
         ));
+    }
+
+
+    /**
+     * @return TaxDocument|null
+     */
+    protected function getLastTaxDocument()
+    {
+        if($this->taxDocument) {
+            return null;
+        }
+
+        $qb = $this->entityManager->getRepository(TaxDocument::class)->createQueryBuilder('td');
+
+        $td = $qb->select('td')
+                  ->where('td.userCompany = :userCompany')
+                  ->setParameter('userCompany', $this->userCompany)
+                  ->setMaxResults(1)
+                  ->orderBy('td.createdAt', 'DESC')
+                  ->getQuery()
+                  ->getResult();
+
+        if(isset($td[0])) {
+            return $td[0];
+        } else {
+            return null;
+        }
     }
 }
 
