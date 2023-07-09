@@ -61,7 +61,7 @@ class OrderItem
     private $taxRate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="items")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="items", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $_order;

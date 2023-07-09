@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\SubscriptionModule\Presenters;
 
+use App\Entity\Ecommerce\Payment;
 use App\SubscriptionModule\Forms\CheckoutForm;
 use App\SubscriptionModule\Forms\ICheckoutForm;
 use App\TaxDocumentModule\Forms\TaxDocumentForm;
@@ -25,14 +26,28 @@ class OrderPresenter extends BasePresenter
 
     // --- Gateways
 
-    public function actionStripeSuccess()
+    public function actionStripeSuccess($id)
     {
-        dd("Success");
+        /** @var Payment|null $payment */
+        $payment = $this->em->getRepository(Payment::class)->find((int) $id);
+
+        if(!$payment) {
+            $this->error();
+        }
+
+        $this->template->payment = $payment;
     }
 
-    public function actionStripeCancel()
+    public function actionStripeCancel($id)
     {
-        dd("Cancel");
+        /** @var Payment|null $payment */
+        $payment = $this->em->getRepository(Payment::class)->find((int) $id);
+
+        if(!$payment) {
+            $this->error();
+        }
+
+        $this->template->payment = $payment;
     }
 
     /*********************************************************************

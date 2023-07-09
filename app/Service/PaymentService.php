@@ -41,7 +41,7 @@ class PaymentService
     {
         $stripe = new Stripe();
         $data   = $stripe->createPayment(
-            (float)$payment->getAmount(),
+            (float)$payment->getAmount() * 100,
             $payment->getCurrencyCode(),
             'Predplatné "fakturujonline.sk"',
             $successUrl,

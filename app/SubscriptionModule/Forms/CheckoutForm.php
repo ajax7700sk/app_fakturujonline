@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\SubscriptionModule\Forms;
 
+use App\Entity\Address;
 use App\Entity\Ecommerce\Order;
 use App\Entity\Ecommerce\OrderItem;
 use App\Entity\UserCompany;
@@ -114,9 +115,42 @@ class CheckoutForm extends AbstractForm
         $price   = OrderItem::priceByType($values['type']);
         $taxRate = Order::TAX_RATE_DEFAULT;
 
+        // ---
+        $tax = 0;
+        $totalPriceTaxExcl = 0;
+        $totalPriceTaxIncl = 0;
+
+
         // --- Create order
         $order = new Order();
+        $order
+            ->setNumber($this->generateNewOrderNumber())
+            ->setUser($this->getLoggedUser())
+            ->setCurrencyCode('EUR')
+            ->setLocaleCode('SK')
+            ->setState('new')
+            ;
+
+
+        // Billing address
+        $billingAddress = new Address();
         //
+        $billingAddress->setName($values['billingAddress_name']);
+        $billingAddress->setBusinessId($values['billingAddress_businessId']);
+        $billingAddress->setTaxId($values['billingAddress_taxId']);
+        $billingAddress->setVatNumber($values['billingAddress_vatNumber']);
+        $billingAddress->setPhone($values['billingAddress_phone']);
+        $billingAddress->setEmail($values['billingAddress_email']);
+        $billingAddress->setStreet($values['billingAddress_street']);
+        $billingAddress->setCity($values['billingAddress_city']);
+        $billingAddress->setZipCode($values['billingAddress_zipCode']);
+        $billingAddress->setCountryCode($values['billingAddress_countryCode']);
+        //
+        $this->entityManager->persist($billingAddress);
+        //
+        $order->setBillingAddress($billingAddress);
+
+        // Order Item
         $orderItem = new OrderItem();
         $orderItem
             ->setType($values['type'])
@@ -127,8 +161,15 @@ class CheckoutForm extends AbstractForm
             ->setTotalPriceTaxExcl((string)($price * 1))
             ->setUnitTaxTotal((string)($price * ($taxRate / 100)))
             ->setTotalTax((string)($orderItem->getTotalPriceTaxExcl() * ($taxRate / 100)));
+        $this->entityManager->persist($orderItem);
 
         $order->addItem($orderItem);
+
+        $order
+            ->setTotalTax((string) ($orderItem->getTotalPriceTaxExcl() * ($taxRate / 100)))
+            ->setTotalPriceTaxExcl((string)($price * 1))
+            ->setTotalPriceTaxIncl((string) ($price * (1 + ($taxRate / 100))));
+
         //
         $this->entityManager->persist($order);
         $this->entityManager->flush();
@@ -140,9 +181,15 @@ class CheckoutForm extends AbstractForm
         // --- Create stripe payment
         $data = $this->paymentService->createStripePaymentFromPayment(
             $payment,
-            $this->presenter->link('//:TaxDocument:Order:stripeSuccess'),
-            $this->presenter->link('//:TaxDocument:Order:stripeCancel')
+            $this->presenter->link('//:Subscription:Order:stripeSuccess', ['id' => $payment->getId()]),
+            $this->presenter->link('//:Subscription:Order:stripeCancel', ['id' => $payment->getId()])
         );
+
+        /** @var string $paymentIntent */
+        $paymentIntent = $data['payment_intent'];
+        $payment->setStripePaymentIntent($paymentIntent);
+        //
+        $this->entityManager->flush();
 
         // Redirect
         $this->presenter->redirectUrl($data['url']);
@@ -158,6 +205,17 @@ class CheckoutForm extends AbstractForm
             ->find((int)$this->securityUser->id);
 
         return $user;
+    }
+
+    private function generateNewOrderNumber(): string
+    {
+        $order = $this->entityManager->getRepository(Order::class)->findOneBy([], ['number' => 'DESC']);
+
+        if ($order) {
+            return (string) intval($order->getNumber());
+        } else {
+            return (string) 1;
+        }
     }
 
     /*********************************************************************
