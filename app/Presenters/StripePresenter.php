@@ -14,7 +14,7 @@ class StripePresenter extends BasePresenter
         $this->stripe = $stripe;
     }
 
-    public function processPayment()
+    public function actionProcessPayment()
     {
         $this->stripe->processPayment();
     }
