@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Entity\Ecommerce\Order;
 use App\Entity\Ecommerce\Subscription;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class OrderService
@@ -42,6 +43,24 @@ class OrderService
         return $order;
     }
 
+    public function hasUserActiveSubscription(User $user): bool
+    {
+        $qb = $this->em
+            ->getRepository(Subscription::class)
+            ->createQueryBuilder('s');
+
+        $qb
+            ->select('s')
+            ->where('s.startAt < :now')
+            ->andWhere('s.endAt >= :now')
+            ->setParameter('now', new \DateTime())
+            ->setMaxResults(1);
+
+        $subscriptions = $qb->getQuery()->getResult();
+
+        return count($subscriptions) > 0 ? true : false;
+    }
+
     private function createSubscriptionFromOrder(Order $order): Subscription
     {
         $endAt = new \DateTime();
@@ -74,5 +93,6 @@ class OrderService
 
         return $subscription;
     }
+
 
 }

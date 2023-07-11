@@ -5,12 +5,15 @@ namespace App\Presenters;
 
 use App\Entity\User;
 use App\SecurityModule\Presenters\AuthPresenter;
+use App\Service\OrderService;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette;
 use Nette\Localization\Translator;
 
 abstract class BasePresenter extends ApplicationPresenter
 {
+    /** @var OrderService @inject */
+    public $orderService;
 
     public function startup()
     {
@@ -32,6 +35,7 @@ abstract class BasePresenter extends ApplicationPresenter
         $this->template->currentActionMask = $this->getAction(true);
         $this->template->user = $user;
         $this->template->userCompanies = $user ? $user->getUserCompanies() : [];
+        $this->template->hasActiveSubscription = $this->orderService->hasUserActiveSubscription($user);
     }
 
     // ------------------------------------- Helpers -------------------------------------- \\
