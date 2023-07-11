@@ -5,7 +5,7 @@ namespace App\Presenters;
 
 use App\Gateways\Stripe;
 
-class StripePresenter extends BasePresenter
+class StripePresenter extends ApplicationPresenter
 {
     private Stripe $stripe;
 

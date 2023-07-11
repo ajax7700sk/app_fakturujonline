@@ -9,13 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nette;
 use Nette\Localization\Translator;
 
-abstract class BasePresenter extends Nette\Application\UI\Presenter
+abstract class BasePresenter extends ApplicationPresenter
 {
-    /** @var EntityManagerInterface @inject */
-    public $em;
-
-    /** @var Translator @inject */
-    public $translator;
 
     public function startup()
     {
