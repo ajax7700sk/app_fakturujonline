@@ -7,6 +7,8 @@ class CreatePresenter extends BasePresenter
 {
     public function actionDefault()
     {
-        //
+        if ( ! $this >> $this->hasActiveSubscription()) {
+            $this->error();
+        }
     }
 }

@@ -19,7 +19,9 @@ class UserCompanyPresenter extends BasePresenter
 
     public function actionCreate()
     {
-        //
+        if ( ! $this >> $this->hasActiveSubscription()) {
+            $this->error();
+        }
     }
 
     public function actionEdit($id)

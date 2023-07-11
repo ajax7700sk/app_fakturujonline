@@ -85,4 +85,12 @@ abstract class BasePresenter extends ApplicationPresenter
 
         return $user;
     }
+
+    protected function hasActiveSubscription(?User $user = null): bool
+    {
+        $user = $user ? $user : $this->getLoggedUser();
+
+        return $this->orderService->hasUserActiveSubscription($user);
+    }
+
 }

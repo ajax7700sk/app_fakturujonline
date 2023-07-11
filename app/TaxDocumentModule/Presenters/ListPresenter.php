@@ -121,6 +121,10 @@ class ListPresenter extends BasePresenter
 
     public function actionEmail($id)
     {
+        if ( ! $this >> $this->hasActiveSubscription()) {
+            $this->error();
+        }
+
         /** @var TaxDocument|null $taxDocument */
         $taxDocument = $this->em->getRepository(TaxDocument::class)->find((int)$id);
 
@@ -141,6 +145,10 @@ class ListPresenter extends BasePresenter
 
     public function actionExport()
     {
+        if ( ! $this >> $this->hasActiveSubscription()) {
+            $this->error();
+        }
+
         $ids = $this->request->getPost('id');
         //
         /** @var TaxDocumentRepository $repository */
@@ -202,7 +210,6 @@ class ListPresenter extends BasePresenter
     {
         /** @var ContactRepository $repository */
         $repository = $this->em->getRepository(TaxDocument::class);
-        $hasActiveSubscription = $this->orderService->hasUserActiveSubscription($this->getLoggedUser());
 
         $data = $repository
             ->createQueryBuilder('taxDocument')
@@ -255,7 +262,7 @@ class ListPresenter extends BasePresenter
 
         // Actions
 
-        if($hasActiveSubscription) {
+        if($this->hasActiveSubscription()) {
             $grid->addAction('paidAt', '€', null)
                  ->setRenderer(function ($entity) {
                      return "<a target='_blank' 
