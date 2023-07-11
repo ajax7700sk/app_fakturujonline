@@ -12,7 +12,7 @@ class Stripe
     const ENDPOINT_SECRET = 'whsec_oZA3ClZZmuFGJVVTjPBH3vrvmY0lZEbc';
     const API_KEY = 'sk_test_51KvJ7XFhL4d5ya3cv77O9F85Frx6k3Obzn5cyT1MZh5AeehzYGzBmX82HL371maOD0du0mLGOJ8bEIhJzI3KMLqj00msVS9Wmi';
     /**
-     * @var EntityManagerInterface @onject
+     * @var EntityManagerInterface @inject
      */
     public EntityManagerInterface $em;
     /**
