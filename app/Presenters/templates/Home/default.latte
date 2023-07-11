@@ -285,7 +285,7 @@
                                                 <h5 class="card-title">Vystavené doklady</h5>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div n:if="$hasActiveSubscription">
                                             <button class="btn btn-outline-danger ml-auto">Export PDF</button>
                                             <a class="btn btn-light-success mx-3" rel="noopener"
                                                href="/tax-documents/create">

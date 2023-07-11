@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <!-- Create -->
-                <div>
+                <div n:if="$hasActiveSubscription">
                     <button class="btn btn-outline-danger ml-auto js-export-pdf" data-href="{link //:TaxDocument:List:export, id => $userCompany->getId()}">Export PDF</button>
                     <a class="btn btn-light-success"
                        rel="noopener"
