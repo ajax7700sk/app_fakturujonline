@@ -282,12 +282,12 @@ class User
         return $this;
     }
 
-    public function getResetTokenValidAt(): ?\DateTimeImmutable
+    public function getResetTokenValidAt(): ?\DateTimeInterface
     {
         return $this->resetTokenValidAt;
     }
 
-    public function setResetTokenValidAt(?\DateTimeImmutable $resetTokenValidAt): self
+    public function setResetTokenValidAt(?\DateTimeInterface $resetTokenValidAt): self
     {
         $this->resetTokenValidAt = $resetTokenValidAt;
 
