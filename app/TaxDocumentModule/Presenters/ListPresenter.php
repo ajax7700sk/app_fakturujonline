@@ -202,6 +202,7 @@ class ListPresenter extends BasePresenter
     {
         /** @var ContactRepository $repository */
         $repository = $this->em->getRepository(TaxDocument::class);
+        $hasActiveSubscription = $this->orderService->hasUserActiveSubscription($this->getLoggedUser());
 
         $data = $repository
             ->createQueryBuilder('taxDocument')
@@ -253,32 +254,35 @@ class ListPresenter extends BasePresenter
              ->setFilterDateRange();
 
         // Actions
-        $grid->addAction('paidAt', '€', null)
-             ->setRenderer(function ($entity) {
-                 return "<a target='_blank' 
-                title='Uhradené' 
-                data-target='#paymentModal' 
-                data-id='".$entity->getId()."' 
-                class='btn btn-primary btn-sm js-modal'>€</a>";
-             })
-             ->setClass('btn btn-info btn-sm btn-payment');
-        $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
-             ->setClass('btn btn-info btn-sm btn-pdf');
-        $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
-              ->setRenderer(function(TaxDocument $item) {
-                    $link = $this->link(':TaxDocument:List:email', ['id' => $item->getId()]);
-                    //
-                    return sprintf('
-                        <a href="%s" class="btn btn-email btn-sm">
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="svg-icon--material svg-icon btn-icon" data-name="Material--Email">
-                                <path d="M0 0h24v24H0V0z" fill="none"></path>
-                                <path d="M20 8l-8 5-8-5v10h16zm0-2H4l8 4.99z" opacity="0.3"></path>
-                                <path d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM20 6l-8 4.99L4 6h16zM4 8l8 5 8-5v10H4V8z"></path>
-                            </svg>
-                        </a>', $link
-                    );
-                })
-             ->setClass('btn btn-info btn-sm');
+
+        if($hasActiveSubscription) {
+            $grid->addAction('paidAt', '€', null)
+                 ->setRenderer(function ($entity) {
+                     return "<a target='_blank' 
+                    title='Uhradené' 
+                    data-target='#paymentModal' 
+                    data-id='".$entity->getId()."' 
+                    class='btn btn-primary btn-sm js-modal'>€</a>";
+                 })
+                 ->setClass('btn btn-info btn-sm btn-payment');
+            $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
+                 ->setClass('btn btn-info btn-sm btn-pdf');
+            $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
+                  ->setRenderer(function(TaxDocument $item) {
+                        $link = $this->link(':TaxDocument:List:email', ['id' => $item->getId()]);
+                        //
+                        return sprintf('
+                            <a href="%s" class="btn btn-email btn-sm">
+                                <svg viewBox="0 0 24 24" fill="currentColor" class="svg-icon--material svg-icon btn-icon" data-name="Material--Email">
+                                    <path d="M0 0h24v24H0V0z" fill="none"></path>
+                                    <path d="M20 8l-8 5-8-5v10h16zm0-2H4l8 4.99z" opacity="0.3"></path>
+                                    <path d="M4 20h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2zM20 6l-8 4.99L4 6h16zM4 8l8 5 8-5v10H4V8z"></path>
+                                </svg>
+                            </a>', $link
+                        );
+                    })
+                 ->setClass('btn btn-info btn-sm');
+        }
         $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:default', ['id' => 'id'])
              ->setRenderer(function(TaxDocument $item) {
                  $link = $this->link(':TaxDocument:Edit:default', ['id' => $item->getId()]);
