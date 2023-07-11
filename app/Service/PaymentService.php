@@ -40,10 +40,28 @@ class PaymentService
     public function createStripePaymentFromPayment(Payment $payment, string $successUrl, string $cancelUrl): array
     {
         $stripe = new Stripe();
+        $order = $payment->getOrder();
+        $type = $order->getSubscriptionType();
+        $typeName = '';
+
+        switch ($type) {
+            case 'month':
+                $typeName = 'Mesačné';
+                break;
+            case 'quarter':
+                $typeName = 'Štvrťročné';
+                break;
+            case 'year':
+                $typeName = 'Ročné';
+                break;
+        }
+
+        $name = sprintf('%s predplatné "fakturujonline.sk"', $typeName);
+
         $data   = $stripe->createPayment(
             (float)$payment->getAmount() * 100,
             $payment->getCurrencyCode(),
-            'Predplatné "fakturujonline.sk"',
+            $name,
             $successUrl,
             $cancelUrl
         );
