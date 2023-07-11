@@ -75,7 +75,7 @@ class User
     private $resetToken;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $resetTokenValidAt;
 
