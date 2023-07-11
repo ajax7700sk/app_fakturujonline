@@ -11,14 +11,14 @@ class Stripe
 {
     const ENDPOINT_SECRET = 'whsec_oZA3ClZZmuFGJVVTjPBH3vrvmY0lZEbc';
     const API_KEY = 'sk_test_51KvJ7XFhL4d5ya3cv77O9F85Frx6k3Obzn5cyT1MZh5AeehzYGzBmX82HL371maOD0du0mLGOJ8bEIhJzI3KMLqj00msVS9Wmi';
-    private EntityManagerInterface $em;
-    private OrderService $orderService;
-
-    public function __construct(EntityManagerInterface $em, OrderService $orderService)
-    {
-        $this->em = $em;
-        $this->orderService = $orderService;
-    }
+    /**
+     * @var EntityManagerInterface @onject
+     */
+    public EntityManagerInterface $em;
+    /**
+     * @var OrderService @inject
+     */
+    public OrderService $orderService;
 
     /**
      * Create stripe payment
