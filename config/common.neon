@@ -1,5 +1,5 @@
 parameters:
-    debugMode: false
+    debugMode: true
     consoleMode: false
     recaptcha:
         secretKey: 6Ldj4EEdAAAAAKiOlkbhlbgyYRQGtyr5euYcDDUz
