@@ -61,7 +61,11 @@ class SettingsPresenter extends BasePresenter
                 Join::WITH,
                 'userCompany.shippingAddress = shippingAddress.id'
             )
-            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'userCompany.user = user.id');
+            ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'userCompany.user = user.id')
+            ->where('userCompany.user = :user')
+            ->setParameter('user', $this->getLoggedUser())
+            ;
+
 
         $grid = new DataGrid($this, $name);
         $grid->setStrictSessionFilterValues();
