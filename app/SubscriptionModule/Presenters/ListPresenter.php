@@ -33,6 +33,7 @@ class ListPresenter extends BasePresenter
 
         $data = $repository
             ->createQueryBuilder('subscription')
+            // Filter
             ->where('subscription.user = :user')
             ->setParameter('user', $this->getLoggedUser());
 

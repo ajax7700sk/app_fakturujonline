@@ -62,6 +62,7 @@ class SettingsPresenter extends BasePresenter
                 'userCompany.shippingAddress = shippingAddress.id'
             )
             ->innerJoin('\App\Entity\User', 'user', Join::WITH, 'userCompany.user = user.id')
+            // Filter
             ->where('userCompany.user = :user')
             ->setParameter('user', $this->getLoggedUser())
             ;
