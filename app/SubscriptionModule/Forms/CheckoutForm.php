@@ -21,6 +21,7 @@ class CheckoutForm extends AbstractForm
 
     /** @var \Nette\Security\User */
     public $securityUser;
+    /** @var string */
     public $type;
     private Translator $translator;
     private PaymentService $paymentService;
@@ -129,6 +130,7 @@ class CheckoutForm extends AbstractForm
             ->setCurrencyCode('EUR')
             ->setLocaleCode('SK')
             ->setState('new')
+            ->setSubscriptionType($this->type)
             ;
 
 
