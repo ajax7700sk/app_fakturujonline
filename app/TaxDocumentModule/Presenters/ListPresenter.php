@@ -139,6 +139,8 @@ class ListPresenter extends BasePresenter
             $this->flashMessage('E-mail bol úspešne odoslaný', 'success');
         } catch (SendException) {
             $this->flashMessage('Pri odoslaní e-mailu nastala chyba.', 'danger');
+        } catch (\InvalidArgumentException $e) {
+            $this->flashMessage($e->getMessage(), 'danger');
         }
 
         $this->redirect(':TaxDocument:List:default');

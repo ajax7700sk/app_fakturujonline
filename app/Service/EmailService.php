@@ -6,9 +6,11 @@ namespace App\Service;
 use App\Entity\TaxDocument;
 use App\Entity\User;
 use Nette\Application\UI\ITemplateFactory;
+use Nette\Forms\Validator;
 use Nette\Mail\Message;
 use Nette\Mail\SendException;
 use Nette\Mail\SendmailMailer;
+use Nette\Utils\Validators;
 
 class EmailService
 {
@@ -33,6 +35,15 @@ class EmailService
         $template->taxDocument = $taxDocument;
         //
         $template->setFile(get_app_folder_path().'/templates/email/tax-document.latte');
+
+        // Validate
+        if(!Validators::isEmail($taxDocument->getSupplierBillingAddress()->getEmail())) {
+            throw new \InvalidArgumentException('Email odosielateľa nie je platný');
+        }
+
+        if(!Validators::isEmail($taxDocument->getSubscriberBillingAddress()->getEmail())) {
+            throw new \InvalidArgumentException('Email prijímateľa nie je platný');
+        }
 
         // Message
         $message = new Message();
