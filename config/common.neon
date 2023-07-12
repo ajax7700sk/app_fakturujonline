@@ -117,6 +117,7 @@ services:
 	- App\SecurityModule\Forms\ILoginForm
 	- App\SecurityModule\Forms\IRegisterForm
 	- App\SecurityModule\Forms\IResetPasswordForm
+	- App\SecurityModule\Forms\INewPasswordForm
 	- App\ContactModule\Forms\IContactForm
 	- App\UserModule\Forms\IUserSettingsForm
 	- App\UserModule\Forms\IUserCompanyForm

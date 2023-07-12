@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\SecurityModule\Presenters;
 
 use App\SecurityModule\Forms\ILoginForm;
+use App\SecurityModule\Forms\INewPasswordForm;
 use App\SecurityModule\Forms\IRegisterForm;
 use App\SecurityModule\Forms\IResetPasswordForm;
 use App\SecurityModule\Forms\LoginForm;
+use App\SecurityModule\Forms\NewPasswordForm;
 use App\SecurityModule\Forms\RegisterForm;
 use App\SecurityModule\Forms\ResetPasswordForm;
 
@@ -14,6 +16,9 @@ class AuthPresenter extends BasePresenter
 {
     /** @var IResetPasswordForm @inject */
     public $resetPasswordForm;
+
+    /** @var INewPasswordForm @inject */
+    public $newPasswordForm;
 
     /** @var ILoginForm @inject */
     public $loginForm;
@@ -41,7 +46,7 @@ class AuthPresenter extends BasePresenter
 
     }
 
-    public function actionChangePassword()
+    public function actionNewPassword()
     {
         //
     }
@@ -71,6 +76,13 @@ class AuthPresenter extends BasePresenter
     {
         /** @var ResetPasswordForm $control */
         $control = $this->resetPasswordForm->create();
+
+        return $control;
+    }
+
+    public function createComponentNewPasswordForm(): NewPasswordForm
+    {
+        $control = $this->newPasswordForm->create();
 
         return $control;
     }
