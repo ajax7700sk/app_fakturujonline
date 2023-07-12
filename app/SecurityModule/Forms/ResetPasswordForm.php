@@ -10,6 +10,7 @@ use App\Service\SecurityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
+use Nette\Mail\SendException;
 use Nette\Security\User as SecurityUser;
 
 final class ResetPasswordForm extends AbstractForm
@@ -107,7 +108,7 @@ final class ResetPasswordForm extends AbstractForm
                 $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
                 $this->presenter->redirect(':Security:Auth:login');
             }
-        } catch (\Exception $e) {
+        } catch (SendException $e) {
             // TODO: odchytit transport email exception
             $this->presenter->flashMessage("Pri odoslaní e-mailu nastala neočakávana chyba", 'danger');
             $this->presenter->redirect("this");

@@ -20,6 +20,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Nette\Application\Responses\FileResponse;
 use Nette\Mail\Message;
+use Nette\Mail\SendException;
 use Nette\Mail\SendmailMailer;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -136,7 +137,7 @@ class ListPresenter extends BasePresenter
             $this->emailService->sendTaxDocument($taxDocument);
             //
             $this->flashMessage('E-mail bol úspešne odoslaný', 'success');
-        } catch (\Exception) {
+        } catch (SendException) {
             $this->flashMessage('Pri odoslaní e-mailu nastala chyba.', 'danger');
         }
 

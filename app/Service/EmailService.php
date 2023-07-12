@@ -7,6 +7,7 @@ use App\Entity\TaxDocument;
 use App\Entity\User;
 use Nette\Application\UI\ITemplateFactory;
 use Nette\Mail\Message;
+use Nette\Mail\SendException;
 use Nette\Mail\SendmailMailer;
 
 class EmailService
@@ -20,7 +21,7 @@ class EmailService
     /**
      * @param TaxDocument $taxDocument
      *
-     * @throws \Exception
+     * @throws SendException
      * @return void
      */
     public function sendTaxDocument(TaxDocument $taxDocument): void
@@ -49,7 +50,7 @@ class EmailService
     /**
      * @param TaxDocument $taxDocument
      *
-     * @throws \Exception
+     * @throws SendException
      * @return void
      */
     public function resetPassword(User $user, string $resetLink): void
