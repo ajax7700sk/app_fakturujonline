@@ -21,7 +21,7 @@ class TaxDocumentService
         $template->taxDocument = $taxDocument;
         $template->localeCode = $taxDocument->getLocaleCode();
         $template->currencyCode = $taxDocument->getCurrencyCode();
-        $template->logo = get_app_www_folder_path() . $taxDocument->getUserCompany()->getLogo();
+        $template->logo = $taxDocument->getUserCompany()->getLogo();
         //
         $template->setFile(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte');
 
@@ -35,6 +35,7 @@ class TaxDocumentService
         //render pdf with Dompdf
         $dompdf = new Dompdf($options);
         $dompdf->getCanvas()->get_page_count();
+        $options->set('isRemoteEnabled', true);
 //        $template = str_replace(['[PP]'], [$dompdf->getCanvas()->get_page_count()], $template);
         $dompdf->loadHtml($template, 'UTF-8');
         $dompdf->setPaper('A4');
