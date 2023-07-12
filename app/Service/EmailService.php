@@ -73,5 +73,6 @@ class EmailService
 
         $mailer = new SendmailMailer();
         $mailer->send($message);
+        dd("Test");
     }
 }
