@@ -100,10 +100,18 @@ final class ResetPasswordForm extends AbstractForm
         /** @var User|null $user */
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $values['email']]);
 
+        // Token
+        $resetToken = uniqid();
+        $user->setResetToken($resetToken);
+        $user->setResetTokenValidAt((new \DateTime())->modify('+30 minutes'));
+        //
+        $this->entityManager->flush();
 
         try {
             if($user) {
-                $this->emailService->resetPassword($user, $this->presenter->link('//:Security:Auth:changePassword'));
+                $this->emailService->resetPassword($user, $this->presenter->link('//:Security:Auth:newPassword', [
+                    'token' => $resetToken
+                ]));
                 // Redirect to dashboard
                 $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
                 $this->presenter->redirect(':Security:Auth:login');

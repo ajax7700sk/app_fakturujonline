@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Mail\SendException;
+use Nette\Security\Passwords;
 use Nette\Security\User as SecurityUser;
 
 final class NewPasswordForm extends AbstractForm
@@ -24,6 +25,9 @@ final class NewPasswordForm extends AbstractForm
 
     private Translator $translator;
     private EmailService $emailService;
+
+    /** @var User */
+    public $user;
 
 
     public function __construct(
@@ -95,26 +99,21 @@ final class NewPasswordForm extends AbstractForm
         /** @var \Nette\Utils\ArrayHash $values */
         $values = $form->getValues();
         /** @var User|null $user */
-        $user = $this->entityManager
-            ->getRepository(User::class)
-            ->findOneBy([
-                'email' => $values['email']
+        $user = $this->user;
+        $password = new Passwords();
 
-            ]);
-
-
-        try {
-            if($user) {
-                $this->emailService->resetPassword($user, $this->presenter->link('//:Security:Auth:changePassword'));
-                // Redirect to dashboard
-                $this->presenter->flashMessage('Na váš e-mail bol odoslaný odkaz k obnoveniu hesla', 'success');
-                $this->presenter->redirect(':Security:Auth:login');
-            }
-        } catch (SendException $e) {
-            // TODO: odchytit transport email exception
-            $this->presenter->flashMessage("Pri odoslaní e-mailu nastala neočakávana chyba", 'danger');
-            $this->presenter->redirect("this");
+        if(!$user) {
+            return;
         }
+
+        //
+        $user->setPassword($password->hash($values['passwordNew']));
+        //
+        $this->entityManager->flush();
+
+        //
+        $this->presenter->flashMessage('Heslo bolo úspešne zmenené', 'success');
+        $this->presenter->redirect(':Security:Auth:login');
     }
 
 }

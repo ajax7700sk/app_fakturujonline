@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\SecurityModule\Presenters;
 
+use App\Entity\User;
 use App\SecurityModule\Forms\ILoginForm;
 use App\SecurityModule\Forms\INewPasswordForm;
 use App\SecurityModule\Forms\IRegisterForm;
@@ -26,6 +27,9 @@ class AuthPresenter extends BasePresenter
     /** @var IRegisterForm @inject */
     public $registerForm;
 
+    /** @var User|null */
+    private $newPasswordFormUser;
+
 
     /*********************************************************************
      * Actions
@@ -46,9 +50,31 @@ class AuthPresenter extends BasePresenter
 
     }
 
-    public function actionNewPassword()
+    public function actionNewPassword($token)
     {
+        /** @var User|null $user */
+        $user = $this->em
+            ->getRepository(User::class)
+            ->findOneBy([
+                'resetToken' => $token
+            ]);
         //
+
+        if(!$user) {
+            $this->flashMessage('Zadaný token neexistuje', 'danger');
+            //
+            $this->redirect(':Security:Auth:login');
+        }
+
+        // Is token valid
+        if($user->getResetTokenValidAt() < (new \DateTime())) {
+            $this->flashMessage('Platnosť tokenu vypršala', 'danger');
+            //
+            $this->redirect(':Security:Auth:login');
+        }
+
+        //
+        $this->newPasswordFormUser = $user;
     }
 
     public function actionLogout()
@@ -82,7 +108,9 @@ class AuthPresenter extends BasePresenter
 
     public function createComponentNewPasswordForm(): NewPasswordForm
     {
+        /** @var NewPasswordForm $control */
         $control = $this->newPasswordForm->create();
+        $control->user = $this->newPasswordFormUser;
 
         return $control;
     }
