@@ -120,6 +120,7 @@ services:
 	- App\ContactModule\Forms\IContactForm
 	- App\UserModule\Forms\IUserSettingsForm
 	- App\UserModule\Forms\IUserCompanyForm
+	- App\UserModule\Forms\IPasswordChangeForm
 	- App\TaxDocumentModule\Forms\ITaxDocumentForm
 	- App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm
 	- App\SubscriptionModule\Forms\ICheckoutForm

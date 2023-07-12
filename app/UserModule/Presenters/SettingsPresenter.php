@@ -6,7 +6,9 @@ namespace App\UserModule\Presenters;
 use App\Entity\Contact;
 use App\Entity\UserCompany;
 use App\Repository\ContactRepository;
+use App\UserModule\Forms\IPasswordChangeForm;
 use App\UserModule\Forms\IUserSettingsForm;
+use App\UserModule\Forms\PasswordChangeForm;
 use App\UserModule\Forms\UserSettingsForm;
 use Doctrine\ORM\Query\Expr\Join;
 use Ublaboo\DataGrid\DataGrid;
@@ -15,6 +17,10 @@ class SettingsPresenter extends BasePresenter
 {
     /** @var IUserSettingsForm @inject */
     public $userSettingsForm;
+
+    /** @var IPasswordChangeForm @inject */
+    public $passwordChangeForm;
+
 
     public function actionDefault()
     {
@@ -31,6 +37,13 @@ class SettingsPresenter extends BasePresenter
         /** @var UserSettingsForm $control */
         $control = $this->userSettingsForm->create();
         $control->setUser($this->getLoggedUser());
+
+        return $control;
+    }
+
+    public function createComponentPasswordChangeForm(): PasswordChangeForm
+    {
+        $control = $this->passwordChangeForm->create();
 
         return $control;
     }

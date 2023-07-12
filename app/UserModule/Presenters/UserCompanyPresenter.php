@@ -26,9 +26,9 @@ class UserCompanyPresenter extends BasePresenter
 
     public function actionEdit($id)
     {
-        $entity = $this->em->getRepository(UserCompany::class)->find((int) $id);
+        $entity = $this->em->getRepository(UserCompany::class)->find((int)$id);
 
-        if(!$entity) {
+        if ( ! $entity) {
             // 404
             $this->error();
         }
@@ -40,9 +40,9 @@ class UserCompanyPresenter extends BasePresenter
     public function actionDelete($id)
     {
         /** @var UserCompany|null $company */
-        $company = $this->em->getRepository(UserCompany::class)->find((int) $id);
+        $company = $this->em->getRepository(UserCompany::class)->find((int)$id);
 
-        if(!$company) {
+        if ( ! $company) {
             $this->error();
         }
 
@@ -65,4 +65,5 @@ class UserCompanyPresenter extends BasePresenter
 
         return $control;
     }
+
 }

@@ -156,3 +156,14 @@
 .table-modern > tbody > tr * {
 	font-size: 0.8rem;
 }
+
+.form-errors {
+	list-style: none;
+	padding-left: 0;
+	margin-bottom: 0;
+
+	li {
+		color: $red;
+		margin-bottom: 10px;
+	}
+}
