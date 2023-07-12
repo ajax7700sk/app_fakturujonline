@@ -3,11 +3,15 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="images/favicon.png" rel="icon"/>
     <title>Faktura</title>
     <meta name="author" content="harnishdesign.net">
     <style>
+        * {
+            font-family: DejaVu Sans !important;
+        }
         body {
             font-family: DejaVu Sans, sans-serif;
         }
@@ -98,7 +102,7 @@
                         </address>
                     {else}
                         <address class="bank-account">
-                            Cislo uctu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
+                            Číslo účtu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
                             IBAN: {$taxDocument->getPaymentData()->getBankAccountIban()}<br>
                             SWIFT: {$taxDocument->getPaymentData()->getBankAccountSwift()}<br>
 {*                            Variabilný symbol: {$taxDocument->getVariableSymbol()}*}
