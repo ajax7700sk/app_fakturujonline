@@ -43,8 +43,12 @@ class OrderService
         return $order;
     }
 
-    public function hasUserActiveSubscription(User $user): bool
+    public function hasUserActiveSubscription(?User $user): bool
     {
+        if(!$user) {
+            return false;
+        }
+
         $qb = $this->em
             ->getRepository(Subscription::class)
             ->createQueryBuilder('s');
