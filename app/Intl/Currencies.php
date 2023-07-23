@@ -8,6 +8,11 @@ class Currencies
     public static function getNames(): array
     {
         return array(
+            "EUR" => "Euro",
+            "CZK" => "Česká koruna",
+            "USD" => "Americký dolár",
+            "GBP" => "Britská libra",
+            //
             "AED" => "Spojené arabské emiráty dirham",
             "AFN" => "Afganský afgání",
             "ALL" => "Albánsky lek",
@@ -43,7 +48,6 @@ class Currencies
             "CUC" => "Kubánske konvertibilné peso",
             "CUP" => "Kubánske peso",
             "CVE" => "Kapverdské escudo",
-            "CZK" => "Česká koruna",
             "DJF" => "Džibutský frank",
             "DKK" => "Dánska koruna",
             "DOP" => "Dominikánske peso",
@@ -51,10 +55,8 @@ class Currencies
             "EGP" => "Egyptská libra",
             "ERN" => "Eritrejská nakfa",
             "ETB" => "Etiópsky birr",
-            "EUR" => "Euro",
             "FJD" => "Fidžijský dolár",
             "FKP" => "Falklandská libra",
-            "GBP" => "Britská libra",
             "GEL" => "Gruzínske lari",
             "GGP" => "Guernseyská libra",
             "GHS" => "Ghanský cedi",
@@ -155,7 +157,6 @@ class Currencies
             "TZS" => "Tanzánsky šiling",
             "UAH" => "Ukrajinská hryvna",
             "UGX" => "Ugandský šiling",
-            "USD" => "Americký dolár",
             "UYU" => "Uruguajské peso",
             "UZS" => "Uzbecký sum",
             "VEF" => "Venezuelský bolivar",

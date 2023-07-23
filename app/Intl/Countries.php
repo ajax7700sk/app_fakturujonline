@@ -8,6 +8,9 @@ class Countries
     public static function getNames(): array
     {
         return array(
+            "SK" => "Slovensko",
+            "CZ" => "Česká republika",
+            //
             "AF" => "Afganistan",
             "AL" => "Albánsko",
             "DZ" => "Alžírsko",
@@ -57,7 +60,6 @@ class Countries
             "HR" => "Chorvátsko",
             "CU" => "Kuba",
             "CY" => "Cyprus",
-            "CZ" => "Česká republika",
             "DK" => "Dánsko",
             "DJ" => "Džibutsko",
             "DM" => "Dominika",
@@ -185,7 +187,6 @@ class Countries
             "SC" => "Seychelské ostrovy",
             "SL" => "Sierra Leone",
             "SG" => "Singapur",
-            "SK" => "Slovensko",
             "SI" => "Slovinsko",
             "SB" => "Šalamúnove ostrovy",
             "SO" => "Somálsko",
