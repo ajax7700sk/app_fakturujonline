@@ -280,6 +280,15 @@ class ListPresenter extends BasePresenter
             $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
                   ->setRenderer(function(TaxDocument $item) {
                         $link = $this->link(':TaxDocument:List:email', ['id' => $item->getId()]);
+
+                        // Check if supplier and subscriber has filled email
+                      if (
+                          ! $item->getSubscriberBillingAddress()->getEmail() ||
+                          ! $item->getSupplierBillingAddress()->getEmail()
+                      ) {
+                          return '';
+                      }
+
                         //
                         return sprintf('
                             <a href="%s" class="btn btn-email btn-sm">

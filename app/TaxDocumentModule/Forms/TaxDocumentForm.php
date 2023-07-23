@@ -137,14 +137,10 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('supplier_taxId', 'DIČ');
         $form->addText('supplier_vatNumber', 'IČ DPH');
         $form->addText('supplier_phone', 'Telefon');
-        $form->addText('supplier_email', 'E-mail')
-             ->setRequired("Pole je povinné");
-        $form->addText('supplier_street', 'Adresa')
-             ->setRequired("Pole je povinné");
-        $form->addText('supplier_city', 'Město')
-             ->setRequired("Pole je povinné");
-        $form->addText('supplier_zipCode', 'PŠC')
-             ->setRequired("Pole je povinné");
+        $form->addText('supplier_email', 'E-mail');
+        $form->addText('supplier_street', 'Adresa');
+        $form->addText('supplier_city', 'Město');
+        $form->addText('supplier_zipCode', 'PŠC');
         $form->addSelect('supplier_countryCode', 'Štát', Countries::getNames())
              ->setRequired("Pole je povinné");
 
@@ -156,14 +152,10 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
         $form->addText('subscriber_phone', 'Telefon');
-        $form->addText('subscriber_email', 'E-mail')
-             ->setRequired("Pole je povinné");
-        $form->addText('subscriber_street', 'Adresa')
-             ->setRequired("Pole je povinné");
-        $form->addText('subscriber_city', 'Město')
-             ->setRequired("Pole je povinné");
-        $form->addText('subscriber_zipCode', 'PŠC')
-             ->setRequired("Pole je povinné");
+        $form->addText('subscriber_email', 'E-mail');
+        $form->addText('subscriber_street', 'Adresa');
+        $form->addText('subscriber_city', 'Město');
+        $form->addText('subscriber_zipCode', 'PŠC');
         $form->addSelect('subscriber_countryCode', 'Štát', Countries::getNames())
              ->setRequired("Pole je povinné");
 
