@@ -188,31 +188,33 @@
                 Daň je povinný zaplatiť zákazník.
             {/if}
         </div>
-        {if $taxDocument->getUserCompany() && $taxDocument->getUserCompany()->getRegisterInfo()}
-            <p class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
-        {/if}
         <!-- Footer -->
         <footer class="text-center footer">
             {if $taxDocument->getNote()}
                 <p class="text-1"><strong>Poznámka:</strong> {$taxDocument->getNote()}</p>
             {/if}
         </footer>
-        <table class="copyright row w-100" style="margin-top: -15px;">
-            <tr>
-                <td class="w-50">
-                    <div class="col-6">
-                        {if $taxDocument->getIssuedBy()}
-                            <p class="text-left">Vystavil: {$taxDocument->getIssuedBy()}</p>
-                        {/if}
-                    </div>
-                </td>
-                <td class="w-50">
-                    <div class="col-6">
-                        <p class="text-right">Vytvorené v systéme fakturyonline.sk</p>
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <div class="copyright w-100" style="margin-top: -15px;">
+            <table class="row w-100">
+                <tr>
+                    <td class="w-50">
+                        <div class="col-6">
+                            {if $taxDocument->getIssuedBy()}
+                                <p class="text-left">Vystavil: {$taxDocument->getIssuedBy()}</p>
+                            {/if}
+                        </div>
+                    </td>
+                    <td class="w-50">
+                        <div class="col-6">
+                            <p class="text-right">Vytvorené v systéme fakturyonline.sk</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            {if $taxDocument->getUserCompany() && $taxDocument->getUserCompany()->getRegisterInfo()}
+                <p style="margin-top: -15px;" class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
+            {/if}
+        </div>
     </div>
 </div>
 </body>

@@ -7,7 +7,7 @@ use App\Entity\TaxDocument;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Nette\Application\UI\ITemplateFactory;
-
+set_time_limit(300);
 class TaxDocumentService
 {
     /** @var ITemplateFactory @inject */
@@ -23,7 +23,7 @@ class TaxDocumentService
         $template->currencyCode = $taxDocument->getCurrencyCode();
         $template->logo = $taxDocument->getUserCompany()->getLogo();
         //
-        $template->setFile(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte');
+        $template->setFile(realpath(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte'));
 
         //options
         $options = new Options();
@@ -43,7 +43,7 @@ class TaxDocumentService
 
         $stream = $dompdf->output();
         $filename = sprintf('doklad-%s.pdf', $taxDocument->getNumber());
-        $filepath = get_app_root_folder_path() . '/data/pdf/' . sprintf('doklad-%s.pdf', $taxDocument->getId());
+        $filepath = realpath(get_app_root_folder_path() . '/data/pdf/' . sprintf('doklad-%s.pdf', $taxDocument->getId()));
 
         //
         file_put_contents($filepath, $stream);
