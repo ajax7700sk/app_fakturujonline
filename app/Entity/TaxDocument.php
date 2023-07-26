@@ -50,7 +50,7 @@ class TaxDocument
     private $vatPayer;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $number;
 
@@ -95,7 +95,7 @@ class TaxDocument
     private $paymentData;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $currencyCode;
 
@@ -158,6 +158,11 @@ class TaxDocument
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dueDateAt;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $publishState = 'draft';
 
     public function __construct()
     {
@@ -222,7 +227,7 @@ class TaxDocument
         return $this->number;
     }
 
-    public function setNumber(string $number): self
+    public function setNumber(?string $number): self
     {
         $this->number = $number;
 
@@ -498,6 +503,27 @@ class TaxDocument
         $this->dueDateAt = $dueDateAt;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublishState(): string
+    {
+        return $this->publishState;
+    }
+
+    /**
+     * @param string $publishState
+     */
+    public function setPublishState(string $publishState): void
+    {
+        $this->publishState = $publishState;
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->getPublishState() == 'draft' ? true : false;
     }
 
     // -------------------------------------- Recalculate --------------------------------------- \\

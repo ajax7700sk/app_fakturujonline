@@ -82,7 +82,7 @@ class TaxDocumentForm extends AbstractForm
 
         // Invoice
         $form->addSelect('userCompany', 'Spoločnosť', $companiesList)
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Spoločnosť' je povinné");
         if ($this->userCompany) {
             $form['userCompany']->setDisabled(true);
         }
@@ -92,19 +92,19 @@ class TaxDocumentForm extends AbstractForm
             TaxDocument::TYPE_PROFORMA_INVOCE => 'Proforma faktúra',
             TaxDocument::TYPE_CREDIT_NOTE     => 'Dobropis',
         ])
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Druh dokladu' je povinné");
         $form->addText('number', 'Číslo dokladu')
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Číslo dokladu' je povinné");
         $form->addCheckbox('transferedTaxLiability', 'Preniesť daňovú zodpovednosť');
         $form->addCheckbox('vatPayer', 'Plátca DPH');
         $form->addText('issuedBy', 'Vystavil')
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Vystavil' je povinné");
         $form->addText('issuedAt', 'Dátum vystavenia')
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Dátum vystavenia' je povinné");
         $form->addText('deliveryDateAt', 'Dátum dodania')
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Dátum dodania' je povinné");
         $form->addText('dueDateAt', 'Splatnosť')
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Splatnosť' je povinné");
 
         // Notes
         $form->addTextArea('noteAboveItems', 'Poznámka nad položkami');
@@ -112,7 +112,7 @@ class TaxDocumentForm extends AbstractForm
 
         // Settings
         $form->addSelect('currencyCode', 'Mena', Currencies::getNames())
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Mena' je povinné");
         $form->addText('constantSymbol', 'Konštantný symbol');
         $form->addText('specificSymbol', 'Špecifický symbol');
 
@@ -124,16 +124,16 @@ class TaxDocumentForm extends AbstractForm
             PaymentData::TYPE_PAYPAL           => 'Paypal',
             PaymentData::TYPE_PAYMENT_CARD     => 'Platobná karta',
         ])
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Typ' je povinné");
         $form->addText('paymentData_bankAccount', 'Bankový účet');
         $form->addText('paymentData_iban', 'IBAN');
         $form->addText('paymentData_swift', 'SWIFT');
 
         // Supplier
         $form->addText('supplier_name', 'Názov spoločnosti')
-             ->setRequired("Pole je povinné");
+             ->setRequired("Pole 'Názov spoločnosti' je povinné");
         $form->addText('supplier_businessId', 'IČO')
-             ->setRequired("Pole je povinné");
+            ->setRequired("Pole 'IČO' je povinné");
         $form->addText('supplier_taxId', 'DIČ');
         $form->addText('supplier_vatNumber', 'IČ DPH');
         $form->addText('supplier_phone', 'Telefon');
@@ -142,13 +142,13 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('supplier_city', 'Město');
         $form->addText('supplier_zipCode', 'PŠC');
         $form->addSelect('supplier_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("Pole je povinné");
+            ->setRequired("Pole 'Štát' je povinné");
 
         // Subscriber address
         $form->addText('subscriber_name', 'Názov spoločnosti')
-             ->setRequired("Pole je povinné");
+            ->setRequired("Pole 'Názov spoločnosti' je povinné");
         $form->addText('subscriber_businessId', 'IČO')
-             ->setRequired("Pole je povinné");
+            ->setRequired("Pole 'IČO' je povinné");
         $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
         $form->addText('subscriber_phone', 'Telefon');
@@ -157,7 +157,7 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('subscriber_city', 'Město');
         $form->addText('subscriber_zipCode', 'PŠC');
         $form->addSelect('subscriber_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("Pole je povinné");
+            ->setRequired("Pole 'Štát' je povinné");
 
         // Supplier bank account
         $form->addText('bankAccount_accountNumber', 'Číslo účtu');
@@ -166,6 +166,9 @@ class TaxDocumentForm extends AbstractForm
 
         //
         $form->addSubmit("submit", 'form.general.submit.label');
+        $form
+            ->addSubmit("submitDraft", 'form.general.draft.label')
+            ->setValidationScope([]);
         //
         $this->setDefaults($form);
 
@@ -181,11 +184,15 @@ class TaxDocumentForm extends AbstractForm
         //
     }
 
+
+
     public function onSuccess(Form $form): void
     {
         /** @var \Nette\Utils\ArrayHash $values */
         $values = $form->getValues(true);
-
+        $httpData = $form->getHttpData();
+        $isDraft = isset($httpData['submitDraft']) ? true : false;
+        $values = $isDraft ? $httpData : $values;
 
         // ------------------------------------- Tax document ---------------------------------------- \\
 
@@ -195,12 +202,17 @@ class TaxDocumentForm extends AbstractForm
             $taxDocument = $this->taxDocument;
         }
 
+        $taxDocument->setPublishState($isDraft ? 'draft' : 'publish');
+        $userCompany = null;
+
         // User company
         /** @var UserCompany|null $userCompany */
         if ( ! $this->userCompany) {
-            $userCompany = $this->entityManager
-                ->getRepository(UserCompany::class)
-                ->find((int)$values['userCompany']);
+            if($values['userCompany']) {
+                $userCompany = $this->entityManager
+                    ->getRepository(UserCompany::class)
+                    ->find((int)$values['userCompany']);
+            }
         } else {
             $userCompany = $this->userCompany;
         }
@@ -208,22 +220,22 @@ class TaxDocumentForm extends AbstractForm
         //
         $taxDocument->setUserCompany($userCompany);
         //
-        $taxDocument->setType($values['type']);
-        $taxDocument->setNumber($values['number']);
-        $taxDocument->setTransferedTaxLiability($values['transferedTaxLiability']);
-        $taxDocument->setVatPayer($values['vatPayer']);
-        $taxDocument->setIssuedBy($values['issuedBy']);
-        $taxDocument->setIssuedAt(new \DateTime($values['issuedAt']));
-        $taxDocument->setDeliveryDateAt(new \DateTime($values['deliveryDateAt']));
-        $taxDocument->setDueDateAt(new \DateTime($values['dueDateAt']));
+        $taxDocument->setType(isset($values['type']) ? $values['type'] : TaxDocument::TYPE_INVOICE);
+        $taxDocument->setNumber(isset($values['number']) ? $values['number'] : "");
+        $taxDocument->setTransferedTaxLiability(isset($values['transferedTaxLiability']) ? $values['transferedTaxLiability'] : false);
+        $taxDocument->setVatPayer(isset($values['vatPayer']) ? $values['vatPayer'] : false);
+        $taxDocument->setIssuedBy(isset($values['issuedBy']) ? $values['issuedBy'] : null);
+        $taxDocument->setIssuedAt(isset($values['issuedAt']) ? new \DateTime($values['issuedAt']) : null);
+        $taxDocument->setDeliveryDateAt(isset($values['deliveryDateAt']) ? new \DateTime($values['deliveryDateAt']) : null);
+        $taxDocument->setDueDateAt(isset($values['dueDateAt']) ? new \DateTime($values['dueDateAt']) : null);
         $taxDocument->setLocaleCode('SK');
         //
-        $taxDocument->setNoteAboveItems($values['noteAboveItems']);
-        $taxDocument->setNote($values['note']);
+        $taxDocument->setNoteAboveItems(isset($values['noteAboveItems']) ? $values['noteAboveItems'] : null);
+        $taxDocument->setNote(isset($values['note']) ? $values['note'] : null);
         //
-        $taxDocument->setCurrencyCode($values['currencyCode']);
-        $taxDocument->setConstantSymbol($values['constantSymbol']);
-        $taxDocument->setSpecificSymbol($values['specificSymbol']);
+        $taxDocument->setCurrencyCode(isset($values['currencyCode'])  ? $values['currencyCode'] : null);
+        $taxDocument->setConstantSymbol(isset($values['constantSymbol']) ? $values['constantSymbol'] : null);
+        $taxDocument->setSpecificSymbol(isset($values['specificSymbol']) ? $values['specificSymbol'] : null);
 
         // ------------------------------------- Payment data ---------------------------------------- \\
 
@@ -233,10 +245,10 @@ class TaxDocumentForm extends AbstractForm
             $paymentData = $taxDocument->getPaymentData();
         }
 
-        $paymentData->setType($values['paymentData_type']);
-        $paymentData->setBankAccountNumber($values['paymentData_bankAccount']);
-        $paymentData->setBankAccountIban($values['paymentData_iban']);
-        $paymentData->setBankAccountSwift($values['paymentData_swift']);
+        $paymentData->setType(isset($values['paymentData_type']) ? $values['paymentData_type'] : null);
+        $paymentData->setBankAccountNumber(isset($values['paymentData_bankAccount']) ? $values['paymentData_bankAccount'] : null);
+        $paymentData->setBankAccountIban(isset($values['paymentData_iban']) ? $values['paymentData_iban'] : null);
+        $paymentData->setBankAccountSwift(isset($values['paymentData_swift']) ? $values['paymentData_swift'] : null);
 
         // ------------------------------------- Supplier ---------------------------------------- \\
 
@@ -246,16 +258,16 @@ class TaxDocumentForm extends AbstractForm
             $supplier = $taxDocument->getSupplierBillingAddress();
         }
 
-        $supplier->setName($values['supplier_name']);
-        $supplier->setBusinessId($values['supplier_businessId']);
-        $supplier->setTaxId($values['supplier_taxId']);
-        $supplier->setVatNumber($values['supplier_vatNumber']);
-        $supplier->setPhone($values['supplier_phone']);
-        $supplier->setEmail($values['supplier_email']);
-        $supplier->setStreet($values['supplier_street']);
-        $supplier->setCity($values['supplier_city']);
-        $supplier->setZipCode($values['supplier_zipCode']);
-        $supplier->setCountryCode($values['supplier_countryCode']);
+        $supplier->setName(isset($values['supplier_name']) ? $values['supplier_name'] : "");
+        $supplier->setBusinessId(isset($values['supplier_businessId']) ? $values['supplier_businessId'] : null);
+        $supplier->setTaxId(isset($values['supplier_taxId']) ? $values['supplier_taxId'] : null);
+        $supplier->setVatNumber(isset($values['supplier_vatNumber']) ? $values['supplier_vatNumber'] : null);
+        $supplier->setPhone(isset($values['supplier_phone']) ? $values['supplier_phone'] : null);
+        $supplier->setEmail(isset($values['supplier_email']) ? $values['supplier_email'] : null);
+        $supplier->setStreet(isset($values['supplier_street']) ? $values['supplier_street'] : "");
+        $supplier->setCity(isset($values['supplier_city']) ? $values['supplier_city'] : "");
+        $supplier->setZipCode(isset($values['supplier_zipCode']) ? $values['supplier_zipCode'] : "");
+        $supplier->setCountryCode(isset($values['supplier_countryCode']) ? $values['supplier_countryCode'] : "");
 
         // ------------------------------------- Shipping address ---------------------------------------- \\
 
@@ -266,16 +278,16 @@ class TaxDocumentForm extends AbstractForm
             $subscriber = $taxDocument->getSubscriberBillingAddress();
         }
 
-        $subscriber->setName($values['subscriber_name']);
-        $subscriber->setBusinessId($values['subscriber_businessId']);
-        $subscriber->setTaxId($values['subscriber_taxId']);
-        $subscriber->setVatNumber($values['subscriber_vatNumber']);
-        $subscriber->setPhone($values['subscriber_phone']);
-        $subscriber->setEmail($values['subscriber_email']);
-        $subscriber->setStreet($values['subscriber_street']);
-        $subscriber->setCity($values['subscriber_city']);
-        $subscriber->setZipCode($values['subscriber_zipCode']);
-        $subscriber->setCountryCode($values['subscriber_countryCode']);
+        $subscriber->setName(isset($values['subscriber_name']) ? $values['subscriber_name'] : "");
+        $subscriber->setBusinessId(isset($values['subscriber_businessId']) ? $values['subscriber_businessId'] : null);
+        $subscriber->setTaxId(isset($values['subscriber_taxId']) ? $values['subscriber_taxId'] : null);
+        $subscriber->setVatNumber(isset($values['subscriber_vatNumber']) ? $values['subscriber_vatNumber'] : null);
+        $subscriber->setPhone(isset($values['subscriber_phone']) ? $values['subscriber_phone'] : null);
+        $subscriber->setEmail(isset($values['subscriber_email']) ? $values['subscriber_email'] : null);
+        $subscriber->setStreet(isset($values['subscriber_street']) ? $values['subscriber_street'] : "");
+        $subscriber->setCity(isset($values['subscriber_city']) ? $values['subscriber_city'] : "");
+        $subscriber->setZipCode(isset($values['subscriber_zipCode']) ? $values['subscriber_zipCode'] : "");
+        $subscriber->setCountryCode(isset($values['subscriber_countryCode']) ? $values['subscriber_countryCode'] : "");
 
         // ------------------------------------- Bank account ---------------------------------------- \\
 
@@ -285,29 +297,29 @@ class TaxDocumentForm extends AbstractForm
             $bankAccount = $taxDocument->getBankAccount();
         }
 
-        $bankAccount->setAccountNumber($values['bankAccount_accountNumber']);
-        $bankAccount->setIban($values['bankAccount_iban']);
-        $bankAccount->setSwift($values['bankAccount_swift']);
+        $bankAccount->setAccountNumber(isset($values['bankAccount_accountNumber']) ? $values['bankAccount_accountNumber'] : null);
+        $bankAccount->setIban(isset($values['bankAccount_iban']) ? $values['bankAccount_iban'] : null);
+        $bankAccount->setSwift(isset($values['bankAccount_swift']) ? $values['bankAccount_swift'] : null);
 
         // ------------------------------------- Items ---------------------------------------- \\
-
-        $httpData = $form->getHttpData();
 
         // Remove items
         $taxDocument->clearLineItems();
 
         // Items
-        foreach ($httpData['lineItems'] as $_lineItem) {
-            $lineItem = new LineItem();
-            $lineItem->setName($_lineItem['name']);
-            $lineItem->setQuantity((int)$_lineItem['quantity']);
-            $lineItem->setUnit($_lineItem['unit']);
-            $lineItem->setType('line_item');
-            // Price + Tax rate
-            $lineItem->setTaxRate($_lineItem['taxRate']);
-            $lineItem->setUnitPriceTaxExcl($_lineItem['unitPriceTaxExcl']);
-            //
-            $taxDocument->addLineItem($lineItem);
+        if(isset($httpData['lineItems'])) {
+            foreach ($httpData['lineItems'] as $_lineItem) {
+                $lineItem = new LineItem();
+                $lineItem->setName($_lineItem['name']);
+                $lineItem->setQuantity((int)$_lineItem['quantity']);
+                $lineItem->setUnit($_lineItem['unit']);
+                $lineItem->setType('line_item');
+                // Price + Tax rate
+                $lineItem->setTaxRate($_lineItem['taxRate']);
+                $lineItem->setUnitPriceTaxExcl($_lineItem['unitPriceTaxExcl']);
+                //
+                $taxDocument->addLineItem($lineItem);
+            }
         }
 
         // Set relations
@@ -357,12 +369,13 @@ class TaxDocumentForm extends AbstractForm
             $bankAccount    = $company->getBankAccount();
             //
             $defaults = array_merge($defaults, array(
-                'userCompany'             => $company->getId(),
+                'type'                => TaxDocument::TYPE_INVOICE,
+                'userCompany'         => $company->getId(),
                 //
-                'supplier_name'           => $company->getName(),
-                'supplier_businessId'     => $billingAddress ? $billingAddress->getBusinessId() : null,
-                'supplier_taxId'          => $billingAddress ? $billingAddress->getTaxId() : null,
-                'supplier_vatNumber'      => $billingAddress ? $billingAddress->getVatNumber() : null,
+                'supplier_name'       => $company->getName(),
+                'supplier_businessId' => $billingAddress ? $billingAddress->getBusinessId() : null,
+                'supplier_taxId'      => $billingAddress ? $billingAddress->getTaxId() : null,
+                'supplier_vatNumber'  => $billingAddress ? $billingAddress->getVatNumber() : null,
                 'supplier_phone'          => $billingAddress ? $billingAddress->getPhone() : null,
                 'supplier_email'          => $billingAddress ? $billingAddress->getEmail() : null,
                 'supplier_street'         => $billingAddress ? $billingAddress->getStreet() : null,

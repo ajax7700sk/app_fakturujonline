@@ -599,16 +599,29 @@ function validations() {
     // Submit
     $('form').on('submit', function(e) {
         var $form = $(e.target);
+        var $btn = $(document.activeElement);
+        var isDraft = $btn.attr('name') == 'submitDraft' ? true : false;
         // Validate all fields
         e.preventDefault();
         //
-        validateFields($(this));
+        if(!isDraft) {
+            validateFields($(this));
+        }
 
         // Is form valid
-        if(isFormValid($form)) {
+        if(isDraft || !isDraft && isFormValid($form)) {
+            if(isDraft) {
+                //
+                $form.find('input[name="submitDraft"]').remove();
+                //
+                $form.append('<input type="hidden" name="submitDraft">')
+            }
+            // Send
             $form[0].submit();
         }
     })
+
+
 
     $(document.body).on('focusout', 'input', function(e) {
         var $target = $(e.target);
