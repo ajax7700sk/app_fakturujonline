@@ -125,6 +125,7 @@ class TaxDocumentForm extends AbstractForm
             PaymentData::TYPE_PAYMENT_CARD     => 'Platobná karta',
         ])
              ->setRequired("Pole 'Typ' je povinné");
+        $form->addText('paymentData_paypalMail', 'PayPal mail');
         $form->addText('paymentData_bankAccount', 'Bankový účet');
         $form->addText('paymentData_iban', 'IBAN');
         $form->addText('paymentData_swift', 'SWIFT');
@@ -244,6 +245,7 @@ class TaxDocumentForm extends AbstractForm
         }
 
         $paymentData->setType(isset($values['paymentData_type']) ? $values['paymentData_type'] : null);
+        $paymentData->setPaypalMail(isset($values['paymentData_paypalMail']) ? $values['paymentData_paypalMail'] : null);
         $paymentData->setBankAccountNumber(isset($values['paymentData_bankAccount']) ? $values['paymentData_bankAccount'] : null);
         $paymentData->setBankAccountIban(isset($values['paymentData_iban']) ? $values['paymentData_iban'] : null);
         $paymentData->setBankAccountSwift(isset($values['paymentData_swift']) ? $values['paymentData_swift'] : null);
@@ -381,6 +383,7 @@ class TaxDocumentForm extends AbstractForm
                 'supplier_zipCode'        => $billingAddress ? $billingAddress->getZipCode() : null,
                 'supplier_countryCode'    => $billingAddress ? $billingAddress->getCountryCode() : null,
                 // Bank
+                'paymentData_paypalMail'  => null,
                 'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
                 'paymentData_iban'        => $bankAccount ? $bankAccount->getIban() : null,
                 'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
@@ -412,6 +415,7 @@ class TaxDocumentForm extends AbstractForm
                 //
                 $defaults = array_merge($defaults, array(
                     'paymentData_type'        => $paymentData->getType(),
+                    'paymentData_paypalMail'  => $paymentData->getPaypalMail(),
                     'paymentData_bankAccount' => $paymentData->getBankAccountNumber(),
                     'paymentData_iban'        => $paymentData->getBankAccountIban(),
                     'paymentData_swift'       => $paymentData->getBankAccountSwift(),

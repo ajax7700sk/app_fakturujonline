@@ -152,9 +152,33 @@ function taxDocument() {
         }
     }
 
+    function togglePaymentDataFields()
+    {
+        var $paypalMail = $('#frm-taxDocumentForm-form-paymentData_paypalMail');
+        var $bankAccount = $('#frm-taxDocumentForm-form-paymentData_bankAccount');
+        var $iban = $('#frm-taxDocumentForm-form-paymentData_iban');
+        var $swift = $('#frm-taxDocumentForm-form-paymentData_swift');
+        var paymentType = $('#frm-taxDocumentForm-form-paymentData_type').val();
+
+        // Hide all
+        $paypalMail.closest('.row').hide();
+        $bankAccount.closest('.row').hide();
+        $iban.closest('.row').hide();
+        $swift.closest('.row').hide();
+
+        if(paymentType == 'bank_payment') {
+            $bankAccount.closest('.row').show();
+            $iban.closest('.row').show();
+            $swift.closest('.row').show();
+        } else if(paymentType == 'paypal') {
+            $paypalMail.closest('.row').show();
+        }
+    }
+
     // ----------------------------------- Init ------------------------------------- \\
 
     taxable();
+    togglePaymentDataFields();
 
     // ----------------------------------- Events ------------------------------------- \\
 
@@ -187,6 +211,11 @@ function taxDocument() {
     $(document.body).on('change', '.js-unit-price-tax-excl', function (e) {
         recalculateTotals();
     })
+
+    // Change payment data type
+    $(document.body).on('change', '#frm-taxDocumentForm-form-paymentData_type', function(e) {
+       togglePaymentDataFields();
+    });
 
     // Load company data
     $(document.body).on('change', '#frm-taxDocumentForm-form-userCompany', function (e) {
