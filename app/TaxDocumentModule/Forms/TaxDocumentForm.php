@@ -132,8 +132,7 @@ class TaxDocumentForm extends AbstractForm
         // Supplier
         $form->addText('supplier_name', 'Názov spoločnosti')
              ->setRequired("Pole 'Názov spoločnosti' je povinné");
-        $form->addText('supplier_businessId', 'IČO')
-            ->setRequired("Pole 'IČO' je povinné");
+        $form->addText('supplier_businessId', 'IČO');
         $form->addText('supplier_taxId', 'DIČ');
         $form->addText('supplier_vatNumber', 'IČ DPH');
         $form->addText('supplier_phone', 'Telefon');
@@ -147,8 +146,7 @@ class TaxDocumentForm extends AbstractForm
         // Subscriber address
         $form->addText('subscriber_name', 'Názov spoločnosti')
             ->setRequired("Pole 'Názov spoločnosti' je povinné");
-        $form->addText('subscriber_businessId', 'IČO')
-            ->setRequired("Pole 'IČO' je povinné");
+        $form->addText('subscriber_businessId', 'IČO');
         $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
         $form->addText('subscriber_phone', 'Telefon');
@@ -222,8 +220,8 @@ class TaxDocumentForm extends AbstractForm
         //
         $taxDocument->setType(isset($values['type']) ? $values['type'] : TaxDocument::TYPE_INVOICE);
         $taxDocument->setNumber(isset($values['number']) ? $values['number'] : "");
-        $taxDocument->setTransferedTaxLiability(isset($values['transferedTaxLiability']) ? $values['transferedTaxLiability'] : false);
-        $taxDocument->setVatPayer(isset($values['vatPayer']) ? $values['vatPayer'] : false);
+        $taxDocument->setTransferedTaxLiability(isset($values['transferedTaxLiability']) ? $this->checkboxValue($values['transferedTaxLiability']) : false);
+        $taxDocument->setVatPayer(isset($values['vatPayer']) ? $this->checkboxValue($values['vatPayer']) : false);
         $taxDocument->setIssuedBy(isset($values['issuedBy']) ? $values['issuedBy'] : null);
         $taxDocument->setIssuedAt(isset($values['issuedAt']) ? new \DateTime($values['issuedAt']) : null);
         $taxDocument->setDeliveryDateAt(isset($values['deliveryDateAt']) ? new \DateTime($values['deliveryDateAt']) : null);
