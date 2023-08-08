@@ -100,7 +100,7 @@
                         <address class="bank-account">
                             PayPal e-mail: {$taxDocument->getPaymentData()->getPaypalMail()}<br>
                         </address>
-                    {else}
+                    {else if $taxDocument->getPaymentData()->getType() == 'bank_payment'}
                         <address class="bank-account">
                             Číslo účtu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
                             IBAN: {$taxDocument->getPaymentData()->getBankAccountIban()}<br>
