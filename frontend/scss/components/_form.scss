@@ -1,0 +1,23 @@
+.form-floating textarea.form-control {
+  height: unset !important;
+}
+
+.form-input-group {
+  position: relative;
+}
+
+.js-password-toggle-btn {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  cursor: pointer;
+
+  //
+  &.is-closed .bi-eye {
+    display: none;
+  }
+
+  &.is-opened .bi-eye-slash {
+    display: none;
+  }
+}

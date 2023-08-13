@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     flashes();
     contacts();
     validations();
+    togglePasswordVisibility();
 });
 
 
@@ -657,4 +658,26 @@ function validations() {
         //
         validateField($target);
     })
+}
+
+function togglePasswordVisibility() {
+    // --- Event
+    $(document.body).on('click', '.js-password-toggle-btn', function(e) {
+       var $btn = $(this);
+       var $form = $btn.closest('form');
+       var $btns = $form.find('.js-password-toggle-btn');
+
+       // is closed
+        if($btn.hasClass('is-closed')) {
+            $btns.removeClass('is-closed');
+            $btns.addClass('is-opened');
+            // Set as opened / text
+            $form.find('.js-password').attr('type', 'text');
+        } else {
+            $btns.removeClass('is-opened');
+            $btns.addClass('is-closed');
+            // Set as closed / password
+            $form.find('.js-password').attr('type', 'password');
+        }
+    });
 }
