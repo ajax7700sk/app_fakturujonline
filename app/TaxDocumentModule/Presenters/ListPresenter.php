@@ -3,25 +3,17 @@ declare(strict_types=1);
 
 namespace App\TaxDocumentModule\Presenters;
 
-use App\Entity\DeliveryNote;
 use App\Entity\TaxDocument;
-use App\Entity\User;
 use App\Entity\UserCompany;
 use App\Repository\ContactRepository;
-use App\Repository\DeliveryNoteRepository;
 use App\Repository\TaxDocumentRepository;
 use App\Service\EmailService;
-use App\Service\FileService;
 use App\Service\TaxDocumentService;
 use App\TaxDocumentModule\Forms\ITaxDocumentPaymentForm;
 use App\TaxDocumentModule\Forms\TaxDocumentPaymentForm;
 use Doctrine\ORM\Query\Expr\Join;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Nette\Application\Responses\FileResponse;
-use Nette\Mail\Message;
 use Nette\Mail\SendException;
-use Nette\Mail\SendmailMailer;
 use Ublaboo\DataGrid\DataGrid;
 
 class ListPresenter extends BasePresenter
@@ -157,8 +149,8 @@ class ListPresenter extends BasePresenter
         /** @var TaxDocumentRepository $repository */
         $repository   = $this->em->getRepository(TaxDocument::class);
         $taxDocuments = $repository->findBy([
-            'id' => $ids,
-            'state' => 'publish'
+            'id'    => $ids,
+            'publishState' => 'publish',
         ]);
 
         $files = [];
@@ -302,7 +294,10 @@ class ListPresenter extends BasePresenter
                      } else {
                          $link = $this->link(":TaxDocument:List:pdf", ['id' => $entity->getId()]);
 
-                         return sprintf("<a target='_blank' href='%s' class='btn btn-info btn-sm btn-pdf'>PDF</a>", $link);
+                         return sprintf(
+                             "<a target='_blank' href='%s' class='btn btn-info btn-sm btn-pdf'>PDF</a>",
+                             $link
+                         );
                      }
                  });
             $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
