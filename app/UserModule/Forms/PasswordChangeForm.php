@@ -81,7 +81,7 @@ class PasswordChangeForm extends AbstractForm
         // Check if old password is valid
         $oldPassword = $values['passwordOld'];
 
-        if ($passwords->verify($oldPassword, $user->getPassword())) {
+        if (!$passwords->verify($oldPassword, $user->getPassword())) {
             $form->addError('Zadané pôvodné heslo nie je správne');
 
             return;
