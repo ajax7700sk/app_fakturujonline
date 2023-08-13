@@ -182,12 +182,14 @@ class OrderItem
     public static function priceByType(string $type): float
     {
         switch ($type) {
-            case 'month':
+            case Subscription::TYPE_MONTH:
                 return 5;
-            case 'quarter':
+            case Subscription::TYPE_QUARTER:
                 return 10;
-            case 'year':
+            case Subscription::TYPE_YEAR:
                 return 30;
         }
+
+        throw new \InvalidArgumentException('Wrong type: ' . $type);
     }
 }

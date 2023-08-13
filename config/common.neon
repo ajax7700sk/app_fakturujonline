@@ -112,6 +112,9 @@ services:
 	orderService:
 		factory: \App\Service\OrderService
 		inject: yes
+	subscriptionService:
+		factory: \App\Service\SubscriptionService
+		inject: yes
 
 	# Form controls
 	- App\SecurityModule\Forms\ILoginForm

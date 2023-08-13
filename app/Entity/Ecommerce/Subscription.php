@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Subscription
 {
+    const TYPE_MONTH = 'month';
+    const TYPE_QUARTER = 'quarter';
+    const TYPE_YEAR = 'year';
+
     use ChangesLoggableTrait;
 
     /**

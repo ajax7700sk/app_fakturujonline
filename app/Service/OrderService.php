@@ -13,6 +13,9 @@ class OrderService
     /** @var EntityManagerInterface @inject */
     public $em;
 
+    /** @var SubscriptionService @inject */
+    public $subscriptionService;
+
     public function setOrderAsPaid(Order $order): Order
     {
         if ($order->getState() == 'paid') {
@@ -67,35 +70,7 @@ class OrderService
 
     private function createSubscriptionFromOrder(Order $order): Subscription
     {
-        $endAt = new \DateTime();
-        //
-        $subscription = new Subscription();
-        $subscription->setOrder($order)
-                     ->setUser($order->getUser())
-                     ->setType($order->getSubscriptionType());
-
-        switch ($subscription->getType()) {
-            case 'month':
-                $endAt = $endAt->modify('+1 month');
-                break;
-            case 'quarter':
-                $endAt = $endAt->modify('+3 months');
-                break;
-            case 'year':
-                $endAt = $endAt->modify('+1 year');
-                break;
-        }
-
-        // Create start and end for subscription
-        $subscription->setStartAt(new \DateTime());
-        $subscription->setEndAt($endAt);
-
-        //
-        $this->em->persist($subscription);
-        $this->em->flush();;
-        //
-
-        return $subscription;
+        return $this->subscriptionService->createSubscriptionFromOrder($order);
     }
 
 

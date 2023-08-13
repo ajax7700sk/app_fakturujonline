@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Entity\Ecommerce\Order;
 use App\Entity\Ecommerce\Payment;
+use App\Entity\Ecommerce\Subscription;
 use App\Gateways\Stripe;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -45,13 +46,13 @@ class PaymentService
         $typeName = '';
 
         switch ($type) {
-            case 'month':
+            case Subscription::TYPE_MONTH:
                 $typeName = 'Mesačné';
                 break;
-            case 'quarter':
+            case Subscription::TYPE_QUARTER:
                 $typeName = 'Štvrťročné';
                 break;
-            case 'year':
+            case Subscription::TYPE_YEAR:
                 $typeName = 'Ročné';
                 break;
         }

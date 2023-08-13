@@ -85,4 +85,29 @@ class EmailService
         $mailer = new SendmailMailer();
         $mailer->send($message);
     }
+
+    /**
+     * @throws SendException
+     * @return void
+     */
+    public function registration(User $user): void
+    {
+        // Template
+        $template = $this->templateFactory->createTemplate();
+        // Variables
+        $template->user = $user;
+        //
+        $template->setFile(get_app_folder_path().'/templates/email/registration.latte');
+
+        // Message
+        $message = new Message();
+        $message
+            ->setSubject('Vytvorenie účtu')
+            ->setHtmlBody((string)$template)
+            ->setFrom('no-reply@fakturujonline.sk')
+            ->addTo($user->getEmail());
+
+        $mailer = new SendmailMailer();
+        $mailer->send($message);
+    }
 }
