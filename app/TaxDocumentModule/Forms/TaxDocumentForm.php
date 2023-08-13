@@ -68,6 +68,14 @@ class TaxDocumentForm extends AbstractForm
         $form->getElementPrototype()
              ->setAttribute('novalidate', "novalidate");
         $form->setTranslator($this->translator);
+        $contacts = ['--- Vybrať ---'];
+        $user = $this->getLoggedUser();
+
+        if($user) {
+            foreach ($user->getUserCompanies() as $userCompany) {
+                $contacts[$userCompany->getId()] = $userCompany->getName();
+            }
+        }
 
         if ($this->taxDocument) {
             $form->addHidden('id', 'ID');
@@ -145,6 +153,7 @@ class TaxDocumentForm extends AbstractForm
             ->setRequired("Pole 'Štát' je povinné");
 
         // Subscriber address
+        $form->addSelect('contact', 'Odberateľ', $contacts);
         $form->addText('subscriber_name', 'Názov spoločnosti')
             ->setRequired("Pole 'Názov spoločnosti' je povinné");
         $form->addText('subscriber_businessId', 'IČO');
@@ -183,8 +192,6 @@ class TaxDocumentForm extends AbstractForm
         //
     }
 
-
-
     public function onSuccess(Form $form): void
     {
         /** @var \Nette\Utils\ArrayHash $values */
@@ -192,6 +199,9 @@ class TaxDocumentForm extends AbstractForm
         $httpData = $form->getHttpData();
         $isDraft = isset($httpData['submitDraft']) ? true : false;
         $values = $isDraft ? $httpData : $values;
+        $user = $this->getLoggedUser();
+        /** @var Contact|null $contact */
+        $contact = null;
 
         // ------------------------------------- Tax document ---------------------------------------- \\
 
@@ -214,6 +224,15 @@ class TaxDocumentForm extends AbstractForm
             }
         } else {
             $userCompany = $this->userCompany;
+        }
+
+        // Contact
+        if($user && isset($values['contact'])) {
+            foreach ($user->getUserCompanies() as $_company) {
+                if($_company->getId() == $values['contact']) {
+                    $taxDocument->setContact($_company);
+                }
+            }
         }
 
         //
@@ -406,6 +425,7 @@ class TaxDocumentForm extends AbstractForm
             $entity = $this->taxDocument;
             //
             $defaults = array_merge($defaults, array(
+                'contact' => $entity->getContact() ? $entity->getContact()->getId() : null,
                 'type'           => $entity->getType(),
                 'number'         => $entity->getNumber(),
                 'vatPayer'       => $entity->getVatPayer(),
@@ -541,6 +561,42 @@ class TaxDocumentForm extends AbstractForm
             'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
             // PayPal
             'paymentData_paypalMail' => $company->getPaypalEmail() ?: null
+        ));
+    }
+
+    public function handleLoadContactData(): void
+    {
+        $id = $this->presenter->request->getPost('id');
+        //
+        /** @var Contact|null $company */
+        $contact = $this->entityManager
+            ->getRepository(Contact::class)
+            ->find((int)$id);
+
+        if ( ! $contact) {
+            $this->error();
+        }
+
+        //
+        $billingAddress = $contact->getBillingAddress();
+        $bankAccount    = $contact->getBankAccount();
+
+        // Send data
+        $this->presenter->sendJson(array(
+            'subscriber_name'           => $contact->getName(),
+            'subscriber_businessId'     => $billingAddress ? $billingAddress->getBusinessId() : null,
+            'subscriber_taxId'          => $billingAddress ? $billingAddress->getTaxId() : null,
+            'subscriber_vatNumber'      => $billingAddress ? $billingAddress->getVatNumber() : null,
+            'subscriber_phone'          => $billingAddress ? $billingAddress->getPhone() : null,
+            'subscriber_email'          => $billingAddress ? $billingAddress->getEmail() : null,
+            'subscriber_street'         => $billingAddress ? $billingAddress->getStreet() : null,
+            'subscriber_city'           => $billingAddress ? $billingAddress->getCity() : null,
+            'subscriber_zipCode'        => $billingAddress ? $billingAddress->getZipCode() : null,
+            'subscriber_countryCode'    => $billingAddress ? $billingAddress->getCountryCode() : null,
+            // Bank
+            'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
+            'paymentData_iban'        => $bankAccount ? $bankAccount->getIban() : null,
+            'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
         ));
     }
 

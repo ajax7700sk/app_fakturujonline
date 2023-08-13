@@ -723,6 +723,18 @@
                         <div class="card-body">
                             <div class="row g-4 mb-4">
                                 <div class="col-md-12">
+                                    <div class="form-floating js-load-contact-data" data-link="{link //LoadContactData!}">
+                                        {input contact, class: "form-select"}
+                                        <div class="error-msg"></div>
+                                        <label
+                                                n:name="contact"
+                                                class="form-label"
+                                        >Kontakt</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-12">
                                     <div class="form-floating">
                                         <input
                                                 type="text"

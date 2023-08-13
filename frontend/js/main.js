@@ -242,6 +242,30 @@ function taxDocument() {
         })
     });
 
+    // Load contact data
+    $(document.body).on('change', '#frm-taxDocumentForm-form-contact', function (e) {
+        var id = e.target.value;
+        var url = $(this).parent('.js-load-contact-data').attr('data-link');
+        //
+        $.ajax({
+            url: url,
+            data: {
+                id: id
+            },
+            method: 'POST',
+            dataType: 'json',
+            complete: function (xhr) {
+                var data = xhr.responseJSON;
+                //
+                for (var key in data) {
+                    var value = data[key];
+                    // Set value
+                    $("input[name=" + key + "]").val(value);
+                }
+            }
+        })
+    });
+
     // Export PDF
     $(document.body).on('click', '.js-export-pdf', function (e) {
         var $target = $(e.target);
