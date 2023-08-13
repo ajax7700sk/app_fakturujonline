@@ -90,7 +90,7 @@ class UserCompanyForm extends AbstractForm
              ->setRequired("Pole je povinné");
         $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames())
              ->setRequired("Pole je povinné");
-        $form->addTextArea('registerInfo', 'Registračné info')
+        $form->addTextArea('registerInfo', 'Spoločnosť je zapísaná v obchodnom... / Živnostník je zapísaný v živnostenskom registri')
              ->setHtmlAttribute('class', 'form-control')
              ->setRequired("Pole je povinné");
 
