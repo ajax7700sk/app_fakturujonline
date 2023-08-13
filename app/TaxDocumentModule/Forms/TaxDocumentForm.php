@@ -383,11 +383,23 @@ class TaxDocumentForm extends AbstractForm
                 'supplier_zipCode'        => $billingAddress ? $billingAddress->getZipCode() : null,
                 'supplier_countryCode'    => $billingAddress ? $billingAddress->getCountryCode() : null,
                 // Bank
-                'paymentData_paypalMail'  => null,
+                'paymentData_paypalMail'  => $company->getPaypalEmail(),
                 'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
                 'paymentData_iban'        => $bankAccount ? $bankAccount->getIban() : null,
                 'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
             ));
+
+            // Bank account
+            if ($company->getBankAccount()) {
+                $bankAccount = $company->getBankAccount();
+
+                $defaults = array_merge($defaults, array(
+                    // Company
+                    'bankAccount_accountNumber' => $bankAccount->getAccountNumber(),
+                    'bankAccount_iban'          => $bankAccount->getIban(),
+                    'bankAccount_swift'         => $bankAccount->getSwift(),
+                ));
+            }
         }
 
         if ($this->taxDocument) {
@@ -527,6 +539,8 @@ class TaxDocumentForm extends AbstractForm
             'paymentData_bankAccount' => $bankAccount ? $bankAccount->getAccountNumber() : null,
             'paymentData_iban'        => $bankAccount ? $bankAccount->getIban() : null,
             'paymentData_swift'       => $bankAccount ? $bankAccount->getSwift() : null,
+            // PayPal
+            'paymentData_paypalMail' => $company->getPaypalEmail() ?: null
         ));
     }
 

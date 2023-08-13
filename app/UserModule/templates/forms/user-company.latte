@@ -235,6 +235,7 @@
             </div>
         </div>
         <div class="col-md-4">
+            <!-- Bank account -->
             <div class="card position-sticky sticky-top-size">
                 <div class="card-header">
                     <div class="card-label">
@@ -290,6 +291,39 @@
                                 >
                                 <div class="error-msg"></div>
                                 <label n:name="bankAccount_accountNumber" class="form-label">SWIFT</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Paypal -->
+            <div class="card position-sticky sticky-top-size">
+                <div class="card-header">
+                    <div class="card-label">
+                        <svg viewBox="0 0 24 24" fill="currentColor"
+                             class="svg-icon--material svg-icon card-icon text-secondary"
+                             data-name="Material--AccountBalance">
+                            <path d="M0 0h24v24H0V0z" fill="none"></path>
+                            <path d="M6.29 6l5.21-2.74L16.71 6z" opacity="0.3"></path>
+                            <path d="M6.5 10h-2v7h2v-7zm6 0h-2v7h2v-7zm8.5 9H2v2h19v-2zm-2.5-9h-2v7h2v-7zm-7-9L2 6v2h19V6l-9.5-5zM6.29 6l5.21-2.74L16.71 6H6.29z"></path>
+                        </svg>
+                        <div class="card-title-wrapper">
+                            <h5 class="card-title">PayPal účet</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input
+                                        n:name="paypalEmail"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="PayPal e-mail"
+                                >
+                                <div class="error-msg"></div>
+                                <label n:name="paypalEmail" class="form-label">PayPal e-mail</label>
                             </div>
                         </div>
                     </div>

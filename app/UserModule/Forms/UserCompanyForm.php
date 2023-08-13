@@ -99,6 +99,9 @@ class UserCompanyForm extends AbstractForm
         $form->addText('bankAccount_iban', 'IBAN');
         $form->addText('bankAccount_swift', 'SWIFT');
 
+        // PayPal
+        $form->addText('paypalEmail', 'PayPal e-mail');
+
         //
         $form->addSubmit("submit", 'form.general.submit.label');
         //
@@ -147,6 +150,9 @@ class UserCompanyForm extends AbstractForm
         $bankAccount->setSwift($values['bankAccount_swift']);
         //
         $userCompany->setBankAccount($bankAccount);
+
+        //
+        $userCompany->setPaypalEmail($values['paypalEmail']);
 
         // ------------------------------------- Billing address ---------------------------------------- \\
 
@@ -219,7 +225,9 @@ class UserCompanyForm extends AbstractForm
                 // Company
                 'name'     => $entity->getName(),
                 'vatPayer' => $entity->getVatPayer(),
-                'registerInfo' => $entity->getRegisterInfo()
+                'registerInfo' => $entity->getRegisterInfo(),
+                //
+                'paypalEmail' => $entity->getPaypalEmail()
             ));
 
             // Bank account

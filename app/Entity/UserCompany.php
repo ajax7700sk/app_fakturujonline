@@ -54,10 +54,17 @@ class UserCompany
      */
     private $shippingAddress;
 
+     // ------------------------------------------ Payment data ------------------------------------------------- \\
+
     /**
      * @ORM\ManyToOne(targetEntity=BankAccount::class)
      */
     private $bankAccount;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable="true")
+     */
+    private $paypalEmail;
 
     /**
      * @ORM\OneToMany(targetEntity=TaxDocument::class, mappedBy="userCompany")
@@ -167,6 +174,27 @@ class UserCompany
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getPaypalEmail(): ?string
+    {
+        return $this->paypalEmail;
+    }
+
+    /**
+     * @param string|null $paypalEmail
+     *
+     * @return $this
+     */
+    public function setPaypalEmail(?string $paypalEmail): self
+    {
+        $this->paypalEmail = $paypalEmail;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection<int, TaxDocument>
