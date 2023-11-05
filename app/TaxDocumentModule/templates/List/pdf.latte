@@ -21,6 +21,10 @@
             border-bottom: 1px solid grey;
             margin-bottom: 10px;
         }
+        .company-logo {
+            max-width: 100px;
+            max-height: 100px;
+        }
     </style>
 
     <!-- Web Fonts
@@ -47,7 +51,7 @@
                     <td class="row align-items-center w-50">
                         <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
                             {if $logo}
-                                <img id="logo" src="{$baseUrl}{$logo}"/>
+                                <img id="logo" class="company-logo" src="{$baseUrl}{$logo}"/>
                             {/if}
                         </div>
                     </td>
