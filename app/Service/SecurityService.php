@@ -29,7 +29,7 @@ class SecurityService
         // Send some mail?
         try {
             $this->emailService->registration($user);
-        } catch (\Exception) {
+        } catch (\Exception $e) {
             //
         }
 
