@@ -40,7 +40,8 @@
 		"ublaboo/datagrid": "^6.9",
 		"contributte/forms-multiplier": "^3.3",
 		"dompdf/dompdf": "^2.0",
-		"stripe/stripe-php": "^10.16"
+		"stripe/stripe-php": "^10.16",
+		"symfony/intl": "^6.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.4",
