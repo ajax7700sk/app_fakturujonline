@@ -11,9 +11,15 @@
     <style>
         * {
             font-family: DejaVu Sans !important;
+            font-size: 10px;
         }
         body {
             font-family: DejaVu Sans, sans-serif;
+        }
+        .header-logo {
+            padding-bottom: 10px;
+            border-bottom: 1px solid grey;
+            margin-bottom: 10px;
         }
     </style>
 
@@ -30,31 +36,33 @@
     {include "_partials/pdf/style.latte"}
 </head>
 <body>
-<div style="padding: 0 40px">
+<div style="padding: 0 40px;">
     <!-- Container -->
     <div class="container-fluid invoice-container">
-        <!-- Header -->
-        <table class="w-100">
-            <tr>
-                <td class="row align-items-center w-50">
-                    <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
-                        {if $logo}
-                            <img id="logo" src="{$baseUrl}{$logo}"/>
-                        {/if}
-                    </div>
-                </td>
-                <td class="w-50">
-                    <div class="col-sm-5 text-right text-sm-end test-class">
-                        <h4 class="mb-0">Doklad</h4>
-                        <p class="mb-0">Cislo - {$taxDocument->getNumber()}</p>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <hr>
         <!-- Main Content -->
-        <main>
+        <main class="main-content">
+            <!-- Header -->
             <table class="row w-100">
+                <tr>
+                    <td class="row align-items-center w-50">
+                        <div class="col-sm-7 text-center text-sm-start mb-3 mb-sm-0">
+                            {if $logo}
+                                <img id="logo" src="{$baseUrl}{$logo}"/>
+                            {/if}
+                        </div>
+                    </td>
+                    <td class="w-50">
+                        <div class="col-sm-5 text-right text-sm-end test-class">
+                            <h4 class="mb-0">Doklad</h4>
+                            <p class="mb-0">Cislo - {$taxDocument->getNumber()}</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
                 <tr>
                     <td class="w-50">
                         <div class="col-sm-6 order-sm-0"> <strong>Odberateľ:</strong>
