@@ -43,7 +43,7 @@ class TaxDocumentService
 
         $stream = $dompdf->output();
         $filename = sprintf('doklad-%s.pdf', $taxDocument->getNumber());
-        $filepath = realpath(get_app_root_folder_path() . '/data/pdf/' . sprintf('doklad-%s.pdf', $taxDocument->getId()));
+        $filepath = realpath(get_app_root_folder_path() . '/data/pdf/') . sprintf('doklad-%s.pdf', $taxDocument->getId());
 
         //
         file_put_contents($filepath, $stream);
