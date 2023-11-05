@@ -72,8 +72,8 @@ class TaxDocumentForm extends AbstractForm
         $user = $this->getLoggedUser();
 
         if($user) {
-            foreach ($user->getUserCompanies() as $userCompany) {
-                $contacts[$userCompany->getId()] = $userCompany->getName();
+            foreach ($user->getContacts() as $contact) {
+                $contacts[$contact->getId()] = $contact->getName();
             }
         }
 
