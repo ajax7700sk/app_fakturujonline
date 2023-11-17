@@ -24,7 +24,7 @@ class Filters
 
     public function moneyFormat($value, string $currencyCode, string $localeCode): string
     {
-        $formatter = \NumberFormatter::create($localeCode, \NumberFormatter::PATTERN_DECIMAL);
+        $formatter = \NumberFormatter::create($localeCode, \NumberFormatter::CURRENCY);
         //
         return $formatter->formatCurrency($value, $currencyCode);
     }
