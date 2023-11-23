@@ -323,7 +323,11 @@ class TaxDocumentForm extends AbstractForm
         // ------------------------------------- Items ---------------------------------------- \\
 
         // Remove items
-        $taxDocument->clearLineItems();
+        foreach ($taxDocument->getLineItems() as $lineItem) {
+            $taxDocument->removeLineItem($lineItem);
+            //
+            $this->entityManager->remove($lineItem);
+        }
 
         // Items
         if(isset($httpData['lineItems'])) {
