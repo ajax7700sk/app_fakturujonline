@@ -285,11 +285,13 @@ class ListPresenter extends BasePresenter
                      if ($entity->isDraft()) {
                          return "";
                      } else {
-                         return "<a target='_blank' 
-                    title='Uhradené' 
+                         $isPaid = $entity->getPaidAt();
+
+                         return sprintf("<a target='_blank' 
+                    title='%s' 
                     data-target='#paymentModal' 
                     data-id='".$entity->getId()."' 
-                    class='btn btn-primary btn-sm js-modal'>€</a>";
+                    class='btn btn-primary btn-sm js-modal'>€</a>", $isPaid ? 'Zmeniť dátum úhrady' : 'Nastaviť ako uhradené');
                      }
                  })
                  ->setClass('btn btn-info btn-sm btn-payment');
