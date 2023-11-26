@@ -216,6 +216,12 @@ class ListPresenter extends BasePresenter
                 Join::WITH,
                 'taxDocument.userCompany = userCompany.id'
             )
+            ->leftJoin(
+                '\App\Entity\Address',
+                'subscriberBillingAddress',
+                Join::WITH,
+                'taxDocument.subscriberBillingAddress = subscriberBillingAddress.id'
+            )
             // Filter
             ->andWhere('userCompany.user = :user')
             ->setParameter('user', $this->getLoggedUser());
