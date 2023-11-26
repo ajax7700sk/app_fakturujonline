@@ -149,12 +149,12 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('supplier_city', 'Město');
         $form->addText('supplier_zipCode', 'PŠC');
         $form->addSelect('supplier_countryCode', 'Štát', Countries::getNames())
-            ->setRequired("Pole 'Štát' je povinné");
+             ->setRequired("Pole 'Štát' je povinné");
 
         // Subscriber address
         $form->addSelect('contact', 'Odberateľ', $contacts);
         $form->addText('subscriber_name', 'Názov spoločnosti')
-            ->setRequired("Pole 'Názov spoločnosti' je povinné");
+             ->setRequired("Pole 'Názov spoločnosti' je povinné");
         $form->addText('subscriber_businessId', 'IČO');
         $form->addText('subscriber_taxId', 'DIČ');
         $form->addText('subscriber_vatNumber', 'IČ DPH');
@@ -164,7 +164,7 @@ class TaxDocumentForm extends AbstractForm
         $form->addText('subscriber_city', 'Město');
         $form->addText('subscriber_zipCode', 'PŠC');
         $form->addSelect('subscriber_countryCode', 'Štát', Countries::getNames())
-            ->setRequired("Pole 'Štát' je povinné");
+             ->setRequired("Pole 'Štát' je povinné");
 
         // Supplier bank account
         $form->addText('bankAccount_accountNumber', 'Číslo účtu');
@@ -188,8 +188,10 @@ class TaxDocumentForm extends AbstractForm
 
     public function onValidate(Form $form): void
     {
+        $values = $form->getValues(true);
+        //
         $currentNumber = $this->taxDocument ? $this->taxDocument->getNumber() : null;
-        $newNumber = $form->getValues('number');
+        $newNumber = $values['number'];
 
         // Check if there is at least one tax document with same number
         if($currentNumber != $newNumber) {
@@ -637,12 +639,12 @@ class TaxDocumentForm extends AbstractForm
             ->createQueryBuilder('td');
 
         $td = $qb->select('td')
-                  ->where('td.userCompany = :userCompany')
-                  ->setParameter('userCompany', $this->userCompany)
-                  ->setMaxResults(1)
-                  ->orderBy('td.createdAt', 'DESC')
-                  ->getQuery()
-                  ->getResult();
+                 ->where('td.userCompany = :userCompany')
+                 ->setParameter('userCompany', $this->userCompany)
+                 ->setMaxResults(1)
+                 ->orderBy('td.createdAt', 'DESC')
+                 ->getQuery()
+                 ->getResult();
 
         if(isset($td[0])) {
             return $td[0];
