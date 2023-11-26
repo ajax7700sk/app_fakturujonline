@@ -77,8 +77,7 @@ class ContactForm extends AbstractForm
         $form->addText('billingAddress_taxId', 'DIČ')
              ->setRequired("Pole je povinné");
         $form->addText('billingAddress_vatNumber', 'IČ DPH');
-        $form->addText('billingAddress_phone', 'Telefon')
-             ->setRequired("Pole je povinné");
+        $form->addText('billingAddress_phone', 'Telefon');
         $form->addText('billingAddress_email', 'E-mail')
              ->setRequired("Pole je povinné");
         $form->addText('billingAddress_street', 'Adresa')
