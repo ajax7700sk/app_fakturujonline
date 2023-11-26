@@ -45,7 +45,6 @@ class TaxDocumentForm extends AbstractForm
      */
     public function render()
     {
-
         // Render
         $this->template->taxDocument = $this->taxDocument;
         $this->template->lastTaxDocument = $this->getLastTaxDocument();
@@ -367,7 +366,14 @@ class TaxDocumentForm extends AbstractForm
             $this->presenter->flashMessage('Doklad bol úspešne vytvorený', 'success');
         }
         //
-        $this->presenter->redirect(':TaxDocument:List:default');
+
+        if($this->userCompany) {
+            $this->presenter->redirect(':TaxDocument:List:default');
+        } else {
+            $this->presenter->redirect(':TaxDocument:List:userCompany', [
+                'id' => $this->userCompany->getId()
+            ]);
+        }
     }
 
     // ------------------------------------ Helpers ---------------------------------- \\
