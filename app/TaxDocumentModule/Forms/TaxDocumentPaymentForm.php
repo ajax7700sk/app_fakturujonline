@@ -99,7 +99,15 @@ class TaxDocumentPaymentForm extends AbstractForm
         // Redirect to dashboard
         $this->presenter->flashMessage('Úhrada dokladu bola úspšene nastavená', 'success');
         //
-        $this->presenter->redirect(':TaxDocument:List:default');
+        $userCompany = $taxDocument->getUserCompany();
+        //
+        if($userCompany) {
+            $this->presenter->redirect(':TaxDocument:List:userCompany', [
+                'id' => $userCompany->getId()
+            ]);
+        } else {
+            $this->presenter->redirect(':TaxDocument:List:default');
+        }
     }
 
     // ------------------------------------ Helpers ---------------------------------- \\
