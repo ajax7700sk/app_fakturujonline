@@ -188,7 +188,19 @@ class TaxDocumentForm extends AbstractForm
 
     public function onValidate(Form $form): void
     {
-        //
+        $currentNumber = $this->taxDocument ? $this->taxDocument->getNumber() : null;
+        $newNumber = $form->getValues('number');
+
+        // Check if there is at least one tax document with same number
+        if($currentNumber != $newNumber) {
+            $exists = $this->checkIfNumberExists($newNumber);
+
+            if($exists) {
+                $form->addError('Číslo dokladu je už použité pri inom doklade');
+
+                return;
+            }
+        }
     }
 
     public function onSuccess(Form $form): void
@@ -620,7 +632,9 @@ class TaxDocumentForm extends AbstractForm
             return null;
         }
 
-        $qb = $this->entityManager->getRepository(TaxDocument::class)->createQueryBuilder('td');
+        $qb = $this->entityManager
+            ->getRepository(TaxDocument::class)
+            ->createQueryBuilder('td');
 
         $td = $qb->select('td')
                   ->where('td.userCompany = :userCompany')
@@ -634,6 +648,28 @@ class TaxDocumentForm extends AbstractForm
             return $td[0];
         } else {
             return null;
+        }
+    }
+
+    protected function checkIfNumberExists($number): bool
+    {
+        $qb = $this->entityManager
+            ->getRepository(TaxDocument::class)
+            ->createQueryBuilder('td');
+
+        $td = $qb->select('td')
+                 ->where('td.userCompany = :userCompany')
+                 ->setParameter('userCompany', $this->userCompany)
+                 ->andWhere('td.number = :number')
+                 ->setParameter('number', $number)
+                 ->setMaxResults(1)
+                 ->getQuery()
+                 ->getResult();
+
+        if(isset($td[0])) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
