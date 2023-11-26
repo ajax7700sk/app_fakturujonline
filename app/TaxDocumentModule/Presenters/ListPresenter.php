@@ -259,6 +259,8 @@ class ListPresenter extends BasePresenter
              ->setFilterText();
         $grid->addColumnText('userCompany_name', 'Spoločnosť', 'userCompany.name')
              ->setFilterText();
+        $grid->addColumnText('subscriberBillingAddress_name', 'Odberateľ', 'subscriberBillingAddress.name')
+             ->setFilterText();
         $grid->addColumnText('contact_name', 'Kontakt', 'contact.name')
              ->setFilterText();
         $grid->addColumnDateTime('deliveryDateAt', 'Dátum dodania', 'deliveryDateAt')
