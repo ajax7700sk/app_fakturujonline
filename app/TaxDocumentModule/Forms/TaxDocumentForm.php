@@ -368,11 +368,11 @@ class TaxDocumentForm extends AbstractForm
         //
 
         if($this->userCompany) {
-            $this->presenter->redirect(':TaxDocument:List:default');
-        } else {
             $this->presenter->redirect(':TaxDocument:List:userCompany', [
                 'id' => $this->userCompany->getId()
             ]);
+        } else {
+            $this->presenter->redirect(':TaxDocument:List:default');
         }
     }
 
