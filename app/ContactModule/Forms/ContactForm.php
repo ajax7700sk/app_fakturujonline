@@ -66,8 +66,8 @@ class ContactForm extends AbstractForm
         $form->addText('name', 'Názov kontaktu')
              ->setRequired("Pole je povinné")
              ->setAttribute("placeholder", 'Váš e-mail');
-        $form->addCheckbox('billingSameAsShipping', 'Dodacia adresa je rovnaká')
-             ->setAttribute("placeholder", 'Dodacia adresa je rovnaká');
+//        $form->addCheckbox('billingSameAsShipping', 'Dodacia adresa je rovnaká')
+//             ->setAttribute("placeholder", 'Dodacia adresa je rovnaká');
 
         // Billing address
         $form->addText('billingAddress_name', 'Názov spoločnosti')
