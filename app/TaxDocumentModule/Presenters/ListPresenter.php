@@ -291,7 +291,10 @@ class ListPresenter extends BasePresenter
                     title='%s' 
                     data-target='#paymentModal' 
                     data-id='".$entity->getId()."' 
-                    class='btn btn-primary btn-sm js-modal'>€</a>", $isPaid ? 'Zmeniť dátum úhrady' : 'Nastaviť ako uhradené');
+                    class='btn %s btn-sm js-modal'>€</a>",
+                             $isPaid ? 'Zmeniť dátum úhrady' : 'Nastaviť ako uhradené',
+                             $isPaid ? 'btn-success' : 'btn-primary'
+                         );
                      }
                  })
                  ->setClass('btn btn-info btn-sm btn-payment');
