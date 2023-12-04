@@ -241,9 +241,9 @@ class TaxDocumentForm extends AbstractForm
 
         // Contact
         if($user && isset($values['contact'])) {
-            foreach ($user->getUserCompanies() as $_company) {
-                if($_company->getId() == $values['contact']) {
-                    $taxDocument->setContact($_company);
+            foreach ($user->getContacts() as $_contact) {
+                if($_contact->getId() == $values['contact']) {
+                    $taxDocument->setContact($_contact);
                 }
             }
         }
