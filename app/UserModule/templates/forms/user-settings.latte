@@ -27,7 +27,7 @@
                                        n:name="firstName"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="firstName" class="form-label">Krstné meno</label>
+                                <label n:name="firstName" class="form-label">Krstné meno<span n:if="$form['firstName']->isRequired()"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -39,7 +39,7 @@
                                         n:name="lastName"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="lastName" class="form-label">Priezvisko</label>
+                                <label n:name="lastName" class="form-label">Priezvisko<span n:if="$form['lastName']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                         n:name="phoneNumber"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="phoneNumber" class="form-label">Telefón</label>
+                                <label n:name="phoneNumber" class="form-label">Telefón<span n:if="$form['phoneNumber']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>

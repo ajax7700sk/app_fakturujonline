@@ -24,7 +24,7 @@
                                        placeholder="Názov"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name=name class="form-label">Názov</label></div>
+                                <label n:name=name class="form-label">Názov<span n:if="$form['name']->isRequired()"> *</span></label></div>
                         </div>
                     </div>
                     <div class="row g-4 mb-4">
@@ -34,7 +34,7 @@
                                     <div class="form-check form-switch">
                                         <input n:name="vatPayer" class="form-check-input">
                                         <div class="error-msg"></div>
-                                        <label class="form-check-label" n:name="vatPayer">Plátca DPH</label>
+                                        <label class="form-check-label" n:name="vatPayer">Plátca DPH<span n:if="$form['vatPayer']->isRequired()"> *</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -45,13 +45,13 @@
                             <div class="form-floating">
                                 {input registerInfo}
                                 <div class="error-msg"></div>
-                                <label class="form-check-label" n:name="registerInfo">Spoločnosť je zapísaná v obchodnom... / Živnostník je zapísaný v živnostenskom registri</label>
+                                <label class="form-check-label" n:name="registerInfo">Spoločnosť je zapísaná v obchodnom... / Živnostník je zapísaný v živnostenskom registri<span n:if="$form['registerInfo']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
                     <div class="row g-4">
                         <div class="col-md-12">
-                            <label class="form-check-label" n:name="logo">Logo</label>
+                            <label class="form-check-label" n:name="logo">Logo<span n:if="$form['logo']->isRequired()"> *</span></label>
                             <div class="form-floating">
                                 <input type="file" n:name="logo" class="form-control"></input>
                                 <div class="error-msg"></div>
@@ -88,7 +88,7 @@
                                 <label
                                         n:name="billingAddress_name"
                                         class="form-label"
-                                >Názov spoločnosti</label>
+                                >Názov spoločnosti<span n:if="$form['billingAddress_name']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                                 <label
                                         n:name="billingAddress_businessId"
                                         class="form-label"
-                                >IČO</label>
+                                >IČO<span n:if="$form['billingAddress_businessId']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                 <label
                                         n:name="billingAddress_taxId"
                                         class="form-label"
-                                >DIČ</label>
+                                >DIČ<span n:if="$form['billingAddress_taxId']->isRequired()"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -137,7 +137,7 @@
                                 <label
                                         n:name="billingAddress_vatNumber"
                                         class="form-label"
-                                >IČ DPH</label>
+                                >IČ DPH<span n:if="$form['billingAddress_vatNumber']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                                 <label
                                         n:name="billingAddress_phone"
                                         class="form-label"
-                                >Telefón</label>
+                                >Telefón<span n:if="$form['billingAddress_phone']->isRequired()"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -169,7 +169,7 @@
                                 <label
                                         n:name="billingAddress_email"
                                         class="form-label"
-                                >E-mail</label>
+                                >E-mail<span n:if="$form['billingAddress_email']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                                 <label
                                         n:name="billingAddress_street"
                                         class="form-label"
-                                >Adresa</label>
+                                >Adresa<span n:if="$form['billingAddress_street']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                                 <label
                                         n:name="billingAddress_city"
                                         class="form-label"
-                                >Město</label>
+                                >Město<span n:if="$form['billingAddress_city']->isRequired()"> *</span></label>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -218,7 +218,7 @@
                                 <label
                                         n:name="billingAddress_zipCode"
                                         class="form-label"
-                                >PSČ</label>
+                                >PSČ<span n:if="$form['billingAddress_zipCode']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -227,7 +227,7 @@
                             <div class="form-floating">
                                 {input billingAddress_countryCode, class: "form-select"}
                                 <div class="error-msg"></div>
-                                <label n:name="billingAddress_countryCode" class="form-label">Štát</label>
+                                <label n:name="billingAddress_countryCode" class="form-label">Štát<span n:if="$form['billingAddress_countryCode']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -262,7 +262,7 @@
                                         placeholder="Číslo účtu"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="bankAccount_accountNumber" class="form-label">Číslo účtu</label>
+                                <label n:name="bankAccount_accountNumber" class="form-label">Číslo účtu<span n:if="$form['bankAccount_accountNumber']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -276,7 +276,7 @@
                                         placeholder="IBAN"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="bankAccount_accountNumber" class="form-label">IBAN</label>
+                                <label n:name="bankAccount_iban" class="form-label">IBAN<span n:if="$form['bankAccount_iban']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -290,7 +290,7 @@
                                         placeholder="SWIFT"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="bankAccount_accountNumber" class="form-label">SWIFT</label>
+                                <label n:name="bankAccount_swift" class="form-label">SWIFT<span n:if="$form['bankAccount_swift']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
@@ -323,7 +323,7 @@
                                         placeholder="PayPal e-mail"
                                 >
                                 <div class="error-msg"></div>
-                                <label n:name="paypalEmail" class="form-label">PayPal e-mail</label>
+                                <label n:name="paypalEmail" class="form-label">PayPal e-mail<span n:if="$form['paypalEmail']->isRequired()"> *</span></label>
                             </div>
                         </div>
                     </div>
