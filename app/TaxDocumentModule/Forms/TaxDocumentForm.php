@@ -381,9 +381,9 @@ class TaxDocumentForm extends AbstractForm
         }
         //
 
-        if($this->userCompany) {
+        if($this->getUserCompany()) {
             $this->presenter->redirect(':TaxDocument:List:userCompany', [
-                'id' => $this->userCompany->getId()
+                'id' => $this->getUserCompany()->getId()
             ]);
         } else {
             $this->presenter->redirect(':TaxDocument:List:default');
@@ -400,6 +400,19 @@ class TaxDocumentForm extends AbstractForm
     public function setUserCompany(?UserCompany $userCompany): void
     {
         $this->userCompany = $userCompany;
+    }
+
+    public function getUserCompany()
+    {
+        if($this->userCompany) {
+            return $this->userCompany;
+        }
+
+        if($this->taxDocument) {
+            return $this->taxDocument->getUserCompany();
+        }
+
+        return null;
     }
 
     private function setDefaults(Form $form): void

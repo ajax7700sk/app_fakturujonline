@@ -55,7 +55,7 @@
                                                 <div class="form-floating">
                                                     {input type, class: "form-select"}
                                                     <div class="error-msg"></div>
-                                                    <label n:name="type" class="form-label">Druh dokladu<span n:if="$form['type']->isRequired()"> *</span></label>
+                                                    <label n:name="type" class="form-label form-label--select">Druh dokladu<span n:if="$form['type']->isRequired()"> *</span></label>
                                                 </div>
                                             </div>
                                             <div style="padding-bottom: 20px;">
@@ -242,7 +242,7 @@
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
-                                                        <td>
+                                                        <td class="td-quantity">
                                                             <div>
                                                                 <input
                                                                         name="lineItems[{$key}][quantity]"
@@ -253,7 +253,7 @@
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
-                                                        <td>
+                                                        <td class="td-unit">
                                                             <div class="form-floating">
                                                                 <select name="lineItems[{$key}][unit]"
                                                                         class="form-select text-muted"
@@ -272,7 +272,7 @@
                                                                 </select>
                                                                 <div class="error-msg"></div>
                                                         </td>
-                                                        <td>
+                                                        <td class="td-unitPriceTaxExcl">
                                                             <div class="form-floating">
                                                                 <input
                                                                         name="lineItems[{$key}][unitPriceTaxExcl]"
@@ -365,14 +365,14 @@
                                                 <div class="form-floating js-load-company-data" data-link="{link //LoadCompanyData!}">
                                                     {input userCompany, class: "form-select"}
                                                     <div class="error-msg"></div>
-                                                    <label n:name="userCompany" class="form-label">Spoločnosť<span n:if="$form['userCompany']->isRequired()"> *</span></label>
+                                                    <label n:name="userCompany" class="form-label form-label--select">Spoločnosť<span n:if="$form['userCompany']->isRequired()"> *</span></label>
                                                 </div>
                                             </div>
                                             <div style="padding-bottom: 20px;">
                                                 <div class="form-floating">
                                                     {input currencyCode, class: "form-select"}
                                                     <div class="error-msg"></div>
-                                                    <label n:name="currencyCode" class="form-label">Mena<span n:if="$form['currencyCode']->isRequired()"> *</span></label>
+                                                    <label n:name="currencyCode" class="form-label form-label--select">Mena<span n:if="$form['currencyCode']->isRequired()"> *</span></label>
                                                 </div>
                                             </div>
                                             <div style="padding-bottom: 20px;">
@@ -418,7 +418,7 @@
                                             <div class="form-floating">
                                                 {input paymentData_type, class: "form-select text-muted"}
                                                 <div class="error-msg"></div>
-                                                <label n:name="paymentData_type" class="form-label">Typ úhrady<span n:if="$form['paymentData_type']->isRequired()"> *</span></label>
+                                                <label n:name="paymentData_type" class="form-label form-label--select">Typ úhrady<span n:if="$form['paymentData_type']->isRequired()"> *</span></label>
                                             </div>
                                         </div>
                                     </div>
@@ -647,7 +647,7 @@
                                             <div class="form-floating">
                                                 {input supplier_countryCode, class: "form-select"}
                                                 <div class="error-msg"></div>
-                                                <label n:name="supplier_countryCode" class="form-label">Štát<span n:if="$form['supplier_countryCode']->isRequired()"> *</span></label>
+                                                <label n:name="supplier_countryCode" class="form-label form-label--select">Štát<span n:if="$form['supplier_countryCode']->isRequired()"> *</span></label>
                                             </div>
                                         </div>
                                     </div>
@@ -728,7 +728,7 @@
                                         <div class="error-msg"></div>
                                         <label
                                                 n:name="contact"
-                                                class="form-label"
+                                                class="form-label form-label--select"
                                         >Kontakt<span n:if="$form['contact']->isRequired()"> *</span></label>
                                     </div>
                                 </div>
@@ -885,7 +885,7 @@
                                     <div class="form-floating">
                                         {input subscriber_countryCode, class: "form-select"}
                                         <div class="error-msg"></div>
-                                        <label n:name="subscriber_countryCode" class="form-label">Štát<span n:if="$form['subscriber_countryCode']->isRequired()"> *</span></label>
+                                        <label n:name="subscriber_countryCode" class="form-label form-label--select">Štát<span n:if="$form['subscriber_countryCode']->isRequired()"> *</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -946,7 +946,7 @@
                                 class="form-control js-name">
                     </div>
                 </td>
-                <td>
+                <td class="td-quantity">
                     <div>
                         <input
                                 name="lineItems[_index_][quantity]"
@@ -955,7 +955,7 @@
                                 value="1">
                     </div>
                 </td>
-                <td>
+                <td class="td-unit">
                     <div class="form-floating">
                         <select name="lineItems[_index_][unit]"
                                 class="form-select text-muted"
@@ -973,7 +973,7 @@
                             <option value="m³" aria-labelledby="m³" label="m³">m³</option>
                         </select>
                 </td>
-                <td>
+                <td class="td-unitPriceTaxExcl">
                     <div class="form-floating">
                         <input
                                 name="lineItems[_index_][unitPriceTaxExcl]"
@@ -983,7 +983,7 @@
                                 value="0">
                     </div>
                 </td>
-                <td class="js-taxable">
+                <td class="js-taxable td-taxRate">
                     <div class="form-floating">
                         <input name="lineItems[_index_][taxRate]"
                                type="number"

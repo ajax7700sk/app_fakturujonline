@@ -23,3 +23,26 @@ body[theme="dark"] {
 .datagrid-taxDocumentGrid .row-group-actions {
   display: none;
 }
+
+.td-name {
+  min-width: 250px;
+}
+
+.td-unit {
+  min-width: 100px;
+}
+
+.td-unitPriceTaxExcl {
+  min-width: 100px;
+}
+
+.form-floating > .form-select {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  height: 3.25rem;
+  line-height: 1.25;
+}
+
+.form-label--select {
+  transform: scale(0.85) translateY(-1.25rem) translateX(0.15rem) !important;
+}
