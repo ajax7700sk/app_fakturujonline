@@ -70,24 +70,16 @@ class ContactForm extends AbstractForm
 //             ->setAttribute("placeholder", 'Dodacia adresa je rovnaká');
 
         // Billing address
-        $form->addText('billingAddress_name', 'Názov spoločnosti')
-             ->setRequired("Pole je povinné");
-        $form->addText('billingAddress_businessId', 'IČO')
-             ->setRequired("Pole je povinné");
-        $form->addText('billingAddress_taxId', 'DIČ')
-             ->setRequired("Pole je povinné");
+        $form->addText('billingAddress_name', 'Názov spoločnosti');
+        $form->addText('billingAddress_businessId', 'IČO');
+        $form->addText('billingAddress_taxId', 'DIČ');
         $form->addText('billingAddress_vatNumber', 'IČ DPH');
         $form->addText('billingAddress_phone', 'Telefon');
-        $form->addText('billingAddress_email', 'E-mail')
-             ->setRequired("Pole je povinné");
-        $form->addText('billingAddress_street', 'Adresa')
-             ->setRequired("Pole je povinné");
-        $form->addText('billingAddress_city', 'Město')
-             ->setRequired("Pole je povinné");
-        $form->addText('billingAddress_zipCode', 'PŠC')
-             ->setRequired("Pole je povinné");
-        $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames())
-             ->setRequired("Pole je povinné");
+        $form->addText('billingAddress_email', 'E-mail');
+        $form->addText('billingAddress_street', 'Adresa');
+        $form->addText('billingAddress_city', 'Město');
+        $form->addText('billingAddress_zipCode', 'PŠC');
+        $form->addSelect('billingAddress_countryCode', 'Štát', Countries::getNames());
 
         // Shipping address
 //        $form->addText('shippingAddress_name', 'Názov spoločnosti')
