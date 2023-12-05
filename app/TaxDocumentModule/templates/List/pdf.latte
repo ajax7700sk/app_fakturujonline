@@ -8,6 +8,8 @@
     <link href="images/favicon.png" rel="icon"/>
     <title>Faktura</title>
     <meta name="author" content="harnishdesign.net">
+    {*Style*}
+    {include "_partials/pdf/style.latte"}
     <style>
         * {
             font-family: DejaVu Sans !important;
@@ -25,6 +27,9 @@
             max-width: 100px;
             max-height: 100px;
         }
+        @page {
+            margin: 0 !important;
+        }
     </style>
 
     <!-- Web Fonts
@@ -37,9 +42,9 @@
     {*Bootstrap*}
 {*    {include "_partials/pdf/bootstrap.min.latte"}*}
     {*include "_partials/pdf/font-awesome.latte"*}
-    {include "_partials/pdf/style.latte"}
 </head>
-<div style="padding: 0 15px;">
+<body style="margin: 0; padding: 0;">
+    <div style="padding: 0 15px;">
     <!-- Container -->
     <div class="container-fluid invoice-container">
         <!-- Main Content -->
