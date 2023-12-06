@@ -284,18 +284,19 @@
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
-                                                        <td class="js-taxable">
+                                                        <td class="js-taxable td-taxRate">
                                                             <div class="form-floating">
                                                                 <input name="lineItems[{$key}][taxRate]"
                                                                        type="number"
                                                                        class="form-control js-tax-rate"
                                                                        placeholder=""
+                                                                       min="0"
                                                                        value="{$lineItem->getTaxRate()}"
                                                                 >
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
-                                                        <td class="js-taxable">
+                                                        <td class="js-taxable td-priceTaxExcl">
                                                             <div class="form-floating">
                                                                 <input
                                                                         type="number"
@@ -307,7 +308,7 @@
                                                                 <div class="error-msg"></div>
                                                             </div>
                                                         </td>
-                                                        <td>
+                                                        <td class="td-priceTaxIncl">
                                                             <div class="form-floating">
                                                                 <input
                                                                         type="number"
@@ -989,10 +990,11 @@
                                type="number"
                                class="form-control js-tax-rate"
                                placeholder=""
+                               min="0"
                                value="0">
                     </div>
                 </td>
-                <td class="js-taxable">
+                <td class="js-taxable td-priceTaxExcl">
                     <div class="form-floating">
                         <input
                                 type="number"
@@ -1004,7 +1006,7 @@
                         <div class="error-msg"></div>
                     </div>
                 </td>
-                <td>
+                <td class="td-priceTaxIncl">
                     <div class="form-floating">
                         <input
                                type="number"

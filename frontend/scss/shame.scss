@@ -25,15 +25,27 @@ body[theme="dark"] {
 }
 
 .td-name {
-  min-width: 250px;
+  min-width: 300px;
+}
+
+.td-quantity {
+  max-width: 75px;
 }
 
 .td-unit {
   min-width: 100px;
 }
 
-.td-unitPriceTaxExcl {
+.td-taxRate {
+  min-width: 80px;
+  max-width: 100px;
+}
+
+.td-unitPriceTaxExcl,
+.td-priceTaxIncl,
+.td-priceTaxExcl {
   min-width: 100px;
+  max-width: 120px;
 }
 
 .form-floating > .form-select {
