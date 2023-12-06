@@ -93,13 +93,13 @@
                         {if $taxDocument->getVatPayer()}
                                     <strong>Platiteľ DPH</strong>
                                 {else}
-                                    <strong>Neplatitel DPH</strong>
+                                    <strong>Neplatiteľ DPH</strong>
                                 {/if}
                                 <br/>
                             </address>
                         </div>
                         <div class="col-sm-6 text-end" style="margin-top: 10px; 1.5">
-                            <p class="mb-0" style="margin: 0; line-height: 1;" n:if="$taxDocument->getIssuedAt()">
+                            <p class="mb-0" style="margin: 0; line-height: 1.5;" n:if="$taxDocument->getIssuedAt()">
                                 <strong>Vystavené: </strong>{$taxDocument->getIssuedAt()|date("d.m.Y")}
                             </p>
                             <p class="mb-0" style="margin: 0; line-height: 1.5;" n:if="$taxDocument->getDueDateAt()">
@@ -144,9 +144,9 @@
                             <thead>
                             <tr class="">
                                 <td><strong>Položka</strong></td>
-                                <td><strong>Jednotkova cena</strong></td>
+                                <td><strong>Jednotková cena</strong></td>
                                 <td><strong>Jednotka</strong></td>
-                                <td><strong>Mnozstvo</strong></td>
+                                <td><strong>Množstvo</strong></td>
                                 {if $taxDocument->getVatPayer()}
                                     <td class="text-end"><strong>DPH</strong></td>
                                 {/if}
@@ -177,7 +177,7 @@
                                 {php $colspan = 5}
                             {/if}
                             <tr>
-                                    <td colspan="{$colspan}" class="text-end text-right pr-15"><strong>Medzisucet:</strong></td>
+                                    <td colspan="{$colspan}" class="text-end text-right pr-15"><strong>Medzisúčet:</strong></td>
                                     <td class="text-end">{$taxDocument->getTotalPriceTaxExcl()|moneyFormat($currencyCode, $localeCode)}</td>
                             </tr>
                             {if $taxDocument->getVatPayer()}
@@ -195,16 +195,15 @@
                     </div>
                 </div>
             </div>
-            <br>
         </main>
         <div>
             {if $taxDocument->getType() == 'proforma_invoice'}
-                Proforma faktúra neslúži ako daňový doklad
+                <p>Proforma faktúra neslúži ako daňový doklad</p>
             {/if}
         </div>
         <div>
             {if $taxDocument->getTransferedTaxLiability()}
-                Daň je povinný zaplatiť zákazník.
+                <p>Daň je povinný zaplatiť zákazník.</p>
             {/if}
         </div>
         <!-- Footer -->
@@ -213,8 +212,8 @@
                 <p class="text-1"><strong>Poznámka:</strong> {$taxDocument->getNote()}</p>
             {/if}
         </footer>
-        <div class="copyright w-100" style="margin-top: -15px;">
-            <table class="row w-100">
+        <div class="copyright w-100">
+            <table class="row w-100" style="margin-bottom: 5px">
                 <tr>
                     <td class="w-50">
                         <div class="col-6">
@@ -231,7 +230,7 @@
                 </tr>
             </table>
             {if $taxDocument->getUserCompany() && $taxDocument->getUserCompany()->getRegisterInfo()}
-                <p style="margin-top: -15px; padding-right: 50px" class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
+                <p style="margin-top: -15px; padding-right: 50px; text-align: left" class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
             {/if}
         </div>
     </div>
