@@ -89,11 +89,22 @@ class ListPresenter extends BasePresenter
 
     public function actionPdf($id)
     {
+        /** @var TaxDocumentRepository $repository */
+        $repository = $this->em->getRepository(TaxDocument::class);
         /** @var TaxDocument|null $taxDocument */
         $taxDocument = $this->em->getRepository(TaxDocument::class)->find((int)$id);
 
         if ( ! $taxDocument) {
             $this->error();
+        }
+
+        // Has active subscription or it is last document
+        if ( ! $this->hasActiveSubscription()) {
+            $lastTaxDocument = $repository->getUserCompanyLastTaxDocument($this->userCompany);
+
+            if ($taxDocument->getId() != $taxDocument->getId()) {
+                $this->error();
+            }
         }
 
         //create template
@@ -304,7 +315,10 @@ class ListPresenter extends BasePresenter
         $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
              ->setClass('btn btn-info btn-sm btn-pdf')
              ->setRenderer(function (TaxDocument $entity) {
-                 if ($entity->isDraft()) {
+                 // can show pdf
+                 $canShow = $this->canShowPdf($entity, $this->userCompany);
+
+                 if ($entity->isDraft() || !$canShow) {
                      return "";
                  } else {
                      $link = $this->link(":TaxDocument:List:pdf", ['id' => $entity->getId()]);
@@ -387,7 +401,9 @@ class ListPresenter extends BasePresenter
              ->setIcon('trash')
              ->setClass('btn btn-danger btn-sm');
         // Action
-        $grid->addGroupAction('exportPdf');
+        if($this->hasActiveSubscription()) {
+            $grid->addGroupAction('exportPdf');
+        }
         $grid->setOuterFilterRendering(true);
         //set translator
         $grid->setTranslator($this->translator);
@@ -405,6 +421,26 @@ class ListPresenter extends BasePresenter
         $control = $this->taxDocumentPaymentForm->create();
 
         return $control;
+    }
+
+    private function canShowPdf(TaxDocument $taxDocument, UserCompany $userCompany): bool
+    {
+        /** @var TaxDocumentRepository $repository */
+        $repository = $this->em->getRepository(TaxDocument::class);
+
+        // Has subscription
+        if($this->hasActiveSubscription()) {
+            return true;
+        }
+
+        // Dont have subscription
+        $lastTaxDocument = $repository->getUserCompanyLastTaxDocument($userCompany);
+
+        if($lastTaxDocument->getId() == $taxDocument->getId()) {
+            return true;
+        }
+
+        return false;
     }
 
 }

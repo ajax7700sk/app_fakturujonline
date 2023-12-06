@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\TaxDocument;
+use App\Entity\UserCompany;
 use App\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -42,32 +43,25 @@ class TaxDocumentRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return TaxDocument[] Returns an array of TaxDocument objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return TaxDocument|null
+     */
+    public function getUserCompanyLastTaxDocument(?UserCompany $userCompany)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('td');
 
-    /*
-    public function findOneBySomeField($value): ?TaxDocument
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $td = $qb->select('td')
+                 ->where('td.userCompany = :userCompany')
+                 ->setParameter('userCompany', $userCompany)
+                 ->setMaxResults(1)
+                 ->orderBy('td.createdAt', 'DESC')
+                 ->getQuery()
+                 ->getResult();
+
+        if(isset($td[0])) {
+            return $td[0];
+        } else {
+            return null;
+        }
     }
-    */
 }

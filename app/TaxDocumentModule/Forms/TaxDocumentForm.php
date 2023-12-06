@@ -11,6 +11,7 @@ use App\Entity\PaymentData;
 use App\Entity\TaxDocument;
 use App\Entity\UserCompany;
 use App\Forms\AbstractForm;
+use App\Repository\TaxDocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
@@ -668,23 +669,10 @@ class TaxDocumentForm extends AbstractForm
             return null;
         }
 
-        $qb = $this->entityManager
-            ->getRepository(TaxDocument::class)
-            ->createQueryBuilder('td');
+        /** @var TaxDocumentRepository $repository */
+        $repository = $this->entityManager->getRepository(TaxDocument::class);
 
-        $td = $qb->select('td')
-                 ->where('td.userCompany = :userCompany')
-                 ->setParameter('userCompany', $this->userCompany)
-                 ->setMaxResults(1)
-                 ->orderBy('td.createdAt', 'DESC')
-                 ->getQuery()
-                 ->getResult();
-
-        if(isset($td[0])) {
-            return $td[0];
-        } else {
-            return null;
-        }
+        return $repository->getUserCompanyLastTaxDocument($this->userCompany);
     }
 
     protected function checkIfNumberExists($number): bool
