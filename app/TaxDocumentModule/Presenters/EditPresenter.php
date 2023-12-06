@@ -9,6 +9,10 @@ class EditPresenter extends BasePresenter
 {
     public function actionDefault($id)
     {
+        if(!$this>>$this->hasActiveSubscription()) {
+            $this->error();
+        }
+
         /** @var TaxDocument|null $taxDocument */
         $taxDocument = $this->em
             ->getRepository(TaxDocument::class)

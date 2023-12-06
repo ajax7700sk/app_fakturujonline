@@ -287,7 +287,8 @@ class ListPresenter extends BasePresenter
                      } else {
                          $isPaid = $entity->getPaidAt();
 
-                         return sprintf("<a target='_blank' 
+                         return sprintf(
+                             "<a target='_blank' 
                     title='%s' 
                     data-target='#paymentModal' 
                     data-id='".$entity->getId()."' 
@@ -298,20 +299,24 @@ class ListPresenter extends BasePresenter
                      }
                  })
                  ->setClass('btn btn-info btn-sm btn-payment');
-            $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
-                 ->setClass('btn btn-info btn-sm btn-pdf')
-                 ->setRenderer(function (TaxDocument $entity) {
-                     if ($entity->isDraft()) {
-                         return "";
-                     } else {
-                         $link = $this->link(":TaxDocument:List:pdf", ['id' => $entity->getId()]);
+        }
+        //
+        $grid->addAction('pdf', 'PDF', ':TaxDocument:List:pdf', ['id' => 'id'])
+             ->setClass('btn btn-info btn-sm btn-pdf')
+             ->setRenderer(function (TaxDocument $entity) {
+                 if ($entity->isDraft()) {
+                     return "";
+                 } else {
+                     $link = $this->link(":TaxDocument:List:pdf", ['id' => $entity->getId()]);
 
-                         return sprintf(
-                             "<a target='_blank' href='%s' class='btn btn-info btn-sm btn-pdf'>PDF</a>",
-                             $link
-                         );
-                     }
-                 });
+                     return sprintf(
+                         "<a target='_blank' href='%s' class='btn btn-info btn-sm btn-pdf'>PDF</a>",
+                         $link
+                     );
+                 }
+             });
+        //
+        if($this->hasActiveSubscription()) {
             $grid->addAction('email', 'E-mail', ':TaxDocument:List:email', ['id' => 'id'])
                  ->setRenderer(function (TaxDocument $item) {
                      $link = $this->link(':TaxDocument:List:email', ['id' => $item->getId()]);
@@ -339,13 +344,15 @@ class ListPresenter extends BasePresenter
                  })
                  ->setClass('btn btn-info btn-sm');
         }
-        $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:default', ['id' => 'id'])
-             ->setRenderer(function (TaxDocument $item) {
-                 $link = $this->link(':TaxDocument:Edit:default', ['id' => $item->getId()]);
+        //
+        if ($this->hasActiveSubscription()) {
+            $grid->addAction('edit', 'Upraviť', ':TaxDocument:Edit:default', ['id' => 'id'])
+                 ->setRenderer(function (TaxDocument $item) {
+                     $link = $this->link(':TaxDocument:Edit:default', ['id' => $item->getId()]);
 
-                 //
-                 return sprintf(
-                     '
+                     //
+                     return sprintf(
+                         '
                     <a href="%s" class="btn btn-edit btn-sm">
                         <svg viewBox="0 0 24 24" fill="currentColor" class="svg-icon--material svg-icon btn-icon" data-name="Material--Edit">
                             <path d="M0 0h24v24H0V0z" fill="none"></path>
@@ -353,11 +360,13 @@ class ListPresenter extends BasePresenter
                             <path d="M20.71 7.04a.996.996 0 000-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83zM3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19z"></path>
                         </svg>
                     </a>',
-                     $link
-                 );
-             })
-             ->setIcon('pencil')
-             ->setClass('btn btn-warning btn-sm');
+                         $link
+                     );
+                 })
+                 ->setIcon('pencil')
+                 ->setClass('btn btn-warning btn-sm');
+        }
+        //
         $grid->addAction('delete', 'Zmazať', ':TaxDocument:List:delete', ['id' => 'id'])
              ->setRenderer(function (TaxDocument $item) {
                  $link = $this->link(':TaxDocument:List:delete', ['id' => $item->getId()]);
