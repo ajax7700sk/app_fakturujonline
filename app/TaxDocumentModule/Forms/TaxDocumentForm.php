@@ -102,6 +102,7 @@ class TaxDocumentForm extends AbstractForm
              ->setRequired("Pole 'Druh dokladu' je povinné");
         $form->addText('number', 'Číslo dokladu')
              ->setRequired("Pole 'Číslo dokladu' je povinné");
+        $form->addText('evidenceNumber', 'Evidenčné číslo dokladu');
         $form->addCheckbox('transferedTaxLiability', 'Preniesť daňovú zodpovednosť');
         $form->addCheckbox('vatPayer', 'Plátca DPH');
         $form->addText('issuedBy', 'Vystavil')
@@ -189,6 +190,8 @@ class TaxDocumentForm extends AbstractForm
     public function onValidate(Form $form): void
     {
         $values = $form->getValues(true);
+
+        // --- Validate number
         //
         $currentNumber = $this->taxDocument ? $this->taxDocument->getNumber() : null;
         $newNumber = $values['number'];
@@ -199,6 +202,22 @@ class TaxDocumentForm extends AbstractForm
 
             if($exists) {
                 $form->addError('Číslo dokladu je už použité pri inom doklade');
+
+                return;
+            }
+        }
+
+        // --- Validate evidence number
+        //
+        $currentNumber = $this->taxDocument ? $this->taxDocument->getEvidenceNumber() : null;
+        $newNumber = $values['evidenceNumber'];
+
+        // Check if there is at least one tax document with same number
+        if($currentNumber != $newNumber) {
+            $exists = $this->checkIfEvidenceNumberExists($newNumber);
+
+            if($exists) {
+                $form->addError('Evidenčné číslo dokladu je už použité pri inom doklade');
 
                 return;
             }
@@ -253,6 +272,7 @@ class TaxDocumentForm extends AbstractForm
         //
         $taxDocument->setType(isset($values['type']) ? $values['type'] : TaxDocument::TYPE_INVOICE);
         $taxDocument->setNumber(isset($values['number']) ? $values['number'] : "");
+        $taxDocument->setEvidenceNumber(isset($values['evidenceNumber']) ? $values['evidenceNumber'] : "");
         $taxDocument->setTransferedTaxLiability(isset($values['transferedTaxLiability']) ? $this->checkboxValue($values['transferedTaxLiability']) : false);
         $taxDocument->setVatPayer(isset($values['vatPayer']) ? $this->checkboxValue($values['vatPayer']) : false);
         $taxDocument->setIssuedBy(isset($values['issuedBy']) ? $values['issuedBy'] : null);
@@ -462,9 +482,10 @@ class TaxDocumentForm extends AbstractForm
             $entity = $this->taxDocument;
             //
             $defaults = array_merge($defaults, array(
-                'contact' => $entity->getContact() ? $entity->getContact()->getId() : null,
+                'contact'        => $entity->getContact() ? $entity->getContact()->getId() : null,
                 'type'           => $entity->getType(),
                 'number'         => $entity->getNumber(),
+                'evidenceNumber' => $entity->getEvidenceNumber(),
                 'vatPayer'       => $entity->getVatPayer(),
                 'issuedBy'       => $entity->getIssuedBy(),
                 'issuedAt'       => $entity->getIssuedAt()->format('Y-m-d'),
@@ -676,6 +697,28 @@ class TaxDocumentForm extends AbstractForm
                  ->where('td.userCompany = :userCompany')
                  ->setParameter('userCompany', $this->userCompany)
                  ->andWhere('td.number = :number')
+                 ->setParameter('number', $number)
+                 ->setMaxResults(1)
+                 ->getQuery()
+                 ->getResult();
+
+        if(isset($td[0])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function checkIfEvidenceNumberExists($number): bool
+    {
+        $qb = $this->entityManager
+            ->getRepository(TaxDocument::class)
+            ->createQueryBuilder('td');
+
+        $td = $qb->select('td')
+                 ->where('td.userCompany = :userCompany')
+                 ->setParameter('userCompany', $this->userCompany)
+                 ->andWhere('td.evidenceNumber = :number')
                  ->setParameter('number', $number)
                  ->setMaxResults(1)
                  ->getQuery()

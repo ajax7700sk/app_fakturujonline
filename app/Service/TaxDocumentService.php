@@ -22,6 +22,7 @@ class TaxDocumentService
         $template->localeCode = $taxDocument->getLocaleCode();
         $template->currencyCode = $taxDocument->getCurrencyCode();
         $template->logo = $taxDocument->getUserCompany()->getLogo();
+        $template->taxDocumentType = $this->transTaxDocumentType($taxDocument->getType());
         //
         $template->setFile(realpath(get_app_folder_path() . '/TaxDocumentModule/templates/List/pdf.latte'));
 
@@ -53,6 +54,22 @@ class TaxDocumentService
             'filename' => $filename,
             'filepath' => $filepath
         );
+    }
+
+    private function transTaxDocumentType(?string $type): ?string
+    {
+        $types = [
+            TaxDocument::TYPE_INVOICE         => 'Faktúra',
+            TaxDocument::TYPE_ADVANCE_PAYMENT => 'Zálohová faktúra',
+            TaxDocument::TYPE_PROFORMA_INVOCE => 'Proforma faktúra',
+            TaxDocument::TYPE_CREDIT_NOTE     => 'Dobropis',
+        ];
+
+        if(isset($types[$type])) {
+            return $types[$type];
+        }
+
+        return null;
     }
 
     public function exportPdf(array $files, string $filename = 'export.zip'): array

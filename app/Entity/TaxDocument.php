@@ -57,6 +57,12 @@ class TaxDocument
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private $evidenceNumber;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private $constantSymbol;
 
     /**
@@ -230,6 +236,18 @@ class TaxDocument
     public function setNumber(?string $number): self
     {
         $this->number = $number;
+
+        return $this;
+    }
+
+    public function getEvidenceNumber(): ?string
+    {
+        return $this->evidenceNumber;
+    }
+
+    public function setEvidenceNumber(?string $evidenceNumber): self
+    {
+        $this->evidenceNumber = $evidenceNumber;
 
         return $this;
     }

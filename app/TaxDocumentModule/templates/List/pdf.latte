@@ -61,8 +61,8 @@
                     </td>
                     <td class="w-50">
                         <div class="col-sm-5 text-right text-sm-end test-class">
-                            <h4 class="mb-0">Doklad</h4>
-                            <p class="mb-0">Cislo - {$taxDocument->getNumber()}</p>
+                            <h4 class="mb-0">{$taxDocumentType} č. {$taxDocument->getNumber()}</h4>
+                            <p n:if="$taxDocument->getEvidenceNumber()" class="mb-0">Evidenčné číslo - {$taxDocument->getEvidenceNumber()}</p>
                         </div>
                     </td>
                 </tr>
@@ -124,7 +124,7 @@
                             Číslo účtu: {$taxDocument->getPaymentData()->getBankAccountNumber()}<br>
                             IBAN: {$taxDocument->getPaymentData()->getBankAccountIban()}<br>
                             SWIFT: {$taxDocument->getPaymentData()->getBankAccountSwift()}<br>
-{*                            Variabilný symbol: {$taxDocument->getVariableSymbol()}*}
+                            Variabilný symbol: {$taxDocument->getNumber()}
                         </address>
                     {/if}
                     <br />
@@ -230,7 +230,7 @@
                 </tr>
             </table>
             {if $taxDocument->getUserCompany() && $taxDocument->getUserCompany()->getRegisterInfo()}
-                <p style="margin-top: -15px; padding-right: 50px; text-align: left" class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
+                <p style="margin-top: -15px; text-align: left; padding: 0 2.5px 0 2.5px;" class="text-1">{$taxDocument->getUserCompany()->getRegisterInfo()}</p>
             {/if}
         </div>
     </div>
