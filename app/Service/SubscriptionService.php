@@ -57,7 +57,7 @@ class SubscriptionService
             ->setUser($user)
             ->setType(Subscription::TYPE_MONTH);
         //
-        $endAt = $endAt->modify('+1 month');
+        $endAt = $endAt->modify('+14 days');
 
         // Create start and end for subscription
         $subscription->setStartAt(new \DateTime());
