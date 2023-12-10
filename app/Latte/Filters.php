@@ -7,6 +7,7 @@ use App\Entity\MediaObject;
 use App\Entity\Transport;
 use App\Service\FileService;
 use Latte\Engine;
+use Symfony\Component\Intl\Countries;
 
 /**
  * Class Filters - App global Latte filters
@@ -27,6 +28,11 @@ class Filters
         $formatter = \NumberFormatter::create($localeCode, \NumberFormatter::CURRENCY);
         //
         return $formatter->formatCurrency($value, $currencyCode);
+    }
+
+    public function countryName($code, string $localeCode): string
+    {
+        return Countries::getName($code, $localeCode);
     }
 
     public function transPaymentMethod(string $value): string

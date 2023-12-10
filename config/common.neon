@@ -51,6 +51,7 @@ services:
 		setup:
 			- addFilter('moneyFormat', [@LatteFilters, moneyFormat])
 			- addFilter('transPaymentMethod', [@LatteFilters, transPaymentMethod])
+			- addFilter('countryName', [@LatteFilters, countryName])
 
 	# ------------------------------------------------- Repositories --------------------------------------------------- #
 

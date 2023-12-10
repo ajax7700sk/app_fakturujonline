@@ -1,0 +1,28 @@
+{if $address->getName()}
+    {$address->getName()} <br/>
+{/if}
+{if $address->getStreet()}
+    {$address->getStreet()} <br/>
+{/if}
+{if $address->getZipCode()}
+    {$address->getZipCode()} <br/>
+{/if}
+{if $address->getCity()}
+    {$address->getCity()} <br/>
+{/if}
+{if $address->getCountryCode()}
+    {$address->getCountryCode()|countryName($localeCode)} <br/>
+{/if}
+{if $address->getEmail()}
+    {$address->getEmail()} <br/>
+{/if}
+<br>
+{if $address->getBusinessId()}
+    IČO: {$address->getBusinessId()}<br>
+{/if}
+{if $address->getTaxId()}
+    DIČ: {$address->getTaxId()}<br>
+{/if}
+{if $address->getVatNumber()}
+    IČ DPH: {$address->getVatNumber()}<br>
+{/if}

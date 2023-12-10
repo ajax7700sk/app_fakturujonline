@@ -72,40 +72,35 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="w-50">
+                    <td class="w-50" style="vertical-align: baseline">
                         <div class="col-sm-6 order-sm-0"> <strong>Odberateľ:</strong>
                             <address>
-                                {$taxDocument->getSubscriberBillingAddress()->getName()} <br/>
-                        {$taxDocument->getSubscriberBillingAddress()->getEmail()} <br/>
-                        {$taxDocument->getSubscriberBillingAddress()->getStreet()} <br/>
-                        {$taxDocument->getSubscriberBillingAddress()->getZipCode()} {$taxDocument->getSubscriberBillingAddress()->getCity()}
+                                {include "_partials/pdf/address.latte", address: $taxDocument->getSubscriberBillingAddress(), localeCode: $taxDocument->getLocaleCode()}
                                 <br/>
                             </address>
                         </div>
                     </td>
-                    <td class="w-50 text-right">
+                    <td class="w-50 text-right" style="vertical-align: baseline">
                         <div class="col-sm-6 text-sm-end order-sm-1"> <strong>Dodávateľ:</strong>
                             <address>
-                                {$taxDocument->getSupplierBillingAddress()->getName()} <br/>
-                        {$taxDocument->getSupplierBillingAddress()->getEmail()} <br/>
-                        {$taxDocument->getSupplierBillingAddress()->getStreet()} <br/>
-                        {$taxDocument->getSupplierBillingAddress()->getZipCode()} {$taxDocument->getSupplierBillingAddress()->getCity()} <br/>
-                        {if $taxDocument->getVatPayer()}
+                                {include "_partials/pdf/address.latte", address: $taxDocument->getSupplierBillingAddress(), localeCode: $taxDocument->getLocaleCode()}
+                                {if $taxDocument->getVatPayer()}
                                     <strong>Platiteľ DPH</strong>
                                 {else}
                                     <strong>Neplatiteľ DPH</strong>
                                 {/if}
                                 <br/>
+                                <br/>
                             </address>
                         </div>
-                        <div class="col-sm-6 text-end" style="margin-top: 10px; 1.5">
-                            <p class="mb-0" style="margin: 0; line-height: 1.5;" n:if="$taxDocument->getIssuedAt()">
+                        <div class="col-sm-6 text-end" style="margin-top: 10px;">
+                            <p class="mb-0" style="margin: 0; line-height: 1.6;" n:if="$taxDocument->getIssuedAt()">
                                 <strong>Vystavené: </strong>{$taxDocument->getIssuedAt()|date("d.m.Y")}
                             </p>
-                            <p class="mb-0" style="margin: 0; line-height: 1.5;" n:if="$taxDocument->getDueDateAt()">
+                            <p class="mb-0" style="margin: 0; line-height: 1.6;" n:if="$taxDocument->getDueDateAt()">
                                 <strong>Splatnosť:&nbsp;&nbsp;&nbsp;</strong>{$taxDocument->getDueDateAt()|date("d.m.Y")}
                             </p>
-                            <p class="mb-0" style="margin: 0; line-height: 1.5;" n:if="$taxDocument->getDeliveryDateAt()">
+                            <p class="mb-0" style="margin: 0; line-height: 1.6;" n:if="$taxDocument->getDeliveryDateAt()">
                                 <strong>Dodanie:&nbsp;&nbsp;&nbsp;</strong>{$taxDocument->getDeliveryDateAt()|date("d.m.Y")}
                             </p>
                         </div>
