@@ -15,4 +15,39 @@ body .wrapper {
   select {
     padding: 5px !important;
   }
+
+  > div {
+
+    @media (max-width: 768px) {
+      overflow-x: auto;
+    }
+  }
+
+  // Datagrid columns
+  th {
+    vertical-align: middle !important;
+  }
+
+  td {
+    min-width: 90px;
+  }
+
+  td,
+  th {
+    padding: 5px 10px;
+  }
+
+  .col-checkbox {
+    min-width: 50px;
+  }
+
+  .col-billingAddressCity,
+  .col-billingAddressBusinessId {
+    min-width: 100px;
+  }
+
+  .col-name,
+  .col-billingAddressName {
+    min-width: 140px;
+  }
 }
